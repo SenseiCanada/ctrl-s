@@ -4,14 +4,13 @@ VAR warriorSaveKnot = ""
 -> warrior_enter
 
 === warrior_enter ===
-~NPCName = "Warrior"
 ~NPCID = "warrior"
 
-{runAttempts > 0: 
-    ->warrior_restart
-- else: -> warrior_start
+{
+- not warrior_start: ->warrior_start
+- not warrior_hitlist: ->warrior_hitlist
+- else: ->warrior_restart.default
 }
-
 
 === warrior_resume===
 -> warriorSaveKnot
@@ -19,7 +18,7 @@ VAR warriorSaveKnot = ""
 //first run
 === warrior_start ===
 ~warriorAffection = 0 //define variables before knot navigation
-
+~hasAnchor = "warrior"
 {playerClass == "": // null check for player class
     ~playerClass = "fileViewer"
 }
@@ -37,25 +36,59 @@ You still got my back?
 
 - That's good to hear. Really good to hear.
 
-*[Who...?]
+*{seenNovaName == true}[You're the Nova Warrior?]
+    ~NPCName = "Nova"
+    ->named
+*{seenNovaName == false}[Who...?]->target
 
-- Our new target. Unclear. Directives in the game files are all redacted. GM's being super cagey, My money's on rocky horror over there though. //add alternative text if spoken/not spoken to Brall and GM before
+=target
+Our new target. Unclear. Directives are in the game files, but GM's being super cagey. My money's on rocky horror over there though. //add alternative text if spoken/not spoken to Brall and GM before
 
 *[No, who are you?]
-
 - <i>A look flashes across her face. Suprise? Betrayal?</i>
 
-*[<i>Continue</i>]
+*[<i>Continue</i>]->named
 
-- That's classified I'm afraid. <i>She taps the side of her nose</i>
+=named
+That's classified I'm afraid. <i>She taps the side of her nose.</i>
+*{target} [No, I'm serious]
+    And I have a reputation to uphold. You won't break me that easily.
+        **[Fine. When do we move out?]->classified
+*[Fine. When do we move out?]->classified
 
-*[No, I'm serious]
+-(classified) Also classified. We're headed to the past though, I'm sure of it.
+*[Solid guess]->mentionhim
+*[The past? How?]->jumpamnesia
 
-- And I have a reputation to uphold. You won't break me that easily.
+= mentionhim
+That's where he was from. Figured if he's not here, he'd be back there...then... you know what I mean.
+*[Who are you talking about?]
+- You're right, we shouldn't be talking about it. It won't happen again.
+*[Shouldn't have asked]
+*[Tell me more]
+- -> exit
 
-*[Fine. When do we move out?]
+= jumpamnesia
+<i>Her eyes scan you rapidly.</i> Got some lingering jump amnesia? Should we send you back to HQ?
+*[I'm fine]
+*[I need a check up]
+- Not sure anyone can even get there. We all seem to end up back here anytime we get compiled.
+*[We're stuck?]
+    -> exit
 
-- Also classified. Although, truth be told, we all seem to end up just where we started everytime we get compiled.
+= exit
+You'd better get to your loading bay. We can talk more after compilation.
+
+*[<i>Leave</i>] ->warriorQuit
+
+->DONE
+
+= repeatStart
+Still here?
++[Leave] ->warriorQuit
+
+= scraps
+- Although, truth be told, we all seem to end up just where we started everytime we get compiled.
 
 *[We're stuck?]
 
@@ -67,9 +100,34 @@ You still got my back?
 
 *[<i>Leave</i>] ->warriorQuit
 
-= repeatStart
-Still here?
-+[Leave] ->warriorQuit
+=== warrior_hitlist ===
+Any luck finding our target list?
+
+*[Needle in a haystack]
+*[It's a mess in there]
+- Ha, can't be worse than that time the three of us had to take out Kissinger's clone from 2095.
+*[Any tips?]
+- Did you try something like "Mission Objectives" or "Quest log"? Maybe "Boss Fights"?
+*[Never saw those files]
+- Then they must be deeper in the game code. I see you reappear after I finish compiling. How fast do you get compiled?
+*[4 processes]
+- Not complex enough. Hmm...see if this helps.
+*[<i>Hold out your hand</i>]->warrior_trade.firstTrade
+
+=resume
+I know it's anchor, but don't get it wet, ok?
+
+*[What does it do?]
+- When I was coming up, we used these to jump back instantly, without all the energy needed to accelerate into the future. Of course, if you've got someone to open a portal back, not much use for these.
+*[But I'm not time jumping]
+- Sure, but it might still help conserve energy.
+*[I guess]
+- Come on, can't hurt to try.
+*[I'll find those files]
+- 10/4. <i>She salutes</i>
+*[<i>Leave</i>] ->warriorQuit
+
+->DONE
 
 === warrior_restart === //subsequent runs
 { discoveredNoGun == true:
@@ -165,6 +223,17 @@ Here's what I have.
 
 ->DONE
 
+=firstTrade
+{openTradeWindow()}
+Go on, take it. You need it more than me.
++[<i>Back</i>]->backCheck
+
+->DONE
+
+=backCheck
+{hasAnchor == "Player": {closeTradeWindow()}-> warrior_hitlist.resume}
+{hasAnchor == "warrior": {closeTradeWindow()}->firstTrade}
+-> DONE
 
 === warriorQuit ===
 ~warriorSaveKnot = ->warrior_enter

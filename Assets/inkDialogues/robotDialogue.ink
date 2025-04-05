@@ -183,5 +183,9 @@ Here's what I have.
 
 ->DONE
 
+=== robot_refuse ===
+I could not accept.
+
++[<i>Back</i>]-> robot_start.repeatStart
     
     

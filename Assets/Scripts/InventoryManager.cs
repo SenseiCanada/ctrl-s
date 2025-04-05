@@ -60,7 +60,7 @@ public class InventoryManager : MonoBehaviour
         
     }
 
-    public void PlayerCollect(InventoryItem item)
+    public void PlayerCollect(InventoryItem item) //called whenever an item is in the PC's inventory
     {
         Debug.Log("Collecting item: " + item.itemName);
 
@@ -75,10 +75,10 @@ public class InventoryManager : MonoBehaviour
             PlayerItems.Add(item);
         }
         UpdateSOLists();
-        OnPlayerCollect(item, PlayerItems.Count);
+        OnPlayerCollect(item, PlayerItems.Count); //add more things to pass along to listeners so ink knows what items have been traded
     }
 
-    public void NPCCollect(InventoryItem item)
+    public void NPCCollect(InventoryItem item) //called whenever an item is in and NPC's inventory
     {
         if (item.recipients.Contains(gameData.variables["NPCID"].ToString()))
         {
@@ -86,18 +86,19 @@ public class InventoryManager : MonoBehaviour
             {
                 PlayerItems.Remove(item);
             }
-            item.owner = gameData.variables["NPCName"].ToString();
+            item.owner = gameData.variables["NPCID"].ToString();
             if (!NPCItems.Contains(item))
             {
                 NPCItems.Add(item);
 
             }
             UpdateSOLists();
-            OnNPCCollect(item, NPCItems.Count);
+            OnNPCCollect(item, NPCItems.Count);//add more things to pass along to listeners so ink knows what items have been traded
         }
         else
         {
             OnNPCRefuse(item);
+            Debug.Log("Inventory manager called OnNPCRefuse()");
         } 
             
     }

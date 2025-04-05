@@ -30,15 +30,16 @@ public class GameFilesData : ScriptableObject
     {
         VariablesToStory(story); //load variable dictionary back into story before listening
         currentStory = story;
-        Debug.Log("resume value is " + currentStory.variablesState["robotSaveKnot"]);
         story.variablesState.variableChangedEvent += VariableChanged;
-        InventoryManager.OnNPCCollect += NCPInventoryChanged;
+        InventoryManager.OnNPCCollect += UpdateInkInventoryVar;
+        InventoryManager.OnPlayerCollect += UpdateInkInventoryVar;
     }
 
     public void StopListening(Story story)
     {
         story.variablesState.variableChangedEvent -= VariableChanged;
-        InventoryManager.OnNPCCollect -= NCPInventoryChanged;
+        InventoryManager.OnNPCCollect -= UpdateInkInventoryVar;
+        InventoryManager.OnPlayerCollect -= UpdateInkInventoryVar;
         currentStory = null;
     }
     private void VariableChanged(string name, Ink.Runtime.Object value)
@@ -67,12 +68,11 @@ public class GameFilesData : ScriptableObject
         }
     }
 
-    void NCPInventoryChanged(InventoryItem newNPCItem, int npcItemCount)
+    void UpdateInkInventoryVar(InventoryItem newNPCItem, int npcItemCount)
     {
-        if (newNPCItem.itemName == "Mosspaws" && newNPCItem.owner == "Brall")
-        {
-            currentStory.variablesState["giantHasCat"] = "true";
-        }
+        string inkVarName = newNPCItem.inkVariableName;
+        currentStory.variablesState[inkVarName] = newNPCItem.owner;
+
     }
 
     public static void RegisterInkVariable(string varName, string varValue)

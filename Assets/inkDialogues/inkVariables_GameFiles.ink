@@ -1,8 +1,29 @@
+//external functions
+EXTERNAL quitDialogue()
+EXTERNAL openTradeWindow()
+EXTERNAL closeTradeWindow()
+
+===function openTradeWindow===
+    ~return
+
+===function closeTradeWindow===
+    ~return
+
+===function quitDialogue===
+    ~return
+
 //general
 VAR runAttempts = 0
 VAR NPCName = "??"
 VAR NPCID = ""
 VAR saveResumeKnot = ""
+
+//cinematic
+VAR warriorDesignation = "novaWarrior"
+VAR victim1 = "Errol"
+VAR victim2  = "Jason"
+VAR badGuy = "Will"
+VAR seenNovaName = false
 
 //gamefiles
 VAR locationText = ""
@@ -28,37 +49,6 @@ VAR discoveredNoGun = false
 //robot
 VAR robotAffection = 0 //has an SO
 
-
-//external functions
-EXTERNAL quitDialogue()
-EXTERNAL openTradeWindow()
-EXTERNAL closeTradeWindow()
-
-===function openTradeWindow===
-    ~return
-
-===function closeTradeWindow===
-    ~return
-
-===function quitDialogue===
-    ~return
-
-//includes
-//INCLUDE giantDialogue.ink
-//INCLUDE warriorDialogue.ink
-//INCLUDE robotDialogue.ink
-
-w===
-    ~return
-
-===function closeTradeWindow===
-    ~return
-
-===function quitDialogue===
-    ~return
-
-//includes
-//INCLUDE giantDialogue.ink
-//INCLUDE warriorDialogue.ink
-//INCLUDE robotDialogue.ink
+//invnetory
+VAR hasAnchor = ""
 

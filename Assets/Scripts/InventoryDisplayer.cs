@@ -143,7 +143,7 @@ public class InventoryDisplayer : MonoBehaviour
     
     private void UpdateNPCName(string inkVar, string inkValue)
     {
-        if (inkVar == "NPCName")
+        if (inkVar == "NPCID")
         {
             currentNPC = inkValue;
         }

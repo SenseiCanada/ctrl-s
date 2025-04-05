@@ -18,6 +18,7 @@ Error: final_Cinematic cannot play. One or more actors is missing or disabled.
 - ->DONE
 
 = check
+~seenNovaName = true
 Only dialogue lines for <i>{warriorDesignation}</i> will be visible.
 
 +[<i>Continue</i>] -> novaScript
