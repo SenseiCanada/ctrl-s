@@ -8,6 +8,9 @@ public class SaveScriptableObject : ScriptableObject
     public List<InventoryItem> PlayerItems;
     public List<InventoryItem> NPCItems;
 
+    public List<PlayerAttribute> playerStartAttributes;
+    public List<PlayerAttribute> nullStartAttributes;
+
     public InventoryItem anchor;
 
     public bool startVariablesSet;

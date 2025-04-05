@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: robotAffection
   m_EditorClassIdentifier: 
   attributeID: robotAffection
-  attributeDisplayText: 'GameManager relationship value:'
-  attributeValue: 
+  attributeDisplayText: 'GameManager affection value:'
+  attributeValue: 1
   gameFilesData: {fileID: 0}

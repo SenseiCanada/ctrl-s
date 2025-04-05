@@ -51,7 +51,7 @@ May the thoroughness of the almighty developer guide your path, my child.
 
 - The save command has been issued. We are to ascend into the source code.
 
-*[Black space, white letters?]
+*[Black space, green letters?]
 
 - Affirmative. There, our developer-wrought miracless will be made to endure forever.
 

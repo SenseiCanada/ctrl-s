@@ -1,10 +1,16 @@
 INCLUDE inkVariables_GameFiles.INK
+VAR cinematicSaveKnot = ""
 
 ->incomplete
 
+=== cinematic_resume ===
+-> cinematicSaveKnot
+
+->DONE
+
 === incomplete ===
 ~NPCName = "final_Cinematic"
-~NPCID = "cinematicPlayer"
+~NPCID = "cinematic"
 
 {playerClass == "": //null check for PC class
     ~playerClass = "fileViewer"
@@ -13,7 +19,7 @@ INCLUDE inkVariables_GameFiles.INK
 Error: final_Cinematic cannot play. One or more actors is missing or disabled.
 
 +[<i>Play anyway</i>] ->check
-+[<i>Exit</i>] {quitDialogue()}
++[<i>Exit</i>] ->cinematicQuit
 
 - ->DONE
 
@@ -22,7 +28,7 @@ Error: final_Cinematic cannot play. One or more actors is missing or disabled.
 Only dialogue lines for <i>{warriorDesignation}</i> will be visible.
 
 +[<i>Continue</i>] -> novaScript
-+[<i>Exit</i>] {quitDialogue()}
++[<i>Exit</i>] ->cinematicQuit
 
 -> DONE
 
@@ -41,6 +47,11 @@ Nova: Shut up. Just... just stop it. I'm here to end you.
 +[<i>Continue</i>]
 - End of cinematic.
 +[<i>Play again</i>] -> check
-+[<i>Exit</i>] {quitDialogue()}
++[<i>Exit</i>] ->cinematicQuit
 
+->DONE
+
+=== cinematicQuit ===
+~cinematicSaveKnot = ->incomplete
+    {quitDialogue()}
 ->DONE
