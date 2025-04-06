@@ -31,6 +31,7 @@ public class GameFilesManager : MonoBehaviour
     public static event Action OnExitGameFiles;
     public static Action OnClickFileManager;
 	public static event Action OnCollectCat;
+    public static event Action OnCollectList;
 
     void Awake () 
 	{
@@ -45,8 +46,17 @@ public class GameFilesManager : MonoBehaviour
 		story = new Story (mainJSONAsset.text);
         gameFiles.StartListening(story);
 
+        //add a error handling
+        story.onError += (msg, type) => {
+            if (type == Ink.ErrorType.Warning)
+                Debug.LogWarning(msg);
+            else
+                Debug.LogError(msg);
+        };
+
         story.BindExternalFunction("exitGameFiles", () => { ExitGameFiles(); });
         story.BindExternalFunction("addCat", () => { OnCollectCat(); });
+        story.BindExternalFunction("addList", () => { OnCollectList(); });
         //OnCreateStory?.Invoke(story);
         RefreshView();
 	}
@@ -82,9 +92,9 @@ public class GameFilesManager : MonoBehaviour
 	void OnClickChoiceButton (Choice choice) 
 	{
 		story.ChooseChoiceIndex (choice.index);
-		OnClickFileManager?.Invoke();
 		RefreshView();
-	}
+        OnClickFileManager?.Invoke();
+    }
 
 	// Creates a textbox showing the the line of text
 	void CreateContentView(string text)//, string timerText) 

@@ -8,9 +8,12 @@ public class ItemCollecter : MonoBehaviour
     public InventoryItem magnifyingGlass;
     public InventoryItem backpack;
     public InventoryItem mosspaws;
+    public InventoryItem hitList;
 
     [SerializeField]
     private TextAsset gameFilesJSON;
+    [SerializeField]
+    private GameFilesData gameData;
     private Story gameFilesStory;
     private Story currentStory;
 
@@ -23,6 +26,7 @@ public class ItemCollecter : MonoBehaviour
         //GameFilesManager.OnCreateStory += AssignCurrentStory;
         DialogueManager.OnCreateStory += AssignCurrentStory;
         GameFilesManager.OnCollectCat += CollectCat;
+        GameFilesManager.OnCollectList += CollectList;
         gameFilesStory = new Story(gameFilesJSON.text);
     }
 
@@ -38,9 +42,15 @@ public class ItemCollecter : MonoBehaviour
 
     }
     
+    
     public void PlayerCollect(InventoryItem item)
     {
-
+        
+    }
+    
+    public void CollectList()
+    {
+        InventoryManager.Instance.PlayerCollect(hitList);
     }
     public void CollectCat()
     {

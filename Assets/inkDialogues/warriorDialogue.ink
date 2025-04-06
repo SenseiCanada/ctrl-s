@@ -1,24 +1,41 @@
 INCLUDE inkVariables_GameFiles.ink
 VAR warriorSaveKnot = ""
+VAR localRunCount = -1
 
 -> warrior_enter
 
 === warrior_enter ===
 ~NPCID = "warrior"
+{
+-seenNovaName:
+    ~NPCName = "Nova"
+- else:
+    ~NPCName = "??"
+}
+//check if runAttempts has changed, have we seen this before
+{
+- runAttempts == localRunCount: ->warrior_default.default
+- else: ->paths
+}
 
+= paths
 {
 - not warrior_start: ->warrior_start
-- not warrior_hitlist: ->warrior_hitlist
-- else: ->warrior_restart.default
+- not warrior_hitlist && runAttempts >= 2: ->warrior_hitlist
+- warrior_hitlist && hasList == "Player": -> warrior_hitlist.endQuest
+- else: ->warrior_default
 }
+
+->DONE
 
 === warrior_resume===
 -> warriorSaveKnot
 
-//first run
-=== warrior_start ===
+
+=== warrior_start === //first run
 ~warriorAffection = 0 //define variables before knot navigation
-~hasAnchor = "warrior"
+//add any items warrior starts with
+~hasAnchor = "warrior" 
 {playerClass == "": // null check for player class
     ~playerClass = "fileViewer"
 }
@@ -79,13 +96,17 @@ That's where he was from. Figured if he's not here, he'd be back there...then...
 = exit
 You'd better get to your loading bay. We can talk more after compilation.
 
-*[<i>Leave</i>] ->warriorQuit
+*[<i>Leave</i>]->warriorQuit
 
 ->DONE
 
 = repeatStart
 Still here?
-+[Leave] ->warriorQuit
++[Leave]
+    ~warriorSaveKnot = ->repeatStart
+    {quitDialogue()}
+
+->DONE
 
 = scraps
 - Although, truth be told, we all seem to end up just where we started everytime we get compiled.
@@ -100,9 +121,8 @@ Still here?
 
 *[<i>Leave</i>] ->warriorQuit
 
-=== warrior_hitlist ===
+=== warrior_hitlist ===//first quest
 Any luck finding our target list?
-
 *[Needle in a haystack]
 *[It's a mess in there]
 - Ha, can't be worse than that time the three of us had to take out Kissinger's clone from 2095.
@@ -116,7 +136,6 @@ Any luck finding our target list?
 
 =resume
 I know it's anchor, but don't get it wet, ok?
-
 *[What does it do?]
 - When I was coming up, we used these to jump back instantly, without all the energy needed to accelerate into the future. Of course, if you've got someone to open a portal back, not much use for these.
 *[But I'm not time jumping]
@@ -124,31 +143,106 @@ I know it's anchor, but don't get it wet, ok?
 *[I guess]
 - Come on, can't hurt to try.
 *[I'll find those files]
+    ~startHitListQuest = true
 - 10/4. <i>She salutes</i>
 *[<i>Leave</i>] ->warriorQuit
 
 ->DONE
 
-=== warrior_restart === //subsequent runs
-{ discoveredNoGun == true:
-    -> weaponless
+= endQuest
+We still flying blind?
+
++[I found the list!]->warrior_trade.listTrade
+->DONE
+
+= endQuestResume
+~warriorAffection++
+<i>For the first time, a smile lifts her lips. Then she regains her stoic demeanor.</i>
+*[Good news?]
+*[You're welcome]
+- I have all these memories, instincts, but I'm always either here, or blinking through code compilation. Been feeling like a hamster on a wheel.
+*[You wanted orders]
+*[You needed purpose]
+- I think I was looking for a promise. That there was more coming. That there's a plan.
+*[Trust in the hamster wheel]
+*[Told you I got your back]
+- <i>She punches your shoulder playfully</i>. Save commandd's been issued. See you after compilation.
+*[<i>Leave</i>]->warriorQuit
+
+->DONE
+
+=== warrior_default === //subsequent runs
+{not warrior_hitlist: ->stage0_filler}
+
+{discoveredNoGun == true:
+    -> warrior_weapon.weaponless
 }
-{ not warrior_restart.punch && runAttempts == 2: 
-    ->warrior_restart.punch
+{ not warrior_weapon && runAttempts >= 2: 
+    ->warrior_weapon // add a condition for completing last quest
 - else: -> default
 }
 
 = default
 Need something?
-+[Trade(Testing)]->warrior_trade
-+[Leave] ->warriorQuit
-    -> warrior_restart
++{warrior_trade.firstTrade}[<i>Trade</i>]->warrior_trade
++[<i>Leave</i>] ->warriorQuit
 ->DONE
 
-= punch
-<i>She punches you</i>
+=== stage0_filler ===
+{!->food |->workout|->purpose|->warrior_default.default}
+= food
+If you were in charge of {timeCorp}, how would you boost recruitment?
+*[Officers Training program]
+*[Better dental]
+*[Intra-mural softball league]
+- Ha. Cute. Know what I'd do? Taco Tuesdays in the canteen.
+*[My idea's better]
+*[For recruitment? Really?]
+- I'm telling you, we'd have ship-loads of recruits docking at HQ every kilosecond.
+*[Just for tacos?]
+- I forget you're from a time with lots of cows. 
+*[I take it you're not]
+- Think about it. {timeCorp} can goes back and recruits you. They send us back for hits. You're telling me they haven't gone back for some steak and cheese?
+*[Never thought of it]
+*[Sounds like you're hungry]
+- Taco Tuesdays. HQ could at least do that much for the troops...
+*[<i>Leave</i>]->warriorQuit
 
-+[Trade(Testing)]->warrior_trade
+=workout
+You should join me for my workout some time.
+*[Yeah, sure]
+*[I have my own routine]
+- Only thing that makes pumping iron in Zero-Grav worth it.
+*[What's that?]
+- Not doing it alone. A spotter out here isn't to keep you getting crushed by the weights. They're keeping you from being crushed by your thoughts.
+*[Going soft?]
+*[Need a psych eval?]
+-Calm down, I just need a gym buddy. Let me know, yeah?
+*[<i>Leave</i>]->warriorQuit
+
+->DONE
+
+=purpose
+You know that whole thing about killing Hitler as a baby?
+*[Would you do it?] ->purpose_continue
+*[Who's Hitler?]
+    Seriously? I know you're from cowboy times, but common! Were you asleep during all of basic training?
+    **[Hitler, oh sure] ->purpose_continue
+-(purpose_continue)
+~NPCName = "Nova"
+When I was recruited, O'brien asked to me, "Nova, what if you could do it when he was in college? Or when he was running for election?"
+*[I would do it]
+*[Don't see the difference]
+- That's why I agreed to work for {timeCorp}. A different approach. A smart approach. Principled. A hope for a better future.
+*[That's honorable]
+*[A bit cliched, no?]
+- I'm just a soldier. I take orders, I do my job well. Helps that I'm doing it for the right reasons.
+*[<i>Leave</i>]->warriorQuit 
+
+->DONE
+
+==== warrior_weapon ===
+<i>She punches you</i>
 *[What the hell?!] -> findWeapon
 *[Hit her back]
     <i>She effortlessly ducks under your blow and lands a savage kick, doubling you over.</i>
@@ -165,18 +259,7 @@ Find anything?
     ++[Leave] ->warriorQuit
         ->DONE
 
-= badNews
-Best news I've had all day. Alright, what are we talking? Blaster? Sniper riffle? Something old fashioned? You know, I think I could really dig an axe.
-*[Nothing, you don't get a weapon]
-- No, no that can't be possible!
-*[I'm so sorry]
-- Can it. I don't need this right now. <i>End of Nova's story in current build</i>
-*[Leave] ->warriorQuit
-
-    
-
-->DONE
-=== findWeapon === //start weapon quest
+= findWeapon //start weapon quest
 You did feel that, that's a relief.
 
 *[Are you ok?]
@@ -205,6 +288,17 @@ Ha. You have no idea. Listen, I need a favor.
 
 ->DONE
 
+= badNews
+Best news I've had all day. Alright, what are we talking? Blaster? Sniper riffle? Something old fashioned? You know, I think I could really dig an axe.
+*[Nothing, you don't get a weapon]
+- No, no that can't be possible!
+*[I'm so sorry]
+- Can it. I don't need this right now. <i>End of Nova's story in current build</i>
+*[Leave] ->warriorQuit
+
+    
+
+->DONE//second quest
 
 === warrior_trade === //trade
 Want to trade?
@@ -226,16 +320,29 @@ Here's what I have.
 =firstTrade
 {openTradeWindow()}
 Go on, take it. You need it more than me.
-+[<i>Back</i>]->backCheck
++[<i>Back</i>]->anchorBackCheck
 
 ->DONE
 
-=backCheck
+=listTrade
+{openTradeWindow()}
+Let me see it!
++[<i>Back</i>]->listBackCheck
+
+->DONE
+
+=anchorBackCheck
 {hasAnchor == "Player": {closeTradeWindow()}-> warrior_hitlist.resume}
 {hasAnchor == "warrior": {closeTradeWindow()}->firstTrade}
 -> DONE
 
+=listBackCheck
+{hasList == "warrior": {closeTradeWindow()}-> warrior_hitlist.endQuestResume}
+{hasList == "Player": {closeTradeWindow()}->listTrade}
+
+->DONE
 === warriorQuit ===
+~localRunCount = runAttempts //basically: we've gone through once
 ~warriorSaveKnot = ->warrior_enter
     {quitDialogue()}
 ->DONE

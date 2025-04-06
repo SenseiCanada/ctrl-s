@@ -1,7 +1,7 @@
 INCLUDE inkVariables_GameFiles.ink
 EXTERNAL exitGameFiles()
 EXTERNAL addCat()
-
+EXTERNAL addList()
 ->enter
 
 === enter ===
@@ -9,7 +9,7 @@ EXTERNAL addCat()
 ~ runAttempts++
 ~ countTurns = false
 //conditional logic to redirect
--> classes
+-> classes //eventually, only if you begin by talking with GM
 
 = classes
 Loading classes...
@@ -47,22 +47,45 @@ No definition found for "SentientPlayer." Are you missing a namespace?
 +[>return_] ->home
 
 === home ===
-{runAttempts == 1: 
+//null check for playerClass
+{
+- playerClass == "": 
     ~playerClass = "fileViewer"
 }
-~countTurns = true
+
+//don't count turns if player returns home with anchor
+{
+- hasAnchor == "Player": 
+    ~countTurns = false
+    ->rewind
+- else: 
+    ~countTurns = true
+}
+
+-> class_choice
+= class_choice
 {
 - playerClass == "fileViewer": ->freeHome
 - playerClass == "manager": ->restrictedHome
 }
 
+= rewind
+Anchor detected. Returning through quantum tunnel.
++[>Continue_]->class_choice
+
 = freeHome
 ~locationText = ""
 Select a file to enter _  #flash
 
-+[>Assets_] ->assets
-+[>Scripts_] -> scripts
-+[>Scenes_] -> scenes
++[>Assets_] 
+    ~countTurns = true
+    ->assets
++[>Scripts_] 
+    ~countTurns = true
+    -> scripts
++[>Scenes_] 
+    ~countTurns = true
+    -> scenes
 
 
 =restrictedHome
@@ -80,8 +103,8 @@ Select a file to enter _
 
 +[>Models_] ->models
 +[>Animations_] ->animations
-//+[>Dialogues_] ->dialogues
-+[>return_] ->home
++[>QuestLog_] ->quests
++[>return?_] ->home
 ->END
 
 === scripts ===
@@ -122,13 +145,12 @@ A flat plane with several small rings floating above the ground.
 Inside one of the rings is a small cat licking its paw.
 
 +[>collect_]
-    ~foundCat = true
+    ~hasCat = "Player"
     {addCat()}
     ->mosspaws
 +[>return_]->testLevel1
 
 = mosspaws
-~foundCat = true
 PlayerCharacter.collected(Mosspaws)
 +[>return_]->testLevel1
 
@@ -152,11 +174,42 @@ File empty.
 +[>return_] ->home
 ->END
 
-=== dialogues ===
-File empty.
+=== quests ===
+~locationText = "Assets/QuestLog"
+
++[>MainCampaign_]->mainCampaign
++[>TimeHits_]->timeHits
+//+[SideQuests]
 +[>return?_] -> home
 ->END
 
+=mainCampaign
+~locationText = "Assets/Quests/MainCampaign"
+File empty.
+
+Dev log: The Twin Emperors rally a force of space titans to destroy {timeCorp} and its agents. The agency sends time-traveling assassins back and forward in time to find the {crux}, the one person who will prevent the Twin Emperors plans from ever coming to fruition.
+
++[>return?_] -> home
+->END
+
+=timeHits
+~locationText = "Assets/Quests/timeHits"
+
+Target 1: {victim3} - time period: Ancient Babylon
+Target 2: {victim4} - time period: Regency England
+Target 3: {victim5} - time period: New California Commonwealth
+
++[>copy(TimeHits.list)?_]
+    {addList()}
+    ~hasList = "Player"
+    ->copied
++[>return?_] -> home
+
+- (copied)
+Copying successful!
++[>return?_] -> home
+
+->END
 ==== loadSequence ===
 Loading: gameManager.script
 
@@ -191,6 +244,9 @@ Load Order complete!
 -> DONE
 
 === function addCat ===
+    ~return
+    
+=== function addList ===
     ~return
 === function exitGameFiles===
     ~return

@@ -25,6 +25,14 @@ VAR victim2  = "Jason"
 VAR badGuy = "Will"
 VAR seenNovaName = false
 
+//proper names
+VAR timeCorp = "TimeCorp"
+VAR crux = "Crux"
+VAR victim3 = "Sameth"
+VAR victim4 = "Liliana"
+VAR victim5 = "Goddard"
+VAR victim6 = "Brall"
+
 //gamefiles
 VAR locationText = ""
 VAR turns = ""
@@ -36,15 +44,15 @@ VAR visitTestLevel = ""
 //giant
 VAR giantAffection = 0 //has an SO
 VAR startCatQuest = false
-VAR foundCat = false
-VAR giantHasCat = false
+VAR hasCat = ""
 
 
 //warrior
 VAR warriorAffection = 0 //has an SO
+VAR startHitListQuest = false
 VAR startGunQuest = false
 VAR discoveredNoGun = false
-
+VAR hasList = ""
 
 //robot
 VAR robotAffection = 0 //has an SO

@@ -826,7 +826,9 @@ MonoBehaviour:
   magnifyingGlass: {fileID: 11400000, guid: 19c455d2ea6c1df40926ec0e67537e41, type: 2}
   backpack: {fileID: 11400000, guid: 93bbeca319b1a154ca47cab919b1995e, type: 2}
   mosspaws: {fileID: 11400000, guid: c11ee03f50d8c3c4bb0bfab2daca3ab0, type: 2}
+  hitList: {fileID: 11400000, guid: 5697e32bd2f1ca54294429b1ba013c3b, type: 2}
   gameFilesJSON: {fileID: 4900000, guid: 01d748a641426aa41bed6d809a6bb1cf, type: 3}
+  gameData: {fileID: 11400000, guid: 7811e64260797d640ba62753a11b852a, type: 2}
 --- !u!114 &628271261
 MonoBehaviour:
   m_ObjectHideFlags: 0

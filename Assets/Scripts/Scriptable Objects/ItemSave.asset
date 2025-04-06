@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: ItemSave
   m_EditorClassIdentifier: 
   PlayerItems: []
-  NPCItems: []
+  NPCItems:
+  - {fileID: 11400000, guid: 4f547f398b9e8d44eb38f8330b9bf7df, type: 2}
+  playerStartAttributes: []
+  nullStartAttributes: []
   anchor: {fileID: 11400000, guid: 4f547f398b9e8d44eb38f8330b9bf7df, type: 2}
-  startVariablesSet: 0
+  startVariablesSet: 1

@@ -1,5 +1,7 @@
 INCLUDE inkVariables_GameFiles.ink
 VAR giantSaveKnot = ""
+VAR localRunCount = -1
+
 
 -> giant_enter
 
@@ -46,14 +48,14 @@ Brall is done talking
 - +[Leave]->giantQuit
     
 === giant_home ===
-{foundCat == true:
+{hasCat == "Player":
     ->giant_foundCat
 }
 { not giant_home.catQuest && visitTestLevel == true: 
     ->giant_home.catQuest
 - else: -> default_enter
 }
-{giantHasCat == true:
+{hasCat == "giant":
     -> giant_home.catQuestEnd
 }
 
@@ -161,7 +163,7 @@ Maybe Brall was wrong about you. <i>This is the end of Brall's story for this ve
 
 ->DONE
 
-=== giant_foundCat
+=== giant_foundCat ===
 Mosspaws?
 
 *[I found her]->giant_trade
@@ -174,8 +176,8 @@ Brall's shoulder will no longer be itchy. Thank you.
 -> DONE
 
 === giant_trade === //trade
-{not foundCat: Want to trade?}
-{foundCat: It's been so long!}
+{hasCat != "Player": Want to trade?}
+{hasCat == "Player": It's been so long!}
 
 
 +[Yes]-> giant_trade.options
@@ -189,7 +191,7 @@ Here's what Brall has.
 
 +[Back]{closeTradeWindow()}
     {
-    - giantHasCat == false: -> giant_start.repeatStart
+    - hasCat != "giant": -> giant_start.repeatStart
     - else: -> giant_foundCat.reunited
     }
     
