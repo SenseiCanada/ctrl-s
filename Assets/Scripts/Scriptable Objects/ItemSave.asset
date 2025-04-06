@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eca03b8f64d1a714388d8d877a847fc9, type: 3}
   m_Name: ItemSave
   m_EditorClassIdentifier: 
-  PlayerItems: []
-  NPCItems:
+  PlayerItems:
   - {fileID: 11400000, guid: 4f547f398b9e8d44eb38f8330b9bf7df, type: 2}
+  NPCItems:
+  - {fileID: 11400000, guid: 5697e32bd2f1ca54294429b1ba013c3b, type: 2}
   playerStartAttributes: []
   nullStartAttributes: []
   anchor: {fileID: 11400000, guid: 4f547f398b9e8d44eb38f8330b9bf7df, type: 2}
