@@ -2,9 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Ink.Runtime;
-using Unity.VisualScripting;
 using System;
-using static UnityEngine.Rendering.DebugUI;
 
 
 [CreateAssetMenu(fileName = "New Data", menuName = "Scriptable Objects")]
