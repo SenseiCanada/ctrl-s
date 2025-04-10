@@ -1,8 +1,11 @@
 INCLUDE inkVariables_GameFiles.ink
 VAR warriorSaveKnot = ""
-VAR localRunCount = -1
+VAR warriorRunCount = -1
 
 -> warrior_enter
+
+=== warrior_resume===//where save picks up
+-> warriorSaveKnot
 
 === warrior_enter ===
 ~NPCID = "warrior"
@@ -12,25 +15,14 @@ VAR localRunCount = -1
 - else:
     ~NPCName = "??"
 }
-//check if runAttempts has changed, have we seen this before
+//check if runAttempts has changed = have we seen this before
 {
-- runAttempts == localRunCount: ->warrior_default.default
-- else: ->paths
-}
-
-= paths
-{
-- not warrior_start: ->warrior_start
-- not warrior_hitlist && runAttempts >= 2: ->warrior_hitlist
-- warrior_hitlist && hasList == "Player": -> warrior_hitlist.endQuest
+- runAttempts == warriorRunCount: ->warrior_fallback //yes, go fallback
+- - not warrior_start: ->warrior_start
 - else: ->warrior_default
 }
 
 ->DONE
-
-=== warrior_resume===
--> warriorSaveKnot
-
 
 === warrior_start === //first run
 ~warriorAffection = 0 //define variables before knot navigation
@@ -53,7 +45,7 @@ You still got my back?
 
 - That's good to hear. Really good to hear.
 
-*{seenNovaName == true}[You're the Nova Warrior?]
+*{seenNovaName == true}[Are you the Nova Warrior?]
     ~NPCName = "Nova"
     ->named
 *{seenNovaName == false}[Who...?]->target
@@ -156,6 +148,7 @@ We still flying blind?
 ->DONE
 
 = endQuestResume
+~startHitListQuest = false
 ~warriorAffection++
 <i>For the first time, a smile lifts her lips. Then she regains her stoic demeanor.</i>
 *[Good news?]
@@ -166,30 +159,38 @@ We still flying blind?
 - I think I was looking for a promise. That there was more coming. That there's a plan.
 *[Trust in the hamster wheel]
 *[Told you I got your back]
-- <i>She punches your shoulder playfully</i>. Save commandd's been issued. See you after compilation.
+- <i>She punches your shoulder playfully</i>. Save command's been issued. See you after compilation.
 *[<i>Leave</i>]->warriorQuit
 
 ->DONE
 
 === warrior_default === //subsequent runs
-{not warrior_hitlist: ->stage0_filler}
 
-{discoveredNoGun == true:
+->checkQuests
+
+= checkQuests //first check if there are any active quests
+//qualify for hitlist?
+{
+- not warrior_hitlist && runAttempts >= 4: ->warrior_hitlist
+- warrior_hitlist && hasList == "Player": -> warrior_hitlist.endQuest
+//qualify for weapon quest?
+- discoveredNoGun == true:
     -> warrior_weapon.weaponless
-}
-{ not warrior_weapon && runAttempts >= 2: 
-    ->warrior_weapon // add a condition for completing last quest
-- else: -> default
+- warrior_hitlist.endQuest && not warrior_weapon && warriorAffection >= 2: 
+    ->warrior_weapon
+
+//no quests? check relationship
+- else: -> checkRelationship
 }
 
-= default
-Need something?
-+{warrior_trade.firstTrade}[<i>Trade</i>]->warrior_trade
-+[<i>Leave</i>] ->warriorQuit
-->DONE
+= checkRelationship// then check relationship for filler
+{
+- warriorAffection < 1: ->stage0_filler
+- else : ->warrior_fallback
+}
 
 === stage0_filler ===
-{!->food |->workout|->purpose|->warrior_default.default}
+{!->food |->workout|->purpose|->warrior_fallback}
 = food
 If you were in charge of {timeCorp}, how would you boost recruitment?
 *[Officers Training program]
@@ -202,7 +203,7 @@ If you were in charge of {timeCorp}, how would you boost recruitment?
 *[Just for tacos?]
 - I forget you're from a time with lots of cows. 
 *[I take it you're not]
-- Think about it. {timeCorp} can goes back and recruits you. They send us back for hits. You're telling me they haven't gone back for some steak and cheese?
+- Think about it. {timeCorp} goes back and recruits you. They send us back for hits. You're telling me they haven't gone back for some steak and cheese?
 *[Never thought of it]
 *[Sounds like you're hungry]
 - Taco Tuesdays. HQ could at least do that much for the troops...
@@ -241,7 +242,7 @@ When I was recruited, O'brien asked to me, "Nova, what if you could do it when h
 
 ->DONE
 
-==== warrior_weapon ===
+==== warrior_weapon ===//weapon quest
 <i>She punches you</i>
 *[What the hell?!] -> findWeapon
 *[Hit her back]
@@ -300,6 +301,12 @@ Best news I've had all day. Alright, what are we talking? Blaster? Sniper riffle
 
 ->DONE//second quest
 
+=== warrior_fallback === //nothing to say or 2nd interaction
+Need something?
++{warrior_trade.firstTrade}[<i>Trade</i>]->warrior_trade
++[<i>Leave</i>] ->warriorQuit
+->DONE
+
 === warrior_trade === //trade
 Want to trade?
 
@@ -313,8 +320,6 @@ Want to trade?
 Here's what I have.
 
 +[Back]{closeTradeWindow()}-> warrior_start.repeatStart
-    
-
 ->DONE
 
 =firstTrade
@@ -342,16 +347,15 @@ Let me see it!
 
 ->DONE
 === warriorQuit ===
-~localRunCount = runAttempts //basically: we've gone through once
+~warriorRunCount = runAttempts //basically: we've gone through once
 ~warriorSaveKnot = ->warrior_enter
     {quitDialogue()}
 ->DONE
 
 === warrior_refuseItem ===
-{closeTradeWindow()}
-I don't want this.
+You'll need it more than me.
 
 +[Trade something else]->warrior_trade.options
-+[Back] -> warrior_enter
++[Back]{closeTradeWindow()} -> warrior_enter
 
 ->DONE

@@ -1,21 +1,21 @@
 INCLUDE inkVariables_GameFiles.ink
 VAR robotItem = "glass"
-VAR seenRobotStart = "false"
 VAR robotSaveKnot = ""
-
+VAR robotRunCount = -1
 -> robot_enter
 
 === robot_enter === //knot that directs active story
-~NPCName = "GameManager"
-~NPCID = "robot"
-
-{runAttempts > 0: 
-    ->robot_restart
-- else: -> robot_start
+{ NPCID != "robot":
+    ~NPCID = "robot"
+}
+//check if we've already seen current dialogue
+{
+- runAttempts == robotRunCount: ->robot_fallback
+- not robot_start: ->robot_start
+- else: ->robot_default
 }
 
 ->DONE
-
 
 === robot_resume ===
 -> robotSaveKnot
@@ -23,24 +23,18 @@ VAR robotSaveKnot = ""
 ->DONE
 
 
-=== robot_start ===
+=== robot_start ===//first run
 {playerClass == "": //null check for PC class
     ~playerClass = "fileViewer"
 }
+~robotAffection = 0
 
-{not firstStart: -> firstStart}
-{firstStart: ->repeatStart}
-//{seenRobotStart == true: ->repeatStart}
-//{seenRobotStart == false: ->firstStart}
-
+{robot_start.firstStart:->repeatStart}
+{not robot_start.firstStart: -> firstStart}
 
 = firstStart
 ~NPCName = "??"
-~robotAffection = 0
-~seenRobotStart = true
 May the thoroughness of the almighty developer guide your path, my child.
-+[(testing) Rel++]
-    ~robotAffection++
 *[...Thank you?]
 +[And may it guide yours]
 *[Almighty developer?]
@@ -76,32 +70,39 @@ May the thoroughness of the almighty developer guide your path, my child.
 
 - Only 3 cyles until compilation. Please return to your loading bay.
 
-*[<i>Leave</i>] 
-    ~robotSaveKnot = ->robot_enter
-    {quitDialogue()}
-    //->resume //to test in ink
-    
-->DONE
+*[<i>Leave</i>] ->robotQuit
 
 = repeatStart
 Only 3 cyles until compilation. Please return to your loading bay.
-+[Leave]
-    ~robotSaveKnot = ->robot_enter
-    {quitDialogue()} 
-    -> robot_enter
++[Leave]->robotQuit
 
+=== robot_fallback === //nothing to say or 2nd interaction
+My child?
++[</i>Trade</i>]->robot_trade
++[<i>Change class?</i>]->robot_ChangeClass
++[<i>Leave</i>] ->robotQuit
 
-->END //first run
+=== robot_default ===//subsequent runs
+->checkQuests
 
+=checkQuests//active quests?
 
-=== robot_restart ===//subsequent runs
+//else
+-> checkRelationship
+
+= checkRelationship//check relationship for filler
+
+//else
+->robot_fallback
+
+=repurpose
 {startCatQuest == true || startGunQuest == true && runAttempts >= 3:
     ->robot_ChangeClass
 }
-{not robot_restart.dialogue && runAttempts == 2:
-    -> robot_restart.dialogue
+{not dialogue && runAttempts == 2:
+    -> dialogue
 - else:
-    -> robot_restart.default
+    -> default
 }
 = dialogue
 A rare marvel, would you not agree?
@@ -128,29 +129,17 @@ A rare marvel, would you not agree?
 
 - Just as the developer intended, my child. A new save command has been issued. Please prepare for compilation.
 
-*[Leave]
-    ~robotSaveKnot = ->robot_enter
-    {quitDialogue()} 
-    -> robot_enter
-    ->DONE
+*[<i>Leave</i>]->robotQuit
 
 =default
 Please prepare for compilation.
 
-+[Leave]
-    ~robotSaveKnot = ->robot_enter
-    {quitDialogue()} 
-    -> robot_enter
-->DONE
++[<i>Leave</i>]->robotQuit
 
 
 
 === robot_ChangeClass ===
-My child?
-
-+[Can you change my class?]
-
-- It won't do you much good, but that is within my power. Your current class is <i>{playerClass}</i>.
+It won't do you much good, but that is within my power. Your current class is <i>{playerClass}</i>.
 
 +[Change class: fileViewer]
     ~playerClass = "fileViewer"
@@ -159,12 +148,7 @@ My child?
 
 - It is done.
 
-+[Leave]
-    ~robotSaveKnot = ->robot_enter
-    {quitDialogue()} 
-    -> robot_enter
-
-->DONE
++[<i>Leave</i>] ->robotQuit
 
 === robot_trade ===
 Want to trade?
@@ -186,6 +170,12 @@ Here's what I have.
 === robot_refuse ===
 I could not accept.
 
-+[<i>Back</i>]-> robot_start.repeatStart
++[<i>Back</i>]{closeTradeWindow()}-> robot_start.repeatStart
+
+=== robotQuit===
+~robotRunCount = runAttempts //confirms we've gone through once
+~robotSaveKnot = ->robot_enter
+    {quitDialogue()}
+->DONE
     
     

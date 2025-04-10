@@ -10,7 +10,7 @@ public class GameFilesData : ScriptableObject
 {
     public string location;
     public int totalTurns;
-    private Story currentStory;
+    public Story currentStory;
     private string currentStorySave;
 
     //diactionary for storing dialogue saves
@@ -28,6 +28,7 @@ public class GameFilesData : ScriptableObject
     {
         VariablesToStory(story); //load variable dictionary back into story before listening
         currentStory = story;
+        Debug.Log("game data knows currentStory NPC is " + currentStory.variablesState["NPCID"].ToString() + " after starting to listen");
         story.variablesState.variableChangedEvent += VariableChanged;
         InventoryManager.OnNPCCollect += UpdateInkInventoryVar;
         InventoryManager.OnPlayerCollect += UpdateInkInventoryVar;

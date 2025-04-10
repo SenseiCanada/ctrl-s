@@ -114,7 +114,7 @@ public class ConsoleTextDisplayer : MonoBehaviour
         yield return new WaitForSeconds(1.7f);
         TMP_Text newStatusText = Instantiate(processesStatusPrefab, marginObj.transform);
         newStatusText.transform.SetAsLastSibling();
-        newStatusText.text = "Processes complete: 3/561K";
+        newStatusText.text = "Processes complete: 3/516K";
 
         yield return new WaitForSeconds(2.5f);
         newStatusText.text = "Processes complete: 7/516K";

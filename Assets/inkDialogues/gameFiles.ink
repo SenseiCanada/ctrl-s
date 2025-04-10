@@ -29,7 +29,7 @@ Class name: manager
 
 - +[>Continue_]
 
-Enter file directory?_
+Enter file directory?
 
 - +[>enter_]-> home
 
@@ -138,8 +138,9 @@ Only three buttons so far. None of them work.
 ~locationText = "testLevel1"
 ~visitTestLevel = true
 A flat plane with several small rings floating above the ground.
-+[>return_] ->scenes
+
 *{startCatQuest == true}[>inspect_]->testLevel1_inspect
++[>return?_] ->scenes
 
 =testLevel1_inspect
 Inside one of the rings is a small cat licking its paw.
@@ -148,11 +149,11 @@ Inside one of the rings is a small cat licking its paw.
     ~hasCat = "Player"
     {addCat()}
     ->mosspaws
-+[>return_]->testLevel1
++[>return?_]->testLevel1
 
 = mosspaws
 PlayerCharacter.collected(Mosspaws)
-+[>return_]->testLevel1
++[>return?_]->testLevel1
 
 ->DONE
 
@@ -199,7 +200,7 @@ Target 1: {victim3} - time period: Ancient Babylon
 Target 2: {victim4} - time period: Regency England
 Target 3: {victim5} - time period: New California Commonwealth
 
-+[>copy(TimeHits.list)?_]
++{startHitListQuest == true}[>copy(TimeHits.list)?_]
     {addList()}
     ~hasList = "Player"
     ->copied

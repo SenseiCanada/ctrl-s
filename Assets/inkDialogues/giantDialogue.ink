@@ -1,19 +1,24 @@
 INCLUDE inkVariables_GameFiles.ink
 VAR giantSaveKnot = ""
-VAR localRunCount = -1
+VAR giantRunCount = -1
 
 
 -> giant_enter
 
 === giant_enter ===
-~NPCName = "Brall"
-~NPCID = "giant"
-
-{not giant_start || runAttempts == 0: 
-    -> giant_start
-- else: ->giant_home
+{ NPCID != "giant": 
+    ~NPCID = "giant"
 }
+~NPCName = "Brall"
 
+
+//check if we've already seen current dialogue
+{ 
+- runAttempts == giantRunCount: ->giant_fallback
+-not giant_start: 
+    -> giant_start
+- else: ->giant_default
+}
 ->DONE
 
 === giant_resume ===
@@ -29,7 +34,6 @@ VAR localRunCount = -1
 
 {giant_start.firstStart: ->repeatStart}
 {not giant_start.firstStart: ->firstStart}
-{runAttempts >= 1: ->giant_home}
 
 = firstStart
 Brall doesn't like the look of you.
@@ -47,33 +51,42 @@ Brall doesn't like the look of you.
 Brall is done talking
 - +[Leave]->giantQuit
     
-=== giant_home ===
-{hasCat == "Player":
+=== giant_default ===
+
+-> checkQuests
+
+= checkQuests
+//qualify for cat quest?
+{ not catQuest && visitTestLevel == true: 
+    ->catQuest
+}
+{
+- hasCat == "Player":
     ->giant_foundCat
-}
-{ not giant_home.catQuest && visitTestLevel == true: 
-    ->giant_home.catQuest
-- else: -> default_enter
-}
-{hasCat == "giant":
-    -> giant_home.catQuestEnd
+- hasCat == "giant":
+    -> catQuest.catQuestEnd
+- else: ->checkRelationship
 }
 
-= default_enter
-{!->game|->clouds|->tower|->giant_home.catQuest}
+= checkRelationship
+{
+- giantAffection < 1: -> stage0_filler
+- else: -> giant_fallback
+}
 
-=fallback
+====giant_fallback===
 Brall is done speaking.
 
 +[Trade(Testing)]->giant_trade
 +[Increase Rel (testing)] 
     ~giantAffection++
-    ->fallback
-+[<i>Leave</i>]
-    ~giantSaveKnot = ->fallback
-    {quitDialogue()}
+    ->giant_fallback
++[<i>Leave</i>]->giantQuit
 ->DONE
-    
+
+==== stage0_filler ===
+{!->game|->clouds|->tower}//->catQuest}
+
 = game
 Running. Always running.
 
@@ -88,7 +101,7 @@ Running. Always running.
 
 *[What other one?]
 
-- Brall is done talking. Go play
+- Brall is done talking. Go play.
 
 *[<i>Leave</i>] ->giantQuit
     
@@ -104,9 +117,7 @@ Too self-important. Head in clouds like.
 -*[I'm just trying to understand]
     You try, but we must do. Consider that.
 
-- *[<i>Leave</i>]
-    ~giantSaveKnot = ->fallback
-    {quitDialogue()}
+- *[<i>Leave</i>] ->giantQuit
 ->DONE
 
 = tower
@@ -121,12 +132,10 @@ Slow down. You'll knock it over.
 
 - It is not for you to see. It is for Brall to build.
 
-*[I'll leave you to it. <i>Leave</i>]
-    ~giantSaveKnot = ->fallback
-    {quitDialogue()}
+*[I'll leave you to it. <i>Leave</i>]->giantQuit
 ->DONE
 
-=catQuest
+==== catQuest ===
 You, you have small fingers. Scratch Brall's shoulder.
 
 *[Rocks get itchy?]
@@ -189,7 +198,7 @@ Brall's shoulder will no longer be itchy. Thank you.
 {openTradeWindow()}
 Here's what Brall has.
 
-+[Back]{closeTradeWindow()}
++[Back]
     {
     - hasCat != "giant": -> giant_start.repeatStart
     - else: -> giant_foundCat.reunited
@@ -199,16 +208,17 @@ Here's what Brall has.
 ->DONE
 
 === giant_refuseItem ===
-{closeTradeWindow()}
+//{closeTradeWindow()}
 Brall has no need.
 
 +[Trade something else]->giant_trade.options
-+[Back] -> giant_enter
++[Back]{closeTradeWindow()} -> giant_enter
 
 ->DONE
 
 
 === giantQuit ===
+~giantRunCount = runAttempts //confirms we've been here before
 ~giantSaveKnot = ->giant_enter
     {quitDialogue()}
 ->DONE

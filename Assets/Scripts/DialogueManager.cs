@@ -51,6 +51,7 @@ public class DialogueManager : MonoBehaviour
     private Choice buttonChoice;
 
     private bool dialogueEnded;
+    private bool refusedItem;
 
     public static event Action<Story> OnCreateStory;
     public static event Action OnShowTradeWindow;
@@ -84,9 +85,9 @@ public class DialogueManager : MonoBehaviour
     private void StartStory(TextAsset npcStory, string inkSave, string NPCID)
     {
         dialogueEnded = false;
+        refusedItem = false;
         StartTalking?.Invoke();
         currentNPCID = NPCID;
-        
         currentStory = new Story(npcStory.text);
         if (inkSave != string.Empty)
         {
@@ -95,7 +96,6 @@ public class DialogueManager : MonoBehaviour
             currentStory.ChoosePathString(currentNPCID + "_resume");
         }
         AddUnityInkFunctionality(); //add variable observer after load
-        Debug.Log("dialogue manager knows that resumeKnot is " + currentStory.variablesState["robotSaveKnot"]);
         
         RefreshView();
     }
@@ -129,10 +129,9 @@ public class DialogueManager : MonoBehaviour
     void RefreshView()
     {
         RemoveChildren();
-        Debug.Log("before while loop in RefreshView, dialogeEnded is " + dialogueEnded);
         while (currentStory.canContinue)
         {
-            //Debug.Log("inside while loop in RefreshView, dialogeEnded is " + dialogueEnded);
+            Debug.Log("inside while loop in RefreshView, next line is " + currentStory.state.currentText);
             string text = currentStory.ContinueMaximally()?.Trim(); // Ensure text is not null
             if (dialogueEnded)
             {
@@ -260,9 +259,14 @@ public class DialogueManager : MonoBehaviour
 
     void NPCRefuseItem(InventoryItem item)
     {
-        string refuseKnot = currentNPCID + "_refuseItem";
-        Debug.Log("refuseKnot : " +refuseKnot);
-        currentStory.ChoosePathString(refuseKnot);
-        RefreshView();
+        //refusedItem = true;
+        string NPCID = gameFiles.variables["NPCID"].ToString();//(string)currentStory.variablesState["NPCID"];
+        string refuseKnot = NPCID + "_refuseItem";
+        gameFiles.currentStory.ChoosePathString(NPCID+"_refuseItem");
+        if (currentStory.canContinue)
+        {
+            RefreshView();
+        }
+        else return;
     }
 }
