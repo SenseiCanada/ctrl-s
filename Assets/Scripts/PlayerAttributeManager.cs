@@ -90,11 +90,11 @@ public class PlayerAttributeManager : MonoBehaviour
             if (attribute.attributeID == "npcInventory")
             {
                 attribute.attributeValue = npcItemCount.ToString();
-                if (!gameData.playerAttributes.Contains(attribute))
+                if (!gameData.nullAttributes.Contains(attribute))
                 {
-                    gameData.playerAttributes.Add(attribute);
+                    gameData.nullAttributes.Add(attribute);
                 }
-                gameData.nullAttributes.Remove(attribute);
+                gameData.playerAttributes.Remove(attribute);
             }
         }
     }

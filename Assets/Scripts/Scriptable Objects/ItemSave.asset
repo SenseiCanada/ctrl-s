@@ -18,4 +18,4 @@ MonoBehaviour:
   playerStartAttributes: []
   nullStartAttributes: []
   anchor: {fileID: 11400000, guid: 4f547f398b9e8d44eb38f8330b9bf7df, type: 2}
-  startVariablesSet: 1
+  startVariablesSet: 0
