@@ -1,12 +1,16 @@
 INCLUDE inkVariables_GameFiles.ink
 VAR robotItem = "glass"
 VAR robotSaveKnot = ""
+VAR seenRobotName = false
 VAR robotRunCount = -1
 -> robot_enter
 
 === robot_enter === //knot that directs active story
 { NPCID != "robot":
     ~NPCID = "robot"
+}
+{ seenRobotName == true: 
+    ~NPCName = "GameManager"
 }
 //check if we've already seen current dialogue
 {
@@ -59,7 +63,7 @@ May the thoroughness of the almighty developer guide your path, my child.
 
 *[Who are you?]
     ~NPCName = "GameManager"
-
+    ~seenRobotName = true
 - My designation is GameManager. I am a shepherd to the unproven assets of the Tool Bar.
 
 *[Other assets?]
