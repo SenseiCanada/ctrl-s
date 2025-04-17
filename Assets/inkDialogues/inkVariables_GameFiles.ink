@@ -19,6 +19,7 @@ VAR NPCID = ""
 VAR saveResumeKnot = ""
 
 //cinematic
+VAR openedCinematic = false
 VAR warriorDesignation = "novaWarrior"
 VAR victim1 = "Errol"
 VAR victim2  = "Jason"
@@ -65,6 +66,6 @@ VAR hasList = ""
 //robot
 VAR robotAffection = 0 //has an SO
 
-//invnetory
+//inventory
 VAR hasAnchor = ""
 

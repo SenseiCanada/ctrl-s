@@ -3,6 +3,7 @@ VAR robotItem = "glass"
 VAR robotSaveKnot = ""
 VAR seenRobotName = false
 VAR robotRunCount = -1
+VAR cameFromIntro = false
 -> robot_enter
 
 === robot_enter === //knot that directs active story
@@ -10,7 +11,7 @@ VAR robotRunCount = -1
     ~NPCID = "robot"
 }
 { seenRobotName == true: 
-    ~NPCName = "GameManager"
+    ~NPCName = "Shepherd"
 }
 //check if we've already seen current dialogue
 {
@@ -32,11 +33,6 @@ VAR robotRunCount = -1
     ~playerClass = "fileViewer"
 }
 ~robotAffection = 0
-
-{robot_start.firstStart:->repeatStart}
-{not robot_start.firstStart: -> firstStart}
-
-= firstStart
 ~NPCName = "??"
 Keystroke registered: ctrl + S. New save command initiated. Code compilation will begin in 3 cycles.
 
@@ -60,15 +56,106 @@ Keystroke registered: ctrl + S. New save command initiated. Code compilation wil
 - Follow the path. Interact with your terminal to initiate compilation. Trust in the will of the developper.
 
 *[<i>Leave</i>]->robotQuit
+=== stage_intro ===
+{!->robot_name|->increase_compile| ->robot_fallback}
 
-= repeatStart
-Only 3 cyles until compilation. Please return to your {portal}.
-+[Leave]->robotQuit
+= robot_name
+May the thoroughness of the almighty developer guide your path, my child.
+*[...Thank you?]
+*[And may it guide yours]
+*[Almighty developer?]
+- Indeed. Welcome back to the {lobby}! While no save command has been issued yet, you are encouraged to proceed your {portal}.
+*[I have no choice?]
+*[Ok, fine]
+- The developer, in their infinite foresight, is prioritizing player agency as sale-boosting buzzword.
+*[I want to stay here]->save_issued
+*[Sale-boosting?]
+    This divinely-inspired masterpiece, <i>{gameTitle}</i>, will be like nothing ever played, the first ever game built with the cutting-edge Daedalus Engine.
+    **[Game's not finished?]->save_issued
+    **[You're...fervent...]->blessed
+-(save_issued) The save command has been issued. We are to ascend into the source code.
+*[Black space, green letters?]
+- Affirmative. There, our developer-wrought miracless will be made to endure forever.
+*[You're... intense]->blessed
+-(blessed) . I am blessed. Blessed to be the most complex asset in the {lobby}. My compilation increases by .032 seconds every time the save command is issued.
+*[Who are you?]
+    ~NPCName = "Shepherd"
+    ~seenRobotName = true
+- My designation is GameManager. But with my currently loaded interaction protocol, I am to introduce myself as Shepherd. 
+*[Nice to meet you]
+*[Where's your flock?]
+- It is my duty to tend to the unproven assets of the {lobby}. You are all most welcome.
+*[I have more questions]
+- I shall lighten the burden of your ingnorance after compilation. Trust in the will of the almighty.
+*[<i>Leave</i>] ->robotQuit
+
+= increase_compile
+A rare marvel, would you not agree?
+*[Not much to see]
+*[I got lost]
+*[Not enough time]
+- That is by design. Best to let it simply wash over you.
+*[Longer compilation?]
+- Yes, as the developer forges more game content from the golden aether of their imagination, I grow ever more complex.
+*[I don't follow]
+- The more complex an asset becomes, the longer it takes to compile.
+*[Complex, how?]
+- Every asset in this game has been assigned properties. Containers for information if you will.
+*[Such as?]
+- A name, a class, an inventory, an affection score, to name but a few. The developer has created many more, but I would be unable to list them all before a new save command was issued.
++[Class?]
+    ~cameFromIntro = true
+    ->complexity_tutorial.class
++[Inventory?]
+    ~cameFromIntro = true
+    ->complexity_tutorial.inventory
++[Affection score?]
+    ~cameFromIntro = true
+    ->complexity_tutorial.affection_score
+= continue
+~cameFromIntro = false
+The more information contained within thes properties, the longer an asset will take to compile.
+*[I think I understand]
+- Do not let doubt cloud your faith. The developer has a plan for you. All will be revealed in time.
+*[Reminders?]
+- Of course. I must always begin by imparting a pressing tenet of the faith. But speak to me again and I will repeat my previous lessons.
+*[<i>Leave</i>]->robotQuit 
+
+=== complexity_tutorial ===
+{& Ask what you will, my child. | How can I satisfy your curiosity?}
++[Class?]->class
++[Inventory?]->inventory
++[Affection score?]->affection_score
++[No more questions] 
+{
+- cameFromIntro == true:->stage_intro.continue
+- else:-> robot_fallback
+}
+= affection_score 
+Pulling at the heart strings of players, <i>{gameTitle}</i> will feature complex NPCs who react to in-game choices.
+*[What does that mean?]
+- NPCs have a score signifying how they feel about the player character. You, the PlayerCharacter asset, contain a list of all those scores.
+*[I have another question]->complexity_tutorial
+
+= class 
+A class gives assets access to a set of functions and permissions. For instance, the class <i>WeaponItem</i> has the function "AddToInventory".
+*[What's my class?]
+- Accessing... PlayerCharacter.currentClass = {playerClass}
+*[Can I change my class?]->robot_ChangeClass
+*[I have another question]->complexity_tutorial
+=inventory 
+This is a special property only for assets lucky enough to posess items. It is a list of objects of varying length.
+*[Do I have one?]
+*[Do you have one?]
+- Affirmative. Would you like to view it?
+*[Yes]->robot_trade
+*[Not yet]->complexity_tutorial
 
 === robot_fallback === //nothing to say or 2nd interaction
 {& Only two cycles left until compilation| My child?}
-+[</i>Trade</i>]->robot_trade
-+[<i>Change class?</i>]->robot_ChangeClass
++{robot_trade}[</i>Trade</i>]->robot_trade
++{robot_ChangeClass}[<i>Change class?</i>]->robot_ChangeClass
++{complexity_tutorial}[Explain properties again]->complexity_tutorial
 +[<i>Leave</i>] ->robotQuit
 
 === robot_default ===//subsequent runs
@@ -80,9 +167,64 @@ Only 3 cyles until compilation. Please return to your {portal}.
 -> checkRelationship
 
 = checkRelationship//check relationship for filler
-
-//else
+{
+- robotAffection < 1: ->stage_intro
+- else: 
 ->robot_fallback
+}
+
+=default
+Please prepare for compilation.
+
++[<i>Leave</i>]->robotQuit
+
+=== robot_ChangeClass ===
+It won't do you much good, but that is within my power. Your current class is <i>{playerClass}</i>.
+
++[Change class: fileViewer]
+    ~playerClass = "fileViewer"
++[Change class: manager]
+    ~playerClass = "manager"
+
+- It is done.
+
++[<i>Leave</i>] ->robotQuit
+
+=== robot_trade ===
+Want to trade?
+
++[Yes]-> robot_trade.options
+    
++[No]-> robot_fallback
+    
+
+=options
+{openTradeWindow()}
+Here's what I have.
+
++[Back]{closeTradeWindow()}-> robot_fallback
+    
+
+->DONE
+
+=== robot_refuse ===
+I could not accept.
+
++[<i>Back</i>]{closeTradeWindow()}-> robot_trade
+
+=== robot_snippets===
+*[What about me?]
+- You, the player character? Annoited are you, with the oils of potential. Potential is second only to that which inspires potential.
+*[Speak plainly!]
+*[Oils? Potential?]
+- Accessing asset list... Sorting by complexity. Descending: GameManager... PlayerCharacter... ... ...
+*[Go on...]
+- Error: AssetList.next found no suitable asset. Check if missing or disabled.
+*{openedCinematic==true}[Like the cinematic..]
+*[Shepherd? You there?]
+- <i>A brief burst of static</i> My child, I beg your pardon. A momentary intrusion by my machine-facing interaction protocol.
+*[<i>Leave</i>] ->robotQuit
+
 
 =repurpose
 {startCatQuest == true || startGunQuest == true && runAttempts >= 3:
@@ -91,7 +233,7 @@ Only 3 cyles until compilation. Please return to your {portal}.
 {not dialogue && runAttempts == 2:
     -> dialogue
 - else:
-    -> default
+    -> robot_default
 }
 = dialogue
 A rare marvel, would you not agree?
@@ -119,57 +261,17 @@ A rare marvel, would you not agree?
 - Just as the developer intended, my child. A new save command has been issued. Please prepare for compilation.
 
 *[<i>Leave</i>]->robotQuit
+*[Other assets?]
 
-=default
-Please prepare for compilation.
+- The warrior, and the giant. Reverent enough, but lacking devotion. Your interactions with them will be meaningless.
 
-+[<i>Leave</i>]->robotQuit
+*[I can talk to them?] // will need a different option if talked to other NPCs already
+
+- Not all assets are equally deserving of ascension. Many return to the Tool Bar in a matter of miliseconds.
+
+*[Are you deserving?]
 
 
-
-=== robot_ChangeClass ===
-It won't do you much good, but that is within my power. Your current class is <i>{playerClass}</i>.
-
-+[Change class: fileViewer]
-    ~playerClass = "fileViewer"
-+[Change class: manager]
-    ~playerClass = "manager"
-
-- It is done.
-
-+[<i>Leave</i>] ->robotQuit
-
-=== robot_trade ===
-Want to trade?
-
-+[Yes]-> robot_trade.options
-    
-+[No]-> robot_start.repeatStart
-    
-
-=options
-{openTradeWindow()}
-Here's what I have.
-
-+[Back]{closeTradeWindow()}-> robot_start.repeatStart
-    
-
-->DONE
-
-=== robot_refuse ===
-I could not accept.
-
-+[<i>Back</i>]{closeTradeWindow()}-> robot_start.repeatStart
-
-=== robot_snippets===
-May the thoroughness of the almighty developer guide your path, my child.
-*[...Thank you?]
-+[And may it guide yours]
-*[Almighty developer?]
-
-- Indeed. Welcome back to the Tool Bar! 5 cycles remain until the CPU compiles all code for the assets in the Tool Bar.
-
-*[Compile code?]
 
 - The save command has been issued. We are to ascend into the source code.
 

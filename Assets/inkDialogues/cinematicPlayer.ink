@@ -11,6 +11,7 @@ VAR cinematicSaveKnot = ""
 === incomplete ===
 ~NPCName = "final_Cinematic"
 ~NPCID = "cinematic"
+~openedCinematic = true
 
 {playerClass == "": //null check for PC class
     ~playerClass = "fileViewer"
