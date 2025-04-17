@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: warriorAffection
   m_EditorClassIdentifier: 
   attributeID: warriorAffection
-  attributeDisplayText: 'warrior affection value:'
+  attributeText: 'Warrior affection score:'
   attributeValue: 0
+  gameFilesData: {fileID: 0}

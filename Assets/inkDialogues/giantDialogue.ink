@@ -315,7 +315,7 @@ You, you have small fingers. Scratch Brall's shoulder.
 - Brall's shoulder still needs scratching.
 
 *[<i>Scratch his shoulder</i>]
-    ~giantAffection++
+    //~giantAffection++
 *[I'd rather not]
 
 - Brall misses Mosspaws.
@@ -325,8 +325,7 @@ You, you have small fingers. Scratch Brall's shoulder.
 ->DONE
 
 = catQuestEnd
-Maybe Brall was wrong about you. <i>This is the end of Brall's story for this version of the demo. </i>
-
+Maybe Brall was wrong about you. You may be a hunter, but you can be kind. Leave Brall to Brall's thoughts.
 *[Leave]->giantQuit
 
 ->DONE

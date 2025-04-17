@@ -8,7 +8,7 @@ using UnityEngine;
 public class PlayerAttribute : ScriptableObject
 {
     public string attributeID; //same as associated (Ink) variable name
-    public string attributeDisplayText;
+    public string attributeText;
     public string attributeValue;
 
     public GameFilesData gameFilesData;

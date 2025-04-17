@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: sentienceAttribute
   m_EditorClassIdentifier: 
   attributeID: sentience
-  attributeDisplayText: 'Object activation:'
+  attributeText: 'Activation status: '
   attributeValue: sentient
   gameFilesData: {fileID: 0}

@@ -136,7 +136,7 @@ Anchor detected. Returning through quantum tunnel.
 
 === main_menu_free ====
 ~locationText = ""
-Select a file to enter _  #flash
+Select a file to enter:  #flash
 
 + {startFilesTargeted == assetsTarget}[<color=red>>Assets_</color>]//trap redirect
     ~countTurns = true

@@ -12,8 +12,8 @@ public class GameManager : MonoBehaviour
     private RectTransform processesBackground;
     [SerializeField]
     private GameObject processesPrefab;
-    private TMP_Text currentProcessText;
-    private TMP_Text currentProcessValue;
+    private string currentProcessText;
+    //private TMP_Text currentProcessValue;
 
     public GameFilesData gameFiles;
 
@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     public int turnsTaken;
     public int totalTurns;
     public int turnsRemaining;
-    private int attributesRemaining;
+    private int attributesRemaining;//how many SO/attributes to display before end
     private int attributeListIncrement;
     private int totalNullAttributes;
 
@@ -56,16 +56,16 @@ public class GameManager : MonoBehaviour
         //countTurnsUnityBool = true; //necessary for dev panel
 
         //instantiate first process
-        GameObject processessObj = Instantiate(processesPrefab, processesBackground);
-        processessObj.transform.SetAsLastSibling();
-        TextMeshProUGUI[] textComponents = processessObj.GetComponentsInChildren<TextMeshProUGUI>();
-        if (textComponents.Length >= 2)
-        {
-            currentProcessText = textComponents[0];
-            currentProcessValue = textComponents[1];
-        }
-        currentProcessText.text = "Compilation will begin momentarily";
-        currentProcessValue.text = "...";
+        //GameObject processessObj = Instantiate(processesPrefab, processesBackground);
+        //processessObj.transform.SetAsLastSibling();
+        //TextMeshProUGUI[] textComponents = processessObj.GetComponentsInChildren<TextMeshProUGUI>();
+        //if (textComponents.Length >= 2)
+        //{
+        //    currentProcessText = textComponents[0];
+        //    currentProcessValue = textComponents[1];
+        //}
+        //currentProcessText.text = "Compilation will begin momentarily";
+        //currentProcessValue.text = "...";
 
         //store nullAttributes in variable
         totalNullAttributes = gameFiles.nullAttributes.Count;
@@ -104,16 +104,10 @@ public class GameManager : MonoBehaviour
         GameObject processessObj = Instantiate(processesPrefab, processesBackground); //instantiate prefab
         processessObj.transform.SetAsLastSibling();
         PlayerAttribute currentAttribute = gameFiles.playerAttributes[0+attributeListIncrement]; //get access to player attribute list
-        TextMeshProUGUI[] textComponents = processessObj.GetComponentsInChildren<TextMeshProUGUI>();
-        if (textComponents.Length >= 2)
-        {
-            currentProcessText = textComponents[0];
-            currentProcessValue = textComponents[1];
-        }
-        currentProcessValue.text = currentAttribute.attributeValue;
-        currentProcessText.text = currentAttribute.attributeDisplayText;
-        
-        //increment to get next item on the list
+        Debug.Log("current attribute text = "+ currentAttribute.attributeText);
+        currentProcessText = currentAttribute.attributeText + " " + currentAttribute.attributeValue;
+        TextMeshProUGUI textComponent = processessObj.GetComponentInChildren<TextMeshProUGUI>();
+        textComponent.text = currentProcessText;
         attributeListIncrement++;
     }
     void UpdateInkBool(string varName, string varValue)
@@ -121,6 +115,7 @@ public class GameManager : MonoBehaviour
         if(varName == "countTurns")
         {
             countTurnsInkBool = varValue;
+            Debug.Log("Unity know Ink var counTurns = " + varValue);
         }
     }
 

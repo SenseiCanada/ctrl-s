@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: giantAffection
   m_EditorClassIdentifier: 
   attributeID: giantAffection
-  attributeDisplayText: 'giant affection value:'
-  attributeValue: 
+  attributeText: 'Giant affection score:'
+  attributeValue: 0
   gameFilesData: {fileID: 0}

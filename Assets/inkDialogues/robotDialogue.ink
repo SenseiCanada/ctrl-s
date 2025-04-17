@@ -10,8 +10,11 @@ VAR cameFromIntro = false
 { NPCID != "robot":
     ~NPCID = "robot"
 }
-{ seenRobotName == true: 
+{ 
+- seenRobotName == true: 
     ~NPCName = "Shepherd"
+- else: 
+    ~NPCName = "??"
 }
 //check if we've already seen current dialogue
 {
@@ -27,6 +30,21 @@ VAR cameFromIntro = false
 
 ->DONE
 
+=== robot_default ===//subsequent runs
+->checkQuests
+
+=checkQuests//active quests?
+
+//else
+-> checkRelationship
+
+= checkRelationship//check relationship for filler
+{
+- robotAffection < 1: ->stage_intro
+- robotAffection == 1: ->stage1_filler
+- else: 
+->robot_fallback
+}
 
 === robot_start ===//first run
 {playerClass == "": //null check for PC class
@@ -57,7 +75,7 @@ Keystroke registered: ctrl + S. New save command initiated. Code compilation wil
 
 *[<i>Leave</i>]->robotQuit
 === stage_intro ===
-{!->robot_name|->increase_compile| ->robot_fallback}
+{->robot_name|->increase_compile|->robot_fallback}
 
 = robot_name
 May the thoroughness of the almighty developer guide your path, my child.
@@ -121,6 +139,10 @@ The more information contained within thes properties, the longer an asset will 
 - Of course. I must always begin by imparting a pressing tenet of the faith. But speak to me again and I will repeat my previous lessons.
 *[<i>Leave</i>]->robotQuit 
 
+
+=== stage1_filler ===
+Nothing yet.
+*[<i>Leave</i>] ->robotQuit
 === complexity_tutorial ===
 {& Ask what you will, my child. | How can I satisfy your curiosity?}
 +[Class?]->class
@@ -152,31 +174,11 @@ This is a special property only for assets lucky enough to posess items. It is a
 +[Not yet]->complexity_tutorial
 
 === robot_fallback === //nothing to say or 2nd interaction
-{& Only two cycles left until compilation| My child?}
+{~ Only two cycles left until compilation.|My child?}
 +{robot_trade}[</i>Trade</i>]->robot_trade
 +{robot_ChangeClass}[<i>Change class?</i>]->robot_ChangeClass
 +{complexity_tutorial}[Explain properties again]->complexity_tutorial
 +[<i>Leave</i>] ->robotQuit
-
-=== robot_default ===//subsequent runs
-->checkQuests
-
-=checkQuests//active quests?
-
-//else
--> checkRelationship
-
-= checkRelationship//check relationship for filler
-{
-- robotAffection < 1: ->stage_intro
-- else: 
-->robot_fallback
-}
-
-=default
-Please prepare for compilation.
-
-+[<i>Leave</i>]->robotQuit
 
 === robot_ChangeClass ===
 It won't do you much good, but that is within my power. Your current class is <i>{playerClass}</i>.
@@ -217,7 +219,7 @@ Here's what I have.
 
 ->DONE
 
-=== robot_refuse ===
+=== robot_refuseItem ===
 I could not accept.
 
 +[<i>Back</i>]{closeTradeWindow()}-> robot_trade

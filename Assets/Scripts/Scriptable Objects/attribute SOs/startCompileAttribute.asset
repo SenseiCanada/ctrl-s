@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: startCompileAttribute
   m_EditorClassIdentifier: 
   attributeID: startCompile
-  attributeDisplayText: 'Compiling code for: '
+  attributeText: 'Compiling code for:'
   attributeValue: PlayerCharacter
   gameFilesData: {fileID: 0}

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: npcInventory
   m_EditorClassIdentifier: 
   attributeID: npcInventory
-  attributeDisplayText: 'itemsTraded.Count:'
+  attributeText: 'NPC items:'
   attributeValue: 1
   gameFilesData: {fileID: 0}

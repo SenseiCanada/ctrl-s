@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: playerClass
   m_EditorClassIdentifier: 
   attributeID: playerClass
-  attributeDisplayText: 'playerClass: '
+  attributeText: 'Current Class:'
   attributeValue: fileViewer
   gameFilesData: {fileID: 0}
