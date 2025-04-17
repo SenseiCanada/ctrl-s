@@ -3,7 +3,7 @@ using Ink.Runtime;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Security;
+using System.Collections;
 
 public class GameFilesManager : MonoBehaviour 
 {
@@ -25,26 +25,39 @@ public class GameFilesManager : MonoBehaviour
     [SerializeField]
     private Button buttonPrefab = null;
 
-	public GameFilesData gameFiles; //scriptable object that will store everything
+	public GameFilesData gameData; //scriptable object that will store everything
 
 	//public static event Action<Story> OnCreateStory;
     public static event Action OnExitGameFiles;
     public static Action OnClickFileManager;
 	public static event Action OnCollectCat;
     public static event Action OnCollectList;
+    public static event Action<Story> OnCreateFilesStory;
+    public event Action<string, string> OnNewStorySave;
 
     void Awake () 
 	{
 		// Remove the default message
 		RemoveChildren();
         StartStory();
+        CompleteMessageDisplayer.OnCompleteCompilation += SaveInkState;
     }
 
 	// Creates a new Story object with the compiled story which we can then play!
 	void StartStory () 
 	{
 		story = new Story (mainJSONAsset.text);
-        gameFiles.StartListening(story);
+        if (gameData.dialogueSaves.ContainsKey("gameFiles"))
+        {
+            string inkSave = gameData.dialogueSaves["gameFiles"];
+            if (inkSave != string.Empty)
+            {
+                story.state.LoadJson(gameData.dialogueSaves["gameFiles"]);
+                story.ChoosePathString("enter");
+                Debug.Log("currentStory state set to save JSON");
+            }
+        }
+        gameData.StartListening(story);
 
         //add a error handling
         story.onError += (msg, type) => {
@@ -57,7 +70,8 @@ public class GameFilesManager : MonoBehaviour
         story.BindExternalFunction("exitGameFiles", () => { ExitGameFiles(); });
         story.BindExternalFunction("addCat", () => { OnCollectCat(); });
         story.BindExternalFunction("addList", () => { OnCollectList(); });
-        //OnCreateStory?.Invoke(story);
+        story.BindExternalFunction("takeTwoTurns", () => { StartCoroutine(TakeTwoTurns()); });
+        OnCreateFilesStory?.Invoke(story);
         RefreshView();
 	}
 	
@@ -69,7 +83,7 @@ public class GameFilesManager : MonoBehaviour
 		// Read all the content until we can't continue any more
 		while (story.canContinue) 
 		{
-			string text = story.Continue ();
+			string text = story.ContinueMaximally();
 			text = text.Trim();
 			CreateContentView(text);
 		}
@@ -162,8 +176,53 @@ public class GameFilesManager : MonoBehaviour
 		}
 	}
 
+	//ink external functions
 	void ExitGameFiles()
 	{
-		OnExitGameFiles();
+        OnExitGameFiles();
 	}
+
+    void SaveInkState()
+    {
+        string savedJson = story.state.ToJson();
+        string NPCID = (string)story.variablesState["NPCID"];
+        if (gameData.dialogueSaves.ContainsKey(NPCID))
+        {
+            gameData.dialogueSaves[NPCID] = savedJson;
+        }
+        else gameData.dialogueSaves.Add(NPCID, savedJson);
+        Debug.Log("Game Manager added ink save to game data SO");
+    }
+
+	IEnumerator TakeTwoTurns()
+	{
+        yield return new WaitForSeconds(0f);
+        story.ChoosePathString("blank_knot");
+        if (story.canContinue)
+        {
+            RefreshView();
+        }
+
+        yield return new WaitForSeconds(2f);
+        OnClickFileManager?.Invoke();
+		Debug.Log("TakeTwoTurns called OnClick once");
+
+        yield return new WaitForSeconds(2f);
+        OnClickFileManager?.Invoke();
+        Debug.Log("TakeTwoTurns called OnClick twice");
+
+        yield return new WaitForSeconds(2f);
+        story.ChoosePathString("home");
+        if (story.canContinue)
+		{
+            RefreshView();
+        }
+        else yield return new WaitForSeconds(.5f);
+        Debug.Log("after choosing home, can't continue");
+    }
+
+    private void OnDisable()
+    {
+        CompleteMessageDisplayer.OnCompleteCompilation -= SaveInkState;
+    }
 }

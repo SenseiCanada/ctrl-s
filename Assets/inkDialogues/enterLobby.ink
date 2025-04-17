@@ -11,7 +11,7 @@ EXTERNAL enterLobby()
     ~playerClass = "fileViewer"
 }
 
-Enter Game Lobby?
+Enter {lobby}?
 
 +[Yes]
     {enterLobby()}

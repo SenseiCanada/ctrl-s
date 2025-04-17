@@ -131,12 +131,10 @@ public class DialogueManager : MonoBehaviour
         RemoveChildren();
         while (currentStory.canContinue)
         {
-            Debug.Log("inside while loop in RefreshView, next line is " + currentStory.state.currentText);
             string text = currentStory.ContinueMaximally()?.Trim(); // Ensure text is not null
             if (dialogueEnded)
             {
                 RemoveChildren();
-                Debug.Log("before exiting while loop, currentPath is: " + currentStory.state.currentPathString);
 
                 return;
             }

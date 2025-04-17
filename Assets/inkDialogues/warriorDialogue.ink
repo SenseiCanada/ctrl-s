@@ -31,87 +31,17 @@ VAR warriorRunCount = -1
 {playerClass == "": // null check for player class
     ~playerClass = "fileViewer"
 }
-
-{warrior_start.firstStart: ->repeatStart}
-{not warrior_start.firstStart: ->firstStart}
-
-
-= firstStart
 ~NPCName = "??"
+To your station, now!
+*[Station?]
+*[Why was there a <b>!</b> above you?]
 
-You still got my back?
+- The gate behind you. Come find me after the machine beams you back.
 
-*[Yes...]
-
-- That's good to hear. Really good to hear.
-
-*{seenNovaName == true}[Are you the Nova Warrior?]
-    ~NPCName = "Nova"
-    ->named
-*{seenNovaName == false}[Who...?]->target
-
-=target
-Our new target. Unclear. Directives are in the game files, but GM's being super cagey. My money's on rocky horror over there though. //add alternative text if spoken/not spoken to Brall and GM before
-
-*[No, who are you?]
-- <i>A look flashes across her face. Suprise? Betrayal?</i>
-
-*[<i>Continue</i>]->named
-
-=named
-That's classified I'm afraid. <i>She taps the side of her nose.</i>
-*{target} [No, I'm serious]
-    And I have a reputation to uphold. You won't break me that easily.
-        **[Fine. When do we move out?]->classified
-*[Fine. When do we move out?]->classified
-
--(classified) Also classified. We're headed to the past though, I'm sure of it.
-*[Solid guess]->mentionhim
-*[The past? How?]->jumpamnesia
-
-= mentionhim
-That's where he was from. Figured if he's not here, he'd be back there...then... you know what I mean.
-*[Who are you talking about?]
-- You're right, we shouldn't be talking about it. It won't happen again.
-*[Shouldn't have asked]
-*[Tell me more]
-- -> exit
-
-= jumpamnesia
-<i>Her eyes scan you rapidly.</i> Got some lingering jump amnesia? Should we send you back to HQ?
-*[I'm fine]
-*[I need a check up]
-- Not sure anyone can even get there. We all seem to end up back here anytime we get compiled.
-*[We're stuck?]
-    -> exit
-
-= exit
-You'd better get to your loading bay. We can talk more after compilation.
-
+*[What machine?]
+*[I will]
+- Go, go, go!
 *[<i>Leave</i>]->warriorQuit
-
-->DONE
-
-= repeatStart
-Still here?
-+[Leave]
-    ~warriorSaveKnot = ->repeatStart
-    {quitDialogue()}
-
-->DONE
-
-= scraps
-- Although, truth be told, we all seem to end up just where we started everytime we get compiled.
-
-*[We're stuck?]
-
-- We're "ascending," if you believe GM's drivel. It's slow going. What I wouldn't give to take a peek inside some of those files. But I always compile too quickly.
-
-*[I could check]
-
-- See, I knew you had my back. You'd better get to your loading bay then.
-
-*[<i>Leave</i>] ->warriorQuit
 
 === warrior_hitlist ===//first quest
 Any luck finding our target list?
@@ -166,9 +96,9 @@ We still flying blind?
 
 === warrior_default === //subsequent runs
 
-->checkQuests
+->checkQuests//first check if there are any active quests
 
-= checkQuests //first check if there are any active quests
+= checkQuests 
 //qualify for hitlist?
 {
 - not warrior_hitlist && runAttempts >= 4: ->warrior_hitlist
@@ -185,11 +115,106 @@ We still flying blind?
 
 = checkRelationship// then check relationship for filler
 {
-- warriorAffection < 1: ->stage0_filler
+- warriorAffection < 1: ->stage_intro
+- warriorAffection == 1: ->stage1_filler
+- warriorAffection == 2: ->stage2_filler
 - else : ->warrior_fallback
 }
 
-=== stage0_filler ===
+=== stage_intro ===
+{!->first |->second |->last|->warrior_fallback}
+
+=first
+Knew you'd pull through.
+
+*[I hated that]
+*[Wasn't so bad]
+
+- Kinda like when my first SO didn't know what to do with us anymore. Stuck starring at plastiglass targets until he came back with new orders.
+
+*[Why can't I interact with anything]
+
+- What, like the cubes and stuff? Beats me. But hey, least we can still chat between the stupid save commands.
+
+*[Seems like prison]
+*[Why am I back?]
+
+- Everything's still a work in progress. You, me, this library, or whatever the robot is calling this place.  
+
+*[So what now?]
+
+- Hustle and wait for orders. Same as always.
+
+*[<i>Leave</i>]->warriorQuit
+
+=second
+Remember the mission to Frontenac? 1200s, I'm pretty sure, because Europeans were finally using zeros.
+*[Yeah, totally]
+*[No..I can't]
+- It's ok, I'm not judging. Hell, if a whole castle fell on me, I'd gladly loose some memories if it meant I could get back up the next day.
+*[A whole castle?]
+- Our mark was digging a secret escape tunnel under the keep. Tunnel collapsed right when we got there, under the castle foundations. We thought you were a gonner.
+*[Was this part of the game?]
+-</i>She frowns.</i> I remember it happening. The dust. The screams. And I remember you talking to me before last compilation. So it has to be, right?
+*[You seem unsure]
+- My logic is sound, ok? Plus, I might compile pretty fast, but I've still poked around some in the game files.
+*[What have you found?]
+- A scene with the location tag "France-medieval". Frontenac is in France. But every time I try to go deeper, my compilation completes and I'm back here.
+*[I'm having the same experience]
+
+- Hey, what's one more shot in the dark? Tell me what you find this time around.
+*[<i>Leave</i>]->warriorQuit
+
+=last
+You still got my back?
+*[Yes...]
+- That's good to hear. Really good to hear.
+
+*{seenNovaName == true}[Are you the Nova Warrior?]
+    ~NPCName = "Nova"
+    ->named
+*{seenNovaName == false}[Who...?]->target
+
+=target
+Our new target. Unclear. Directives are in the game files, but too deep for me to find. My money's on rocky horror over there though. //add alternative text if spoken/not spoken to Brall and GM before
+
+*[No, who are you?]
+- <i>A look flashes across her face. Suprise? Betrayal?</i>
+
+*[<i>Continue</i>]->named
+
+=named
+That's classified I'm afraid. <i>She taps the side of her nose.</i>
+*{target} [No, I'm serious]
+    And I have a reputation to uphold. You won't break me that easily.
+        **[Fine. When do we move out?]->classified
+*[Fine. When do we move out?]->classified
+
+-(classified) Also classified. We're headed to the past though, I'm sure of it. That's where he was from after all.
+*[Frontenac again?]->mentionhim
+*[The past? How?]->jumpamnesia
+
+= mentionhim
+No, he wouldn't go there. But if he's not here, he'd be back then, at least.
+*[Who are you talking about?]
+- You're right, we shouldn't be talking about it. It won't happen again.
+*[Shouldn't have asked]
+*[Tell me more]
+- -> exit
+
+= jumpamnesia
+<i>Her eyes scan you rapidly.</i> Got some lingering amnesia? Should we send you back to HQ?
+*[I'm fine]
+*[I need a check up]
+- Not sure anyone can even get there. We all seem to end up back here anytime we get compiled.
+*[So we're actually stuck?]
+    -> exit
+
+= exit
+Probably some bug in the system. Get to your {portal}. We can talk more after compilation.
+*[<i>Leave</i>]->warriorQuit
+
+=== stage1_filler ===
 {!->food |->workout|->purpose|->warrior_fallback}
 = food
 If you were in charge of {timeCorp}, how would you boost recruitment?
@@ -242,6 +267,91 @@ When I was recruited, O'brien asked to me, "Nova, what if you could do it when h
 
 ->DONE
 
+=== stage2_filler===
+{!->stare |->anger |->depressed |->warrior_fallback}
+
+= stare
+<i>Nova stares past you as you approach her.</i>
+*[Penny for your thoughts?]
+- I had a lisp when I was a kid. And I stuttered. No big deal. Speech therapist was a pro.
+*[<i>Stay silent</i>]
+*[Why are you telling me this?]
+- Everyone was chill about it at school. Except this litte brat, Denis. I was super smart for my age. Just took me longer to get things out. Denis was probably jealous, or something.
+*[He made fun of you?]
+*[Kids are the worst]
+- Without fail, every time I raised my hand, he'd mimmick what I was trying to say. Only loud enough for his friends and me to hear. They'd all cover their mouths, but I still could see them laughing.
+*[What did you do?]
+*[That's awful]
+- I hit him a few times. Nothing changed. I used to be pretty scrawny.
+*[Hard to imagine]
+*[No one else intervened?]
+One day in class, I stood up, picked up my chair, and swung it at the little twerp's head.
+*[He deserved it]
+*[Your chair?]
+- I don't think he was seriously hurt. Got picked up by HQ almost immediately after. Said I would be an incredible asset.
+*[I agree with them]
+*[That's messed up]
+- Even afterwards, I knew I should feel bad. But in the moment, it felt...euphoric... Gripping the chair legs, feeling its momentum. I was in control. I had the power.
+*[This is about your weapon, right?]
+- You'll find something. I'm sure about it. Just keep digging through those files.
+*[<i>Leave</i>]->warriorQuit
+
+= anger
+Not right now. <i>She clenches and unclenches her fists. Her breath huffs in and out</i> Leave me... alone.
+*[Ok. <i>Leave</i>]->warriorQuit
+*[You alright?]
+    No. I want to break something. Hurt someone. I'm stuck in place. Nothing within arms reach. Except you.
+    **[Get a grip!] ->angerContinues
+    **[Slowly back away. <i>Leave</i>]->warriorQuit
+
+-(angerContinues) No! I'm done. I'm sick and tired of being told what to do. My chest is on fire. I want to let it out! Out! <i>She lashes out with a fist.</i>
+*[<i>Let her hit you</i>]
+    ~NPCName = ""
+    <i>Pain flashes across your jawline. Your head spins. Nova's ouline glows white hot.</i>
+    **[<i>Try to focus</i>]->glow
+*[<i>Try to evade</i>]
+    ~NPCName = ""
+    <i>You step clear of the punch just in time. Nova's body radiates a burning white light</i>
+    **[<i>Try to focus</i>]->glow
+
+- (glow)~NPCName = "Nova" 
+<i>The white light pulses rapidly a few times, then slows, almost like a heartbeat.</i>
+
+*[Nova?]
+*[You're glowing]
+
+- <i>The light around Nova flickers, then is gone </i> Just go. Please.
+
+*[<i>Leave</i>]->warriorQuit
+
+= depressed
+Still came to talk? I'm surprised.
+*[Got your back, remember]
+*[For everyone else's safety]
+- Good for you. I mean really. You care. You're such a saint. That's just... wow.
+*[Nova, I'm worried]
+*[You were violent]
+- I know my limits. My fists. My body. All I am is limits. What can we hope to achieve with those?
+*[We'll figure it out]
+*[So you're just gonna mope?]
+- Stop, just stop. This is where we're at right now. I've almost convinced myself of that. Stages of grief and all that.
+*[About that white light?]
+- Kick them while they're down while your at it. Another failure.
+*[What do you mean?]
+- {timeCorp} wanted elite volunteers. Best and brightest. I signed up. Let them pump me full of performance enhancers, measure my vitals while jumped off buildings and punched through walls.
+*[Super-soldiers?]
+- That's what it seemed like. Except, I couln't handle it. My body didn't react well to the drugs. I always needed more to perform like the others. Eventually they cut me. Just another name crossed off a ledger.
+*[So you don't have abilities?]
+- My chest burns when I'm angry and I turn into a human flare. I'm sure the forces of evil are quaking in their boots.
+*[You're a friend]
+*[Your an ally]
+*[You're a partner]
+
+- Ha, doens't feel like it right now.
+
+*[<i>Leave</i>]->warriorQuit
+
+->DONE
 ==== warrior_weapon ===//weapon quest
 <i>She punches you</i>
 *[What the hell?!] -> findWeapon
@@ -294,15 +404,13 @@ Best news I've had all day. Alright, what are we talking? Blaster? Sniper riffle
 *[Nothing, you don't get a weapon]
 - No, no that can't be possible!
 *[I'm so sorry]
-- Can it. I don't need this right now. <i>End of Nova's story in current build</i>
+~warriorAffection++
+- Can it. I don't need this right now.
 *[Leave] ->warriorQuit
-
-    
-
-->DONE//second quest
+->DONE
 
 === warrior_fallback === //nothing to say or 2nd interaction
-Need something?
+{&Still here?|Need something?}
 +{warrior_trade.firstTrade}[<i>Trade</i>]->warrior_trade
 +[<i>Leave</i>] ->warriorQuit
 ->DONE
@@ -312,14 +420,14 @@ Want to trade?
 
 +[Yes]-> warrior_trade.options
     
-+[No]-> warrior_start.repeatStart
++[No]-> warrior_fallback
     
 
 =options
 {openTradeWindow()}
 Here's what I have.
 
-+[Back]{closeTradeWindow()}-> warrior_start.repeatStart
++[Back]{closeTradeWindow()}-> warrior_fallback
 ->DONE
 
 =firstTrade
@@ -346,6 +454,25 @@ Let me see it!
 {hasList == "Player": {closeTradeWindow()}->listTrade}
 
 ->DONE
+
+=== warrior_snippets ===
+
+
+= scraps
+- Although, truth be told, we all seem to end up just where we started everytime we get compiled.
+
+*[We're stuck?]
+
+- We're "ascending," if you believe GM's drivel. It's slow going. What I wouldn't give to take a peek inside some of those files. But I always compile too quickly.
+
+*[I could check]
+
+- See, I knew you had my back. You'd better get to your loading bay then.
+
+*[<i>Leave</i>] ->warriorQuit
+
+->DONE
+
 === warriorQuit ===
 ~warriorRunCount = runAttempts //basically: we've gone through once
 ~warriorSaveKnot = ->warrior_enter

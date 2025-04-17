@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     private string countTurnsInkBool;
     private bool countTurnsUnityBool; //necessary for dev pannel
 
-    //private Story currentStory;
+    private Story currentStory;
 
     private InventoryItem item;
 
@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
         DevPanelGameFiles.OnStartTurns += UpdateUnityBool;
         InventoryManager.OnPlayerCollect += UpdateItem;
         InventoryManager.OnNPCCollect += UpdateItem;
+        
     }
     void Start()
     {
@@ -78,7 +79,6 @@ public class GameManager : MonoBehaviour
     {
         
     }
-
     void UpdateTurns()
     {
         if (countTurnsInkBool == "true") //&& countTurnsUnityBool)
@@ -142,7 +142,6 @@ public class GameManager : MonoBehaviour
         DevPanelGameFiles.OnStartTurns -= UpdateUnityBool;
         InventoryManager.OnPlayerCollect -= UpdateItem;
         InventoryManager.OnNPCCollect -= UpdateItem;
-        //GameFilesManager.OnCreateStory -= SelectStory;
         Debug.Log("Game Manager unsuscribed");
     }
 }

@@ -19,7 +19,7 @@ public class FileLocationDisplayer : MonoBehaviour
     void Start()
     {
         GameFilesData.OnUnityRegisterInkVar += UpdateLocation;
-        fileLocText.text = "Drive/Files/GameEditor/MyNewAwesomeGame/";
+        fileLocText.text = "Drive/Files/DaedalusEngine/ChronosProtocol/";
     }
 
     // Update is called once per frame

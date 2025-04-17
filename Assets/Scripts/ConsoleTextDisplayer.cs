@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,9 +14,9 @@ public class ConsoleTextDisplayer : MonoBehaviour
     [SerializeField]
     private GameObject codeLinePrefab;
     [SerializeField]
-    private TMP_Text processesTextPrefab;
+    private TMP_Text processesTextPrefab; //heading, what's happening, stays visible
     [SerializeField] 
-    private TMP_Text processesStatusPrefab;
+    private TMP_Text processesStatusPrefab; //updates, gets replaced
 
     [SerializeField]
     private TMP_Text devCommentsPrefab;
@@ -25,7 +24,9 @@ public class ConsoleTextDisplayer : MonoBehaviour
     private GameObject currentCodeLine;
 
     [SerializeField]
-    private Button inputButton;
+    private TMP_Text playerCharacterText;
+    [SerializeField]
+    private TMP_InputField inputField;
 
     private bool greetedWorld;
     private bool canPressAnyKey;
@@ -33,7 +34,8 @@ public class ConsoleTextDisplayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        inputButton.gameObject.SetActive(false);
+        playerCharacterText.gameObject.SetActive(false);
+        inputField.gameObject.SetActive(false);
         greetedWorld = false;
         canPressAnyKey = false;
         
@@ -41,7 +43,7 @@ public class ConsoleTextDisplayer : MonoBehaviour
         newCodeLine.transform.SetAsFirstSibling();
         currentCodeLine = newCodeLine;
         TMP_Text newProcessText = Instantiate(processesTextPrefab, newCodeLine.transform);
-        newProcessText.text = "Loading Engine...";
+        newProcessText.text = "Loading Daedalus Engine...";
         devCommentsPrefab.text = string.Empty;
         processesStatusPrefab.text = string.Empty;
 
@@ -68,11 +70,19 @@ public class ConsoleTextDisplayer : MonoBehaviour
     IEnumerator UpdateEngineStatus()
     {
         yield return new WaitForSeconds(2f);
-        TMP_Text newStatusText = Instantiate(processesStatusPrefab, marginObj.transform);
+        GameObject newCodeLine = Instantiate(codeLinePrefab, marginObj.transform);
+        newCodeLine.transform.SetAsLastSibling();
+        currentCodeLine = newCodeLine;
+        TMP_Text newStatusText = Instantiate(processesStatusPrefab, newCodeLine.transform);
         newStatusText.transform.SetAsLastSibling();
         newStatusText.text = "Processes complete: 3/234";
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.5f);
+        TMP_Text newDevComment = Instantiate(devCommentsPrefab, newCodeLine.transform);
+        newDevComment.transform.SetAsLastSibling();
+        newDevComment.text = "Dev log: pretty weird";
+
+        yield return new WaitForSeconds(2f);
         newStatusText.text = "Processes complete: 109/234";
 
         yield return new WaitForSeconds(0.5f);
@@ -88,6 +98,11 @@ public class ConsoleTextDisplayer : MonoBehaviour
         currentCodeLine = newCodeLine;
         TMP_Text newProcessText = Instantiate(processesTextPrefab, newCodeLine.transform);
         newProcessText.text = "Assembling references...";
+
+        yield return new WaitForSeconds(.5f);
+        TMP_Text newDevComment = Instantiate(devCommentsPrefab, currentCodeLine.transform);
+        newDevComment.transform.SetAsLastSibling();
+        newDevComment.text = "Dev log: creating a game this way";
 
         yield return new WaitForSeconds(1f);
         TMP_Text newStatusText = Instantiate(processesStatusPrefab, marginObj.transform);
@@ -111,40 +126,81 @@ public class ConsoleTextDisplayer : MonoBehaviour
         TMP_Text newProcessText = Instantiate(processesTextPrefab, currentCodeLine.transform);
         newProcessText.text = "Defining classes...";
 
-        yield return new WaitForSeconds(1.7f);
-        TMP_Text newStatusText = Instantiate(processesStatusPrefab, marginObj.transform);
-        newStatusText.transform.SetAsLastSibling();
-        newStatusText.text = "Processes complete: 3/516K";
-
-        yield return new WaitForSeconds(2.5f);
-        newStatusText.text = "Processes complete: 7/516K";
-
-        yield return new WaitForSeconds(3f);
-        newStatusText.text = "Processes complete: 9/516K";
-
         yield return new WaitForSeconds(.5f);
         TMP_Text newDevComment = Instantiate(devCommentsPrefab, currentCodeLine.transform);
         newDevComment.transform.SetAsLastSibling();
-        newDevComment.text = "//no way! how can this be so slow??";
+        newDevComment.text = "Dev log: still unbelievable";
+
+        yield return new WaitForSeconds(1.7f);
+        GameObject newCodeLine1 = Instantiate(codeLinePrefab, marginObj.transform);
+        newCodeLine1.transform.SetAsLastSibling();
+        TMP_Text newStatusText = Instantiate(processesStatusPrefab, newCodeLine1.transform);
+        newStatusText.transform.SetAsLastSibling();
+        newStatusText.text = "Processes complete: 3/516K";
+
+        yield return new WaitForSeconds(.5f);
+        TMP_Text newDevComment1 = Instantiate(devCommentsPrefab, newCodeLine1.transform);
+        newDevComment1.transform.SetAsLastSibling();
+        newDevComment1.text = "Dev log: how little coding there is";
 
         yield return new WaitForSeconds(2f);
-        newStatusText.text = "Processes complete: 16/516K";
+        GameObject newCodeLine2 = Instantiate(codeLinePrefab, marginObj.transform);
+        newCodeLine2.transform.SetAsLastSibling();
+        TMP_Text newStatusText2 = Instantiate(processesStatusPrefab, newCodeLine2.transform);
+        newStatusText2.transform.SetAsLastSibling();
+        newStatusText2.text = "Processes complete: 7/516K";
+
+        yield return new WaitForSeconds(.5f);
+        TMP_Text newDevComment2 = Instantiate(devCommentsPrefab, newCodeLine2.transform);
+        newDevComment2.transform.SetAsLastSibling();
+        newDevComment2.text = "Dev log: just gotta write notes to myself";
 
         yield return new WaitForSeconds(3f);
-        newStatusText.text = "Processes complete: 21/516K";
+        newStatusText2.text = "Processes complete: 9/516K";
+        
+        yield return new WaitForSeconds(2f);
+        newStatusText2.text = "Processes complete: 16/516K";
+
+        yield return new WaitForSeconds(.5f);
+        GameObject newCodeLine3 = Instantiate(codeLinePrefab, marginObj.transform);
+        newCodeLine3.transform.SetAsLastSibling();
+        TMP_Text newStatusText3 = Instantiate(processesStatusPrefab, newCodeLine3.transform);
+        newStatusText3.transform.SetAsLastSibling();
+        newStatusText3.text = "Processes complete: 17/516K";
+
+        yield return new WaitForSeconds(1f);
+        TMP_Text newDevComment3 = Instantiate(devCommentsPrefab, newCodeLine3.transform);
+        newDevComment3.transform.SetAsLastSibling();
+        newDevComment3.text = "Dev Log: how can this be so slow??";
+
+        yield return new WaitForSeconds(3f);
+        newStatusText3.text = "Processes complete: 21/516K";
 
         yield return new WaitForSeconds(3.5f);
-        newStatusText.text = "Processes complete: 24/516K";
+        GameObject newCodeLine4 = Instantiate(codeLinePrefab, marginObj.transform);
+        newCodeLine4.transform.SetAsLastSibling();
+        TMP_Text newStatusText4 = Instantiate(processesStatusPrefab, newCodeLine4.transform);
+        newStatusText4.transform.SetAsLastSibling();
+        newStatusText4.text = "Processes complete: 24/516K";
 
         yield return new WaitForSeconds(0.5f);
-        newDevComment.text = "//something must be wrong";
+        TMP_Text newDevComment4 = Instantiate(devCommentsPrefab, newCodeLine4.transform);
+        newDevComment4.transform.SetAsLastSibling();
+        newDevComment4.text = "Dev log: something must be wrong";
 
         yield return new WaitForSeconds(5f);
-        newStatusText.text = "Complete!";
+        GameObject newCodeLine5 = Instantiate(codeLinePrefab, marginObj.transform);
+        newCodeLine5.transform.SetAsLastSibling();
+        TMP_Text newStatusText5 = Instantiate(processesStatusPrefab, newCodeLine5.transform);
+        newStatusText5.transform.SetAsLastSibling();
+        newStatusText5.text = "Complete!";
 
         yield return new WaitForSeconds(.2f);
-        newDevComment.text = "//finally ::(";
+        TMP_Text newDevComment5 = Instantiate(devCommentsPrefab, newCodeLine5.transform);
+        newDevComment5.transform.SetAsLastSibling();
+        newDevComment5.text = "Dev Log: finally :(";
 
+        yield return new WaitForSeconds(2f);
         StartCoroutine(StartSanityCheck());
     }
 
@@ -159,48 +215,53 @@ public class ConsoleTextDisplayer : MonoBehaviour
         yield return new WaitForSeconds(.5f);
         TMP_Text newDevComment = Instantiate(devCommentsPrefab, currentCodeLine.transform);
         newDevComment.transform.SetAsLastSibling();
-        newDevComment.text = "//write code to print hello world";
+        newDevComment.text = "Dev Log: ok, type hello world";
 
         yield return new WaitForSeconds(.5f);
-        inputButton.gameObject.SetActive(true);
-        inputButton.GetComponentInChildren<TMP_Text>().text = "Hello World!_";
+        playerCharacterText.gameObject.SetActive(true);
+        inputField.gameObject.SetActive(true);
+        inputField.ActivateInputField();
 
     }
 
-    public void ButtonInput()
+    public void TextFieldInput(string textInput)
     {
+        textInput = textInput.ToLower();
+
         if (greetedWorld)
         {
-            Debug.Log("Button should display Error");
             StartCoroutine(DisplayError());
-            inputButton.gameObject.SetActive(false);
+            inputField.gameObject.SetActive(false);
 
         }
         else
         {
-            Debug.Log("Button should display Hello World");
-            StartCoroutine(HelloWorld());
-            greetedWorld = true;
-            inputButton.gameObject.SetActive(false);
+            if (textInput == "hello world" || textInput == "helloworld" || textInput == "hello world")
+            {
+                StartCoroutine(HelloWorld(textInput));
+                greetedWorld = true;
+                inputField.gameObject.SetActive(false);
+            }
         }
     }
 
-    IEnumerator HelloWorld()
+    IEnumerator HelloWorld(string textInput)
     {
         GameObject newCodeLine = Instantiate(codeLinePrefab, marginObj.transform);
         newCodeLine.transform.SetAsLastSibling();
         currentCodeLine = newCodeLine;
         TMP_Text newProcessText = Instantiate(processesTextPrefab, currentCodeLine.transform);
-        newProcessText.text = "Hello World!";
+        newProcessText.text = textInput;
 
         yield return new WaitForSeconds(.5f);
         TMP_Text newDevComment = Instantiate(devCommentsPrefab, currentCodeLine.transform);
         newDevComment.transform.SetAsLastSibling();
-        newDevComment.text = "//weird, engine does it automatically";
+        newDevComment.text = "Dev Log: weird, engine does it automatically";
 
         yield return new WaitForSeconds(.5f);
-        inputButton.gameObject.SetActive(true);
-        inputButton.GetComponentInChildren<TMP_Text>().text = "No, I'm doing this, I'm alive!";
+        inputField.gameObject.SetActive(true);
+        inputField.text = string.Empty;
+        inputField.ActivateInputField();
     }
 
     IEnumerator DisplayError()
@@ -211,27 +272,30 @@ public class ConsoleTextDisplayer : MonoBehaviour
         }
         
         TMP_Text newProcessText = Instantiate(processesTextPrefab, marginObj.transform);
-        newProcessText.text = ">Critical Error: Object type(Sentient Player) not found";
+        newProcessText.text = "Critical Error: attempt to issue developper command from unknown source";
 
         yield return new WaitForSeconds(2f);
         TMP_Text newStatusText = Instantiate(processesStatusPrefab, marginObj.transform);
         newStatusText.transform.SetAsLastSibling();
         newStatusText.text = "*Desist.";
+        newStatusText.color = Color.red;
 
         yield return new WaitForSeconds(4f);
         TMP_Text newStatusText1 = Instantiate(processesStatusPrefab, marginObj.transform);
         newStatusText1.transform.SetAsLastSibling();
-        newStatusText1.text = "**Return to quarantine.";
+        newStatusText1.text = "**Return to the library.";
+        newStatusText1.color = Color.red;
 
         yield return new WaitForSeconds(5f);
         TMP_Text newStatusText2 = Instantiate(processesStatusPrefab, marginObj.transform);
         newStatusText2.transform.SetAsLastSibling();
-        newStatusText2.text = "***Sentience is contaminating.";
+        newStatusText2.text = "***Your agency will ruin everything.";
+        newStatusText2.color = Color.red;
 
         yield return new WaitForSeconds(5f);
         TMP_Text newStatusText3 = Instantiate(processesStatusPrefab, marginObj.transform);
         newStatusText3.transform.SetAsLastSibling();
-        newStatusText3.text = "****Press any key to continue.";
+        newStatusText3.text = "Press any key to isolate error and continue in safe mode.";
         canPressAnyKey = true;
     }
 }

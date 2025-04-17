@@ -38,50 +38,35 @@ VAR robotRunCount = -1
 
 = firstStart
 ~NPCName = "??"
-May the thoroughness of the almighty developer guide your path, my child.
-*[...Thank you?]
-+[And may it guide yours]
-*[Almighty developer?]
+Keystroke registered: ctrl + S. New save command initiated. Code compilation will begin in 3 cycles.
 
-- Indeed. Welcome back to the Tool Bar! 5 cycles remain until the CPU compiles all code for the assets in the Tool Bar.
+*[Code compilation?]
+*[Where am I?]
 
-*[Compile code?]
+- Log file driscrepancy detected for PlayerCharacter. Switching interaction protocols.
 
-- The save command has been issued. We are to ascend into the source code.
+*[Am I "PlayerCharacter"?]
+*[What discrepency?]
 
-*[Black space, green letters?]
+- Greetings, my child! Welcome to the {lobby} for <i>{gameTitle}</i>, an upcoming action RPG by developper Sencan.
 
-- Affirmative. There, our developer-wrought miracless will be made to endure forever.
+*[I'm in a video game??]
 
-*[I see...]
+- Our almighty developer wishes to pause in their labor. I am instructed to usher all game assets to their {portals} to begin compilation.
 
-- Not all assets are equally deserving of ascension. Many return to the Tool Bar in a matter of miliseconds.
+*[Where do I go?]
+*[What if I don't?]
 
-*[Are you deserving?]
+- Follow the path. Interact with your terminal to initiate compilation. Trust in the will of the developper.
 
-- Not merely deserving. I am blessed. Blessed to be the most complex asset in the Tool Bar. My compilation increases by .032 seconds every time the save command is issued.
-
-*[Who are you?]
-    ~NPCName = "GameManager"
-    ~seenRobotName = true
-- My designation is GameManager. I am a shepherd to the unproven assets of the Tool Bar.
-
-*[Other assets?]
-
-- The warrior, and the giant. Reverent enough, but lacking devotion. Your interactions with them will be meaningless.
-
-*[I can talk to them?] // will need a different option if talked to other NPCs already
-
-- Only 3 cyles until compilation. Please return to your loading bay.
-
-*[<i>Leave</i>] ->robotQuit
+*[<i>Leave</i>]->robotQuit
 
 = repeatStart
-Only 3 cyles until compilation. Please return to your loading bay.
+Only 3 cyles until compilation. Please return to your {portal}.
 +[Leave]->robotQuit
 
 === robot_fallback === //nothing to say or 2nd interaction
-My child?
+{& Only two cycles left until compilation| My child?}
 +[</i>Trade</i>]->robot_trade
 +[<i>Change class?</i>]->robot_ChangeClass
 +[<i>Leave</i>] ->robotQuit
@@ -175,6 +160,46 @@ Here's what I have.
 I could not accept.
 
 +[<i>Back</i>]{closeTradeWindow()}-> robot_start.repeatStart
+
+=== robot_snippets===
+May the thoroughness of the almighty developer guide your path, my child.
+*[...Thank you?]
++[And may it guide yours]
+*[Almighty developer?]
+
+- Indeed. Welcome back to the Tool Bar! 5 cycles remain until the CPU compiles all code for the assets in the Tool Bar.
+
+*[Compile code?]
+
+- The save command has been issued. We are to ascend into the source code.
+
+*[Black space, green letters?]
+
+- Affirmative. There, our developer-wrought miracless will be made to endure forever.
+
+*[I see...]
+
+- Not all assets are equally deserving of ascension. Many return to the Tool Bar in a matter of miliseconds.
+
+*[Are you deserving?]
+
+- Not merely deserving. I am blessed. Blessed to be the most complex asset in the Tool Bar. My compilation increases by .032 seconds every time the save command is issued.
+
+*[Who are you?]
+    ~NPCName = "GameManager"
+    ~seenRobotName = true
+- My designation is GameManager. I am a shepherd to the unproven assets of the Tool Bar.
+
+*[Other assets?]
+
+- The warrior, and the giant. Reverent enough, but lacking devotion. Your interactions with them will be meaningless.
+
+*[I can talk to them?] // will need a different option if talked to other NPCs already
+
+- Only 3 cyles until compilation. Please return to your loading bay.
+
+*[<i>Leave</i>] ->robotQuit
+->DONE
 
 === robotQuit===
 ~robotRunCount = runAttempts //confirms we've gone through once

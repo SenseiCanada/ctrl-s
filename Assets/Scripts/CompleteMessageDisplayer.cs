@@ -1,3 +1,4 @@
+using Ink.Runtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -59,7 +60,7 @@ public class CompleteMessageDisplayer : MonoBehaviour
         
         //processes that are still null
         nullProcessesVal.text = nullProcessCount.ToString();
-        
+
         //exit button
         Button finishButton = Instantiate(buttonPrefab, margins);
         finishButton.transform.SetAsLastSibling();
@@ -70,7 +71,6 @@ public class CompleteMessageDisplayer : MonoBehaviour
         rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 150);
         finishButton.onClick.AddListener(EnterLobby);
     }
-
 
     private void EnterLobby()
     {

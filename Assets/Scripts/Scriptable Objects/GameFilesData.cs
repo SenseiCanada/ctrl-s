@@ -20,6 +20,7 @@ public class GameFilesData : ScriptableObject
     public List<PlayerAttribute> playerAttributes = new List<PlayerAttribute>();
     public List<PlayerAttribute> nullAttributes = new List<PlayerAttribute>();
 
+    //dictionary for ink variables
     public Dictionary<string, Ink.Runtime.Object> variables = new Dictionary<string, Ink.Runtime.Object>();
     public static event Action<string, string> OnUnityRegisterInkVar;
     public static event Action<string> OnInkStateSaved;

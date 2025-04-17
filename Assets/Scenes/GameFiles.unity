@@ -1715,7 +1715,7 @@ MonoBehaviour:
   buttonsParentPrefab: {fileID: 718285803084431688, guid: 0fbc15e3b0c81c14cb9f0156857fbd73, type: 3}
   textPrefab: {fileID: 7326151855653870692, guid: 1cfee3ffa41ae4f4fa2586b42854511c, type: 3}
   buttonPrefab: {fileID: 871821787179501041, guid: bb3bdfa88f2cfef48897f5e0215b2078, type: 3}
-  gameFiles: {fileID: 11400000, guid: 7811e64260797d640ba62753a11b852a, type: 2}
+  gameData: {fileID: 11400000, guid: 7811e64260797d640ba62753a11b852a, type: 2}
 --- !u!1 &1293415101
 GameObject:
   m_ObjectHideFlags: 0

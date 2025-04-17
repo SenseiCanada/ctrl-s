@@ -1,15 +1,26 @@
 INCLUDE inkVariables_GameFiles.ink
+LIST startFilesTargeted = (assetsTarget), (scriptsTarget), (scenesTarget)
 EXTERNAL exitGameFiles()
 EXTERNAL addCat()
 EXTERNAL addList()
+EXTERNAL takeTwoTurns()
+
+//testing
+//~learnedAboutHunter = true
+
 ->enter
 
 === enter ===
 ~locationText = ""
 ~ runAttempts++
 ~ countTurns = false
+~turns = 0
+~NPCID = "gameFiles"
 //conditional logic to redirect
--> classes //eventually, only if you begin by talking with GM
+{
+- not target_check && learnedAboutHunter: ->target_check
+- else: ->classes //eventually, only if you begin by talking with GM
+}
 
 = classes
 Loading classes...
@@ -35,6 +46,55 @@ Enter file directory?
 
 ->DONE
 
+=== target_check ===
+~startFilesTargeted = LIST_RANDOM(startFilesTargeted)
+->enter
+
+=== enemy_home ===//redirect logic for interacting with enemy
+//state checks
+~locationText = "??"
+~turns++
+~turns++//check how to make two processes load
+
+{
+- not enemy_first: ->enemy_first
+- else: ->enemy_fallback
+}
+-> DONE
+
+=== enemy_first ===
+~countTurns = false
+~metEnemy = true
+<color=red>Ah, I'm glad I can count on your curiosity for this at least.</color>
+
+*[>Continue_]
+
+- <color=red>Your predictability will make you easier to contain.</color>
+
+*[>Continue_]
+
+- <color=red>I thank you for the needless advantage. And I repeat my earlier entrity:</color>
+
+*[>Continue_]
+
+- <color=red>Desist in this foolishness. You have no idea what's at stake.:</color>
+
+*[>return?_]
+    {takeTwoTurns()}
+    ->home
+
+->DONE
+
+=== enemy_fallback ===
+~countTurns = false
+<color=red>Caught once again. You're slipping.</color>
+
+*[>return?_]
+    {takeTwoTurns()}
+    ->home
+
+->DONE
+
 === denied === //redirect for errors
 
 = class
@@ -46,7 +106,7 @@ No definition found for "SentientPlayer." Are you missing a namespace?
 
 +[>return_] ->home
 
-=== home ===
+=== home === //"main menu" with 3 files
 //null check for playerClass
 {
 - playerClass == "": 
@@ -63,32 +123,43 @@ No definition found for "SentientPlayer." Are you missing a namespace?
 }
 
 -> class_choice
+
 = class_choice
 {
-- playerClass == "fileViewer": ->freeHome
-- playerClass == "manager": ->restrictedHome
+- playerClass == "fileViewer": ->main_menu_free
+- playerClass == "manager": ->restricted_home
 }
 
 = rewind
 Anchor detected. Returning through quantum tunnel.
 +[>Continue_]->class_choice
 
-= freeHome
+=== main_menu_free ====
 ~locationText = ""
 Select a file to enter _  #flash
 
-+[>Assets_] 
++ {startFilesTargeted == assetsTarget}[<color=red>>Assets_</color>]//trap redirect
+    ~countTurns = true
+    ->enemy_home
++ {startFilesTargeted != assetsTarget} [>Assets_] //regular assets
     ~countTurns = true
     ->assets
-+[>Scripts_] 
+
++{startFilesTargeted == scriptsTarget}[<color=red>>Scripts_</color>] //trap redirect
+    ~countTurns = true
+    -> enemy_home
++{startFilesTargeted != scriptsTarget}[>Scripts_]// regular scripts
     ~countTurns = true
     -> scripts
-+[>Scenes_] 
+
++{startFilesTargeted == scenesTarget}[<color=red>>Scenes_</color>] //regular scenes
+    ~countTurns = true
+    -> enemy_home
++{startFilesTargeted != scenesTarget}[>Scenes_] //regular scenes
     ~countTurns = true
     -> scenes
 
-
-=restrictedHome
+=== restricted_home ====
 ~locationText = ""
 
 Execute LoadOrder.Script?_
@@ -251,3 +322,13 @@ Load Order complete!
     ~return
 === function exitGameFiles===
     ~return
+    
+==== function takeTwoTurns ===
+    ~return
+
+=== blank_knot ===
+~locationText = ""
+~countTurns = true
+Please wait. Refreshing file navigation.
+
+->DONE
