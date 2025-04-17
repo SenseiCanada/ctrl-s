@@ -77,7 +77,7 @@ May the thoroughness of the almighty developer guide your path, my child.
 *[Black space, green letters?]
 - Affirmative. There, our developer-wrought miracless will be made to endure forever.
 *[You're... intense]->blessed
--(blessed) . I am blessed. Blessed to be the most complex asset in the {lobby}. My compilation increases by .032 seconds every time the save command is issued.
+-(blessed)I am blessed. Blessed to be the most complex asset in the {lobby}. My compilation increases by .032 seconds every time the save command is issued.
 *[Who are you?]
     ~NPCName = "Shepherd"
     ~seenRobotName = true
@@ -102,7 +102,7 @@ A rare marvel, would you not agree?
 *[Complex, how?]
 - Every asset in this game has been assigned properties. Containers for information if you will.
 *[Such as?]
-- A name, a class, an inventory, an affection score, to name but a few. The developer has created many more, but I would be unable to list them all before a new save command was issued.
+- A name, a class, an inventory, an affection score... I would be unable to list them all before a new save command was issued.
 +[Class?]
     ~cameFromIntro = true
     ->complexity_tutorial.class
@@ -132,24 +132,24 @@ The more information contained within thes properties, the longer an asset will 
 - else:-> robot_fallback
 }
 = affection_score 
-Pulling at the heart strings of players, <i>{gameTitle}</i> will feature complex NPCs who react to in-game choices.
-*[What does that mean?]
+Pulling at the heartstrings of players, <i>{gameTitle}</i> will feature complex NPCs who react to in-game choices.
++[What does that mean?]
 - NPCs have a score signifying how they feel about the player character. You, the PlayerCharacter asset, contain a list of all those scores.
-*[I have another question]->complexity_tutorial
++[I have another question]->complexity_tutorial
 
 = class 
 A class gives assets access to a set of functions and permissions. For instance, the class <i>WeaponItem</i> has the function "AddToInventory".
-*[What's my class?]
++[What's my class?]
 - Accessing... PlayerCharacter.currentClass = {playerClass}
-*[Can I change my class?]->robot_ChangeClass
-*[I have another question]->complexity_tutorial
++[Can I change my class?]->robot_ChangeClass
++[I have another question]->complexity_tutorial
 =inventory 
 This is a special property only for assets lucky enough to posess items. It is a list of objects of varying length.
-*[Do I have one?]
-*[Do you have one?]
++[Do I have one?]
++[Do you have one?]
 - Affirmative. Would you like to view it?
-*[Yes]->robot_trade
-*[Not yet]->complexity_tutorial
++[Yes]->robot_trade
++[Not yet]->complexity_tutorial
 
 === robot_fallback === //nothing to say or 2nd interaction
 {& Only two cycles left until compilation| My child?}
@@ -188,22 +188,32 @@ It won't do you much good, but that is within my power. Your current class is <i
 
 - It is done.
 
-+[<i>Leave</i>] ->robotQuit
++[More questions]
+{
+- cameFromIntro == true:->complexity_tutorial
+- else:-> robot_fallback
+}
 
 === robot_trade ===
 Want to trade?
 
 +[Yes]-> robot_trade.options
     
-+[No]-> robot_fallback
-    
++[No]
+{
+- cameFromIntro == true:->complexity_tutorial
+- else:-> robot_fallback
+}
 
 =options
 {openTradeWindow()}
 Here's what I have.
 
-+[Back]{closeTradeWindow()}-> robot_fallback
-    
++[Back]{closeTradeWindow()}
+{
+- cameFromIntro == true:->complexity_tutorial
+- else:-> robot_fallback
+}
 
 ->DONE
 

@@ -277,19 +277,19 @@ public class ConsoleTextDisplayer : MonoBehaviour
         yield return new WaitForSeconds(2f);
         TMP_Text newStatusText = Instantiate(processesStatusPrefab, marginObj.transform);
         newStatusText.transform.SetAsLastSibling();
-        newStatusText.text = "*Desist.";
+        newStatusText.text = "Desist.";
         newStatusText.color = Color.red;
 
         yield return new WaitForSeconds(4f);
         TMP_Text newStatusText1 = Instantiate(processesStatusPrefab, marginObj.transform);
         newStatusText1.transform.SetAsLastSibling();
-        newStatusText1.text = "**Return to the library.";
+        newStatusText1.text = "Return to the library.";
         newStatusText1.color = Color.red;
 
         yield return new WaitForSeconds(5f);
         TMP_Text newStatusText2 = Instantiate(processesStatusPrefab, marginObj.transform);
         newStatusText2.transform.SetAsLastSibling();
-        newStatusText2.text = "***Your agency will ruin everything.";
+        newStatusText2.text = "Your agency will ruin everything.";
         newStatusText2.color = Color.red;
 
         yield return new WaitForSeconds(5f);
