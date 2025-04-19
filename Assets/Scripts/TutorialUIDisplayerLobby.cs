@@ -9,12 +9,12 @@ using static Unity.Burst.Intrinsics.X86.Sse4_2;
 public class TutorialUIDisplayerLobby : MonoBehaviour
 {
     [SerializeField]
-    private Image EKey;
+    private GameObject EKey;
 
     // Start is called before the first frame update
     void Start()
     {
-        EKey.enabled = false;
+        EKey.SetActive(false);
         
         InteractColliderLobby.OnInteractColliderEnter += ShowE;
         InteractColliderLobby.OnInteractColliderExit += HideE;
@@ -29,12 +29,12 @@ public class TutorialUIDisplayerLobby : MonoBehaviour
    
     void ShowE()
     {
-        EKey.enabled = true;
+        EKey.SetActive(true);
     }
 
     void HideE()
     {
-        EKey.enabled = false;
+        EKey.SetActive(false);
     }
 
 

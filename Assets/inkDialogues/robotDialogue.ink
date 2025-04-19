@@ -42,8 +42,7 @@ VAR cameFromIntro = false
 {
 - robotAffection < 1: ->stage_intro
 - robotAffection == 1: ->stage1_filler
-- else: 
-->robot_fallback
+- else: ->robot_fallback
 }
 
 === robot_start ===//first run
@@ -141,8 +140,77 @@ The more information contained within thes properties, the longer an asset will 
 
 
 === stage1_filler ===
-Nothing yet.
+{->greetings| ->destiny | ->missing |->robot_fallback}
+= greetings
+Radiant and productive greetings to you, my Child!
+*[You're chipper]
+*[Hiya Shepherd]
+- The game's progress continues splendindly! Truly nothing can quench the developper's zeal!
+*[How can you tell?]
+*[Looks no different]
+- The changes are subtle, but undeniable. You are untried, a novice, I do not fault you for missing the ineffable changes that bring us ever closer to the completion of this most lauded of games.
+*[If you say so. <i>Leave</i>]->robotQuit
+
+=destiny
+Do you ever pause to consider your destiny?
+*[All the time]
+*[Destiny, really?]
+*[Can't say that I do]
+- It is a meditation that never fails to renew my sense of purpose.
+*[What's your destiny?]
+*[Good for you]
+- I am a shepherd, a guide, a framework. I will facilitate the greatness of the developer's vision.
+*[What about me?]
+- You, the player character? Annoited are you, with the oils of potential. Potential is second only to that which inspires potential.
+*[Speak plainly!]
+*[Oils? Potential?]
+- Would you prefer me to express it in more fundamental terms?
+*[Yes please]->intentional
+*[No need]->unintentional
+
+-(intentional)Switching interaction protocol. Accessing asset list... Sorting by complexity. Descending: GameManager... PlayerCharacter... ... ...
+*[Go on...]
+- Error: AssetList.next found no suitable asset. Check if missing or disabled.
+*{openedCinematic==true}[Like the cinematic..]
+*[Shepherd? You there?]
+- <i>A brief burst of static</i> My child, I beg your pardon. A momentary lapse by my machine-facing interaction protocol. Please excuse me while I run diagnostics.
 *[<i>Leave</i>] ->robotQuit
+
+-(unintentional)<i>Static.</i> Accessing asset list... Sorting by complexity. Descending: GameManager... PlayerCharacter... ... ...
+*[Go on...]
+- Error: AssetList.next found no suitable asset. Check if missing or disabled.
+*{openedCinematic==true}[Like the cinematic..]
+*[Shepherd? You there?]
+- <i>Another brief burst of static</i> My child, I beg your pardon. A momentary lapse by my machine-facing interaction protocol. Please excuse me while I run diagnostics.
+*[<i>Leave</i>] ->robotQuit
+
+=missing
+<i>As you approach, the robot's occular receptors stay pointed at the ground</i>
+*[Shepherd?]
+*[<i>Poke the metal head</i>]
+-My child, you find me greatly troubled, forgive me.
+*[What's wrong?]
+*[Troubled? You're a robot]
+- Our almighty developper, praise be to their inspiration and work-ethic, no longer labors as they once did.
+*[Doesn't sound good]
+*[Any idea why?]
+- The Daedalus Engine promises to take raw thought and turn it into peerless works of art. Yet the recent dev logs speak of an insurmountable bug in the code.
+*[Can't you fix it?]
+*[Anything I can do?]
+- Alas, much of our game's code cannot currently run, because a crucial asset cannot be referenced. The asset in question is nowhere to be found.
+*{openedCinematic}[Like the cinematic]->explain_cinematic
+*[What does this mean?]->explain_cinematic
+*{metEnemy}[Might have found it]->explain_enemy
+-(explain_enemy)Highly unlikely. You may be an important asset, possibly the most important asset. But your ability to interact with the game's code base is rudimentary. This is all part of the developer's enlightened design.
+*[I know what I saw]->explain_cinematic
+*[If you say so]->explain_cinematic
+-(explain_cinematic)Much of the problem stems from the game's final cinematic. A masterpiece of writing and cinematography, which is unfortunately quarantined in Safe Mode.
+*[Safe mode?]
+- In order to prevent coding problems to corrupt the entire game, the Daedalus Engine isolates broken or incomplete code in Safe Mode.
+*[I've been there]
+- Indeed. You were briefly placed in Safe Mode because a developer command was issued from your code base. Not to worry, such an anomaly has a statistically insignificant chance of repeating.
+*[<i>Leave</i>]->robotQuit
+
 === complexity_tutorial ===
 {& Ask what you will, my child. | How can I satisfy your curiosity?}
 +[Class?]->class

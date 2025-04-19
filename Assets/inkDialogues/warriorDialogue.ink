@@ -319,7 +319,7 @@ Not right now. <i>She clenches and unclenches her fists. Her breath huffs in and
 
 *[Nova?]
 *[You're glowing]
-
+~seenNovaGlow = true
 - <i>The light around Nova flickers, then is gone </i> Just go. Please.
 
 *[<i>Leave</i>]->warriorQuit

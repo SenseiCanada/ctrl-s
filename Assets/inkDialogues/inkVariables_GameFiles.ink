@@ -48,6 +48,7 @@ VAR countTurns = false
 VAR visitTestLevel = ""
 VAR learnedAboutHunter = false
 VAR metEnemy = false
+VAR canSpeakToEnemy = false
 
 //giant
 VAR giantAffection = 0 //has an SO
@@ -62,6 +63,7 @@ VAR startHitListQuest = false
 VAR startGunQuest = false
 VAR discoveredNoGun = false
 VAR hasList = ""
+VAR seenNovaGlow = false
 
 //robot
 VAR robotAffection = 0 //has an SO

@@ -9,24 +9,24 @@ using static Unity.Burst.Intrinsics.X86.Sse4_2;
 public class TutorialUIDisplayer : MonoBehaviour
 {
     [SerializeField]
-    private Image AKey;
+    private GameObject AKey;
     [SerializeField]
-    private Image WKey;
+    private GameObject WKey;
     [SerializeField]
-    private Image DKey;
+    private GameObject DKey;
     [SerializeField]
-    private Image SKey;
+    private GameObject SKey;
     [SerializeField]
-    private Image EKey;
+    private GameObject EKey;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        AKey.enabled = false;
-        DKey.enabled = false;
-        SKey.enabled = false;
-        EKey.enabled = false;
+        AKey.SetActive(false);
+        DKey.SetActive(false);
+        SKey.SetActive(false);
+        EKey.SetActive(false);
         
         WCollider.OnWColliderExit += HideW;
         ACollider.OnAColliderEnter += ShowA;
@@ -49,36 +49,36 @@ public class TutorialUIDisplayer : MonoBehaviour
 
     void HideW()
     {
-        WKey.enabled = false;
+        WKey.SetActive(false);
     }
 
     void ShowA()
     {
-        AKey.enabled = true;
+        AKey.SetActive(true);
     }
 
     void HideA()
     {
-        AKey.enabled = false;
+        AKey.SetActive(false);
     }
     void ShowE()
     {
-        EKey.enabled = true;
+        EKey.SetActive(true);
     }
 
     void HideE()
     {
-        EKey.enabled = false;
+        EKey.SetActive(false);
     }
 
     void ShowD()
     {
-        DKey.enabled = true;
+        DKey.SetActive(true);
     }
 
     void HideD()
     {
-        DKey.enabled = false;
+        DKey.SetActive(false);
     }
 
     private void OnDisable()
