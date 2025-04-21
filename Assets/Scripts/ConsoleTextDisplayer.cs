@@ -155,18 +155,30 @@ public class ConsoleTextDisplayer : MonoBehaviour
         newDevComment2.transform.SetAsLastSibling();
         newDevComment2.text = "Dev log: just gotta write notes to myself";
 
+        yield return new WaitForSeconds(2f);
+        GameObject newCodeLine2a = Instantiate(codeLinePrefab, marginObj.transform);
+        newCodeLine2a.transform.SetAsLastSibling();
+        TMP_Text newStatusText2a = Instantiate(processesStatusPrefab, newCodeLine2a.transform);
+        newStatusText2a.transform.SetAsLastSibling();
+        newStatusText2a.text = "Processes complete: 9/516K";
+
+        yield return new WaitForSeconds(.5f);
+        TMP_Text newDevComment2a = Instantiate(devCommentsPrefab, newCodeLine2a.transform);
+        newDevComment2a.transform.SetAsLastSibling();
+        newDevComment2a.text = "Dev log: and the engine creates what I want";
+
         yield return new WaitForSeconds(3f);
-        newStatusText2.text = "Processes complete: 9/516K";
+        newStatusText2a.text = "Processes complete: 16/516K";
         
         yield return new WaitForSeconds(2f);
-        newStatusText2.text = "Processes complete: 16/516K";
+        newStatusText2a.text = "Processes complete: 17/516K";
 
         yield return new WaitForSeconds(.5f);
         GameObject newCodeLine3 = Instantiate(codeLinePrefab, marginObj.transform);
         newCodeLine3.transform.SetAsLastSibling();
         TMP_Text newStatusText3 = Instantiate(processesStatusPrefab, newCodeLine3.transform);
         newStatusText3.transform.SetAsLastSibling();
-        newStatusText3.text = "Processes complete: 17/516K";
+        newStatusText3.text = "Processes complete: 18/516K";
 
         yield return new WaitForSeconds(1f);
         TMP_Text newDevComment3 = Instantiate(devCommentsPrefab, newCodeLine3.transform);
