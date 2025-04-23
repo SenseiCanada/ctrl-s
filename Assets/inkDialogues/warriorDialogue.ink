@@ -122,7 +122,7 @@ We still flying blind?
 }
 
 === stage_intro ===
-{!->first |->second |->last|->warrior_fallback}
+{->first |->second |->last|->warrior_fallback}
 
 =first
 Knew you'd pull through.
@@ -215,7 +215,7 @@ Probably some bug in the system. Get to your {portal}. We can talk more after co
 *[<i>Leave</i>]->warriorQuit
 
 === stage1_filler ===
-{!->food |->workout|->purpose|->warrior_fallback}
+{->food |->workout|->purpose|->warrior_fallback}
 = food
 If you were in charge of {timeCorp}, how would you boost recruitment?
 *[Officers Training program]
@@ -268,7 +268,7 @@ When I was recruited, O'brien asked to me, "Nova, what if you could do it when h
 ->DONE
 
 === stage2_filler===
-{!->stare |->anger |->depressed |->warrior_fallback}
+{->stare |->anger |->depressed |->warrior_fallback}
 
 = stare
 <i>Nova stares past you as you approach her.</i>
@@ -411,6 +411,7 @@ Best news I've had all day. Alright, what are we talking? Blaster? Sniper riffle
 
 === warrior_fallback === //nothing to say or 2nd interaction
 {&Still here?|Need something?}
++{not warrior_trade.firstTrade}[<i>Testing-trade-do not click if testing</i>]->warrior_trade
 +{warrior_trade.firstTrade}[<i>Trade</i>]->warrior_trade
 +[<i>Leave</i>] ->warriorQuit
 ->DONE

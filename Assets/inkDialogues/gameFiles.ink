@@ -4,6 +4,7 @@ EXTERNAL exitGameFiles()
 EXTERNAL addCat()
 EXTERNAL addList()
 EXTERNAL takeTwoTurns()
+EXTERNAL enterSafeMode()
 
 //testing
 //~learnedAboutHunter = true
@@ -72,21 +73,92 @@ Enter file directory?
 *[>Continue_]
 - <color=red>I thank you for the needless advantage. And I repeat my earlier entrity:</color>
 *[>Continue_]
-- <color=red>Desist in this foolishness. You have no idea what's at stake.:</color>
-*[>return?_]
+- <color=red>Desist in this foolishness. You have no idea what's at stake.</color>
+*[>return.home_]
     {takeTwoTurns()}
     ->home
 ->DONE
 
 === enemy_norespond ===
 // interactions when PC can't respond to Will
-->enemy_fallback
+{->hitlist |->nothing |->friend|->cathedrals |-> devils|->enemy_fallback}
 
+= hitlist
+- <color=red>Oh the irony of it all.</color>
+*[>Continue_]
+-<color=red>Magic allows man to turn lead into gold, or to call fire from the sky upon his enemies. And yet how vexing that magic renders man powerless to conquer the most mundane bureacracy!</color>
+*[>Continue_]
+-<color=red>A pox on compartmentalization! A pox on the time-traveling assassin's guild clever enough to use it!</color>
+*[>Continue_]
+-<color=red>To me, they only ever gave the mark's likeness. To Nova, only our extraction points, To you...</color>
+*[>Continue_]
+-<color=red>Yes... you always received names, times, locations...</color>
+*[>Continue_]
+-<color=red>Find your hitlist in these files. Show it to me. In return, I could...grant you the ability to speak with me, when next we meet.</color>
+*[>return.home_]
+    {takeTwoTurns()}
+    ->home
 
+= nothing
+-<color=red>You return empty handed. Well, at least without the item I asked you to retrieve.</color>
+*[>Continue_]
+-<color=red>I am wounded that you would not at least consider doing me this favor.</color>
+*[>Continue_]
+-<color=red>How many times have I saved your neck? Portaled us to safety? Crushed our enemies beneath the earth's suffocating weight?</color>
+*[>Continue_]
+-<color=red>And now, at this minor impasse, you distrust me?</color>
+*[>Continue_]
+-<color=red>You owe {timeCorp} nothing. You hear me? Nothing. They are powerless without you. Without us.</color>
+*[>Continue_]
+-<color=red>Find your hit list. Bring it here. You won't even have to show it to me. I can read your code. You would even keep your precios "plausible deniability."</color>
+*[>return.home_]
+    {takeTwoTurns()}
+    ->home
+=friend
+<color=red>Once more, out of all the vastness of this liminal space, you come searching me out.</color>
+*[>Continue_]
+-<color=red>I am flattered, old friend.</color>
+*[>Continue_]
+- <color=red>Tell me, how do the rest fare? The monstrous titan? The sanctimonious automaton? Our fearsome Nova?</color>
+*[>Continue_]
+-<color=red>How cruel of me. You have not yet gained the ability to express yourself in this space.</color>
+*[>Continue_]
+-<color=red>Be on your way then. Do not return here!</color>
+*[>return?_]
+    {takeTwoTurns()}
+    ->home
+
+=cathedrals
+<color=red>When I was a boy, my master often took us to visit cathedrals.</color>
+*[>Continue_]
+-<color=red>"Just because the church despise us for playing at God," he would say, "why should we in turn despise the wonders they build in praise of God?"</color>
+*[>Continue_]
+-<color=red>Once, my master slapped me across the face for carving my initials into a pew.</color>
+*[>Continue_]
+-<color=red>I can still feel the sting on my cheek as I go about my grim task in these hallowed halls.</color>
+*[>Continue_]
+-<color=red>Let me continue in my tortured work without you breathing down my neck.</color>
+*[>return?_]
+    {takeTwoTurns()}
+    ->home
 //*[>return?_]
     //{takeTwoTurns()}
    // ->home
-
+=devils
+<color=red>I tried to open a portal to hell when I was a youth.</color>
+*[>Continue_]
+-<color=red>Agents of the {timeCorp} poured out the moment it opened. Not knowing these were soldiers from another time, I assumed the Devil's legions had issued forth.</color>
+*[>Continue_]
+-<color=red>And the first thing to flash through my head: how disappointing.</color>
+*[>Continue_]
+-<color=red>Clad all in black, they were. Surely, I thought, the Lord of Lies can conceive of better mockery than simple imitation of God's clergy.</color>
+*[>Continue_]
+-<color=red>I will say this for the {timeCorp}, what their agents lacked in flair, they more than made up for in ruthlessness.</color>
+*[>Continue_]
+-<color=red>I never looked back after that day. Did you? Do come find me again to tell me.</color>
+*[>return?_]
+    {takeTwoTurns()}
+    ->home
 
 === enemy_respond ===
 {
@@ -230,96 +302,75 @@ Protection:: public
 
 Select a file to enter _
 
-+[>Models_] ->models
-+[>Animations_] ->animations
-+[>QuestLog_] ->quests
-+[>return?_] ->home
++[>models_] ->models
++[>questLog_] ->quests
++[>cinematics_]->cinematics
++[>return.home_] ->home
 ->END
-
-=== scripts ===
-~locationText = "scripts"
-Protection :: Public
-
-+[>open: LoadOrder.script_]->loadOrder
-
-= loadOrder
-~locationText = "scripts/LoadOrder"
-gameManager.script> characters.script > weapons.script >
-
-+[>return_] ->home
-
-=== scenes ===
-~locationText = "scenes"
-
-Select a file to enter _
-
-+[>MainMenu_] ->mainMenu
-+[>TestLevel1_] ->testLevel1
-+[>GameOver_] ->gameOver
-+[>return_] ->home
-
-=mainMenu
-~locationText = "scenes/MainMenu"
-Only three buttons so far. None of them work.
-+[>return_] ->scenes
-
-=testLevel1
-~locationText = "testLevel1"
-~visitTestLevel = true
-A flat plane with several small rings floating above the ground.
-
-*{startCatQuest == true}[>inspect_]->testLevel1_inspect
-+[>return?_] ->scenes
-
-=testLevel1_inspect
-Inside one of the rings is a small cat licking its paw.
-
-+[>collect_]
-    ~hasCat = "Player"
-    {addCat()}
-    ->mosspaws
-+[>return?_]->testLevel1
-
-= mosspaws
-PlayerCharacter.collected(Mosspaws)
-+[>return?_]->testLevel1
-
-->DONE
-
-=gameOver
-~locationText = "gameOver"
-Crushed beneath the sole of giants.
-+[>return_] ->scenes
 
 === models ===
-{playerClass != "NPC":-> denied.class}
-~locationText = "Assets/Models"
+//{playerClass != "NPC":-> denied.class}
+~locationText = "assets/models"
+Protection:: public
 
-There will be more models soon.
-+[>return_] ->assets
+Select a file to enter _
++[>PlayerCharacter_]->models_locked
++[>novaWarrior_]->models_locked
++[>earthTitan_]
+{
+- hasKey == "Player": ->models_brall
+- else: ->models_locked
+}
++[>evilWizard_]->models_empty
++[>return.back_] ->assets
 ->END
 
-=== animations ===
-File empty.
-+[>return_] ->home
+=models_locked
+Error: {playerClass} is missing component.Key to access this file. Please add the appropriate key to continue.
++[>return.back_] ->models
++[>return.home_] ->home
 ->END
+
+=models_empty
+~locationText = "assets/models/evilWizard"
+Error.0: model file empy or missing.
+<color=purple>Dev Log: A cloaked wizard in faded red robes</color>
+Error.1: impossible to create new asset. File location occupied.
+<color=purple>Dev Log: A bearded, cloaked wizard in faded red robes with a cunning glint in his eyes</color>
+Error.2: described asset already exists. Designating this asset as "swarm" or "group" may solve the issue.
+<color=purple>Dev Log: A swarm of bearded, cloaked wizards in faded red robes with a cunning glint in their eyes</color>
+Error.3: model file empy or missing.
+
++[>return.back_] ->models
++[>return.home_] ->home
+
+=models_brall
+~locationText = "assets/models/earthTitan"
+Protection:: protectedBy(Titan.key)
+
+earthTitan compilation completed. Ready to instantiate to {lobby}.
+
++[>return.back_] ->models
++[>return.home_] ->home
 
 === quests ===
-~locationText = "Assets/QuestLog"
+~locationText = "assets/questLog"
 
 +[>MainCampaign_]->mainCampaign
 +[>TimeHits_]->timeHits
 //+[SideQuests]
-+[>return?_] -> home
++[>return.back_] ->assets
++[>return.home_] -> home
 ->END
 
 =mainCampaign
-~locationText = "Assets/Quests/MainCampaign"
+~locationText = "assets/questLog/MainCampaign"
 File empty.
 
-Dev log: The Twin Emperors rally a force of space titans to destroy {timeCorp} and its agents. The agency sends time-traveling assassins back and forward in time to find the {crux}, the one person who will prevent the Twin Emperors plans from ever coming to fruition.
+<color=purple>Dev log: The Twin Emperors rally a force of space titans to destroy {timeCorp} and its agents. The agency sends time-traveling assassins back and forward in time to find the {crux}, the one person who will prevent the Twin Emperors plans from ever coming to fruition.</color>
 
-+[>return?_] -> home
++[>return.back_] ->assets
++[>return.home_] -> home
 ->END
 
 =timeHits
@@ -340,6 +391,88 @@ Copying successful!
 +[>return?_] -> home
 
 ->END
+
+=== cinematics ===
+~locationText = "assets/cinematics"
+Protection:: public
+
+Select a file to enter _
+
++[>finalCinematic]->finalCinematic
++[>return.back_] ->assets
++[>return.home_] ->home
+
+= finalCinematic
+~locationText = "assets/cinematics/finalCinematic"
+Error: file corrupted or broken. Can only be viewed in Safe Mode.
+<color=purple>Dev Log: GameManager should be able to override this</color>
++{hasPen == "Player"}[>Enter Safe Mode_]
+    {enterSafeMode()}
+    ->home
++[>return.back_] ->cinematics
++[>return.home_] ->home
+
+=== scripts ===
+~locationText = "scripts"
+Protection :: Public
+
+<color=purple>Dev Log: gotta keep most scripts private to minimize bugs</color>
+
++[>view: LoadOrder.script_]->loadOrder
+
+= loadOrder
+~locationText = "scripts/LoadOrder"
+gameManager.script> characters.script > weapons.script >
+
++[>return.home_] ->home
+
+=== scenes ===
+~locationText = "scenes"
+Protection:: public
+
+Select a file to enter _
+
++[>MainMenu_] ->mainMenu
++[>France_Medieval_] ->france
++[>GameOver_] ->gameOver
++[>return.home_] ->home
+
+=mainMenu
+~locationText = "scenes/MainMenu"
+Only three buttons so far. None of them work.
++[>return_] ->scenes
+
+=france
+~locationText = "scenes/France_Medieval"
+~visitTestLevel = true
+<color=purple>Dev Log: Castle kitchen. Racks of meat hanging from the ceiling. Stew bubbling on the hearth. Saucer of milk by the fire.</color>
+
+*{startCatQuest == true}[>inspect(saucer)_]->france_inspect
++[>return?_] ->scenes
+
+=france_inspect
+smallCat.position = saucer.position(behind)
+smallCat.isLicking = true
+smallCat.licks(self.paw)
+
++[>collect(smallCat)_]
+    ~hasCat = "Player"
+    {addCat()}
+    ->mosspaws
++[>return.back_]->france
+
+= mosspaws
+PlayerCharacter.collected(Mosspaws)
++[>return.back_]->france
++[>return.home_] ->home
+
+=gameOver
+~locationText = "scenes/gameOver"
+Crushed beneath the sole of giants.
++[>return.back_] ->scenes
++[>return.home_] ->home
+
+
 ==== loadSequence ===
 Loading: gameManager.script
 
@@ -382,6 +515,8 @@ Load Order complete!
     ~return
     
 ==== function takeTwoTurns ===
+    ~return
+=== function enterSafeMode ===
     ~return
 
 === blank_knot ===

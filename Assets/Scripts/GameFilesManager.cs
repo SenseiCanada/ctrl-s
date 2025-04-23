@@ -29,6 +29,7 @@ public class GameFilesManager : MonoBehaviour
 
 	//public static event Action<Story> OnCreateStory;
     public static event Action OnExitGameFiles;
+    public static event Action OnEnterSafeMode;
     public static Action OnClickFileManager;
 	public static event Action OnCollectCat;
     public static event Action OnCollectList;
@@ -71,6 +72,7 @@ public class GameFilesManager : MonoBehaviour
         story.BindExternalFunction("addCat", () => { OnCollectCat(); });
         story.BindExternalFunction("addList", () => { OnCollectList(); });
         story.BindExternalFunction("takeTwoTurns", () => { StartCoroutine(TakeTwoTurns()); });
+        story.BindExternalFunction("enterSafeMode", () => { OnEnterSafeMode(); });
         OnCreateFilesStory?.Invoke(story);
         RefreshView();
 	}
@@ -181,7 +183,7 @@ public class GameFilesManager : MonoBehaviour
 	{
         OnExitGameFiles();
 	}
-
+    
     void SaveInkState()
     {
         string savedJson = story.state.ToJson();

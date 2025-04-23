@@ -12,6 +12,8 @@ public class SaveScriptableObject : ScriptableObject
     public List<PlayerAttribute> nullStartAttributes;
 
     public InventoryItem anchor;
+    public InventoryItem key;
+    public InventoryItem pen;
 
     public bool startVariablesSet;
 
@@ -21,11 +23,15 @@ public class SaveScriptableObject : ScriptableObject
         if (NPCItems != null) NPCItems.Clear();
     }
 
-    public void SetStartVariables() //called by LobbyManager once on start
+    public void SetStartVariables() //called by LobbyManager once on start - still needs to subscribe
     {
         ClearInventory();
         NPCItems.Add(anchor);
         anchor.owner = "warrior";
+        NPCItems.Add(key);
+        anchor.owner = "giant";
+        NPCItems.Add(pen);
+        anchor.owner = "robot";
 
         startVariablesSet = true; //then blocked from being called subsequently
     }

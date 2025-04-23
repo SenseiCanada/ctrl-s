@@ -85,7 +85,7 @@ You stopped to talk to Brall. You stopped. Maybe there's hope.
 }
 
 === intro_filler ===
-{!->prophecies| ->enemies | ->dreamwalking |->giant_fallback}
+{->prophecies| ->enemies |->dreamwalking |->giant_fallback}
 
 = prophecies
 Did you find the third hunter while you were dreaming?
@@ -157,7 +157,7 @@ Brall doesn't like the look of you.
 ====giant_fallback===
 {& Brall is done speaking. |<i>Nothing but stony silence.</i>}
 
-+[Trade(Testing)]->giant_trade
++[Trade(Do not click if playtesting)]->giant_trade
 +[Increase Rel (testing)] 
     ~giantAffection++
     ->giant_fallback
@@ -165,7 +165,7 @@ Brall doesn't like the look of you.
 ->DONE
 
 ==== stage1_filler ===
-{!->game|->clouds|->tower}//->catQuest}
+{->game|->clouds|->tower|->giant_fallback}//->catQuest}
 
 = game
 Running. Always running.
@@ -216,7 +216,7 @@ Slow down. You'll knock it over.
 ->DONE
 
 === stage2_filler ===
-{!->ask_Nova |->laughter | ->talked_robot | ->giant_fallback}
+{->ask_Nova |->laughter | ->talked_robot | ->giant_fallback}
 
 = ask_Nova
 The other hunter, over there, what is her name?
@@ -333,12 +333,12 @@ Maybe Brall was wrong about you. You may be a hunter, but you can be kind. Leave
 === giant_foundCat ===
 Mosspaws?
 
-*[I found her]->giant_trade
++[I found her]->giant_trade
 
 = reunited
 Brall's shoulder will no longer be itchy. Thank you.
 
-*[Leave]->giantQuit
++[Leave]->giantQuit
 
 -> DONE
 
@@ -355,6 +355,7 @@ Brall's shoulder will no longer be itchy. Thank you.
 Here's what Brall has.
 
 +[Back]
+    {closeTradeWindow()}
     {
     - hasCat != "giant": -> giant_fallback
     - else: -> giant_foundCat.reunited

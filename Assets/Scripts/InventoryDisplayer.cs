@@ -145,6 +145,7 @@ public class InventoryDisplayer : MonoBehaviour
         if (inkVar == "NPCID")
         {
             currentNPC = inkValue;
+            Debug.Log("Inventory Displayer stored " + inkValue + " as currentNPC");
         }
     }
     

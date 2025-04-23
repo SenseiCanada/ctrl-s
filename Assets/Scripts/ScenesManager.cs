@@ -11,6 +11,7 @@ public class ScenenesManager : MonoBehaviour
     {
         CompleteMessageDisplayer.OnCompleteCompilation += EnterLobby;
         GameFilesManager.OnExitGameFiles += EnterLobby;
+        GameFilesManager.OnEnterSafeMode += EnterSafeMode;
         DialogueManager.OnEnterGameFiles += EnterCode;
     }
     void Start()
@@ -35,6 +36,11 @@ public class ScenenesManager : MonoBehaviour
     }
 
     public void EnterIntro()
+    {
+        SceneManager.LoadScene("Intro");
+    }
+
+    public void EnterSafeMode()
     {
         SceneManager.LoadScene("Intro");
     }

@@ -55,6 +55,7 @@ VAR giantAffection = 0 //has an SO
 VAR startCatQuest = false
 VAR hasCat = ""
 VAR learnedBrallKey = false
+VAR hasKey = ""
 
 
 //warrior
@@ -67,6 +68,7 @@ VAR seenNovaGlow = false
 
 //robot
 VAR robotAffection = 0 //has an SO
+VAR hasPen = ""
 
 //inventory
 VAR hasAnchor = ""

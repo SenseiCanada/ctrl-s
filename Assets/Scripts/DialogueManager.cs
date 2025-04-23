@@ -59,6 +59,7 @@ public class DialogueManager : MonoBehaviour
     public event Action StartTalking;
     public static event Action OnEnterGameFiles, OnEnterLobby;
     public event Action<string, string> OnNewStorySave;
+    public static event Action OnHideWizard;
     private bool closeDialoguePanel;
 
     private void OnEnable()
@@ -124,6 +125,7 @@ public class DialogueManager : MonoBehaviour
         }), true);
         currentStory.BindExternalFunction("enterGameFiles", () => { EnterGameFiles(); });
         currentStory.BindExternalFunction("enterLobby", () => { EnterLobby(); });
+        currentStory.BindExternalFunction("hideWizard", () => { HideWizard(); });
     }
 
     void RefreshView()
@@ -255,6 +257,10 @@ public class DialogueManager : MonoBehaviour
         OnEnterLobby();
     }
 
+    void HideWizard()
+    {
+        OnHideWizard();
+    }
     void NPCRefuseItem(InventoryItem item)
     {
         //refusedItem = true;

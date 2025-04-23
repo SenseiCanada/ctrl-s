@@ -243,6 +243,7 @@ This is a special property only for assets lucky enough to posess items. It is a
 
 === robot_fallback === //nothing to say or 2nd interaction
 {~ Only two cycles left until compilation.|My child?}
++{not robot_trade}[</i>Test-Trade-don't click if testing</i>]->robot_trade
 +{robot_trade}[</i>Trade</i>]->robot_trade
 +{robot_ChangeClass}[<i>Change class?</i>]->robot_ChangeClass
 +{complexity_tutorial}[Explain properties again]->complexity_tutorial
