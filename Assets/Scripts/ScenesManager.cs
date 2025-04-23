@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class ScenenesManager : MonoBehaviour
 {
+    [SerializeField]
+    private SaveScriptableObject inventorySave;
+    
     // Start is called before the first frame update
 
     void Awake()
@@ -32,6 +35,10 @@ public class ScenenesManager : MonoBehaviour
 
     public void EnterLobby()
     {
+        if (!inventorySave.startVariablesSet)
+        {
+            inventorySave.SetStartVariables();
+        }
         SceneManager.LoadScene("Lobby");
     }
 

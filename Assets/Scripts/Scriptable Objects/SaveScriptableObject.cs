@@ -31,7 +31,7 @@ public class SaveScriptableObject : ScriptableObject
         NPCItems.Add(key);
         anchor.owner = "giant";
         NPCItems.Add(pen);
-        anchor.owner = "robot";
+        pen.owner = "robot";
 
         startVariablesSet = true; //then blocked from being called subsequently
     }

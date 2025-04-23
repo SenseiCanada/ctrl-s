@@ -14,13 +14,13 @@ public class WizardRevealer : MonoBehaviour
     void Start()
     {
         DialogueManager.OnHideWizard += HideWizard;
+        wizardChildObj.SetActive(false);
         if (gameData.variables.ContainsKey("hasPen"))
         {
             if (gameData.variables["hasPen"].ToString() == "Player")
             {
                 wizardChildObj.SetActive(true);
             }
-            else wizardChildObj.SetActive(false);
         }
     }
 

@@ -422,7 +422,7 @@ Protection :: Public
 
 = loadOrder
 ~locationText = "scripts/LoadOrder"
-gameManager.script> characters.script > weapons.script >
+gameManager.script> entities.script > characters.script > weapons.script >
 
 +[>return.home_] ->home
 
@@ -475,6 +475,12 @@ Crushed beneath the sole of giants.
 
 ==== loadSequence ===
 Loading: gameManager.script
+
+Protection :: Private
+
+- +[>Continue_]
+
+Loading: entities.script
 
 Protection :: Private
 

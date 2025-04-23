@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: MagnifyingGlass
   icon: {fileID: 21300000, guid: 2e53e0b09de5f5c44ad2e1095eebdacf, type: 3}
-  owner: Player
+  owner: 
+  inkVariableName: 
   recipients:
   - warrior

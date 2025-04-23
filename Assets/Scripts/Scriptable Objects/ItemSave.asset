@@ -16,8 +16,10 @@ MonoBehaviour:
   NPCItems:
   - {fileID: 11400000, guid: 4f547f398b9e8d44eb38f8330b9bf7df, type: 2}
   - {fileID: 11400000, guid: d87dc3573f6afa146b28d311bbfb372c, type: 2}
+  - {fileID: 11400000, guid: 3ae3292536bf4674ca5f47872b70be66, type: 2}
   playerStartAttributes: []
   nullStartAttributes: []
   anchor: {fileID: 11400000, guid: 4f547f398b9e8d44eb38f8330b9bf7df, type: 2}
   key: {fileID: 11400000, guid: d87dc3573f6afa146b28d311bbfb372c, type: 2}
-  startVariablesSet: 0
+  pen: {fileID: 11400000, guid: 3ae3292536bf4674ca5f47872b70be66, type: 2}
+  startVariablesSet: 1

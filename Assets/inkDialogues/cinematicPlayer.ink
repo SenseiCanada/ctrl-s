@@ -75,11 +75,8 @@ Error: final_Cinematic cannot play. One or more actors is missing or disabled.
 +[<i>Exit</i>] ->cinematicQuit
 
 === full_cinematic ===
-{
-- not noWizard:->noWizard
-- else: ->full_cinematic.start
-}
-=start
+{not noWizard}->noWizard
+
 ~NPCName = "final_Cinematic"
 -{badGuy}: You know the last thing {victim1} Bard told me before he died?
 +[<i>Continue</i>]
