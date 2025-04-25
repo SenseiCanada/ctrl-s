@@ -1,6 +1,6 @@
 INCLUDE inkVariables_GameFiles.ink
 EXTERNAL enterGameFiles()
-VAR terminalAffection =""
+VAR terminalAffection ="  "
 
 ->enter
 
