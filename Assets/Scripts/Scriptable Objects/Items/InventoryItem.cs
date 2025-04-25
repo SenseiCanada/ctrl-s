@@ -9,6 +9,6 @@ public class InventoryItem : ScriptableObject
     public Sprite icon;
     public string owner;
     public string inkVariableName;
+    public string description;
     public List<string> recipients = new List<string>();
-    
 }

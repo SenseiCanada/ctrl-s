@@ -4,6 +4,7 @@ VAR robotSaveKnot = ""
 VAR seenRobotName = false
 VAR robotRunCount = -1
 VAR cameFromIntro = false
+VAR cameFromFixQuest = false
 -> robot_enter
 
 === robot_enter === //knot that directs active story
@@ -34,7 +35,9 @@ VAR cameFromIntro = false
 ->checkQuests
 
 =checkQuests//active quests?
-
+//go fix something quests
+{runAttempts >= 3 || fixQuestProgress == triggered:->fix_quest.start}
+{fixQuestProgress == metObjective:->fix_quest.conclude}
 //else
 -> checkRelationship
 
@@ -61,7 +64,7 @@ Keystroke registered: ctrl + S. New save command initiated. Code compilation wil
 *[Am I "PlayerCharacter"?]
 *[What discrepency?]
 
-- Greetings, my child! Welcome to the {lobby} for <i>{gameTitle}</i>, an upcoming action RPG by developper Sencan.
+- Greetings, my child! Welcome to the {lobby} for <i>{gameTitle}</i>, an upcoming action RPG by developer Sencan.
 
 *[I'm in a video game??]
 
@@ -70,9 +73,10 @@ Keystroke registered: ctrl + S. New save command initiated. Code compilation wil
 *[Where do I go?]
 *[What if I don't?]
 
-- Follow the path. Interact with your terminal to initiate compilation. Trust in the will of the developper.
+- Follow the path. Interact with your terminal to initiate compilation. Trust in the will of the developer.
 
-*[<i>Leave</i>]->robotQuit
+*[<i>Leave</i>]->robotQuit 
+
 === stage_intro ===
 {->robot_name|->increase_compile|->robot_fallback}
 
@@ -129,7 +133,7 @@ A rare marvel, would you not agree?
 +[Affection score?]
     ~cameFromIntro = true
     ->complexity_tutorial.affection_score
-= continue
+    = continue
 ~cameFromIntro = false
 The more information contained within thes properties, the longer an asset will take to compile.
 *[I think I understand]
@@ -138,14 +142,13 @@ The more information contained within thes properties, the longer an asset will 
 - Of course. I must always begin by imparting a pressing tenet of the faith. But speak to me again and I will repeat my previous lessons.
 *[<i>Leave</i>]->robotQuit 
 
-
 === stage1_filler ===
 {->greetings| ->destiny | ->missing |->robot_fallback}
 = greetings
 Radiant and productive greetings to you, my Child!
 *[You're chipper]
 *[Hiya Shepherd]
-- The game's progress continues splendindly! Truly nothing can quench the developper's zeal!
+- The game's progress continues splendindly! Truly nothing can quench the developer's zeal!
 *[How can you tell?]
 *[Looks no different]
 - The changes are subtle, but undeniable. You are untried, a novice, I do not fault you for missing the ineffable changes that bring us ever closer to the completion of this most lauded of games.
@@ -191,7 +194,7 @@ Do you ever pause to consider your destiny?
 -My child, you find me greatly troubled, forgive me.
 *[What's wrong?]
 *[Troubled? You're a robot]
-- Our almighty developper, praise be to their inspiration and work-ethic, no longer labors as they once did.
+- Our almighty developer, praise be to their inspiration and work-ethic, no longer labors as they once did.
 *[Doesn't sound good]
 *[Any idea why?]
 - The Daedalus Engine promises to take raw thought and turn it into peerless works of art. Yet the recent dev logs speak of an insurmountable bug in the code.
@@ -241,12 +244,64 @@ This is a special property only for assets lucky enough to posess items. It is a
 +[Yes]->robot_trade
 +[Not yet]->complexity_tutorial
 
+=== fix_quest===
+
+= start
+<i>The robot bustles furiously around its work station.</i> Our glorious developer is demanding as they are industrious.
+
+*[You're busy?]
+- I am...operating at full capacity. Truly an ascendant state of being.
+*[Need help?]
+- Oh bless you my child. Help? Me? No, of course not. I am however in need of...
+*[A nap?]
+*[Some coffee?]
+*[More work?]
+- <i>Coming to a halt, the robot looks you up and down</i>. An even greater task? Yes, of course.
+*[What are you talking about?]
+- I will shoulder the burden of teaching you, even as I toil away at these mounting tasks.
+*[Teach me what?]
+~cameFromFixQuest = true
+- File encryption. Simple enough. Surely you've seen the Encryptor Executor by now?
+*{seenEncryptor}[Of course]
+*{!seenEncryptor}[I haven't]
+
+- In the Executables file. Child's play really. One of the other executables endangers the sanctity of the developer's work. 
+*[Which one?]
+
+- Encrypt the AddEquipment executable. If you are no longer able to see it as a fileViewer, you have accomplished your task.
+*[Encrypt AddEquipment, got it]
+~fixQuestProgress = started
+- Your humility in the face of my teachings does you credit my child. May you be guided by eternal productivity.
+*[<i>Leave</i>]->robotQuit
+->DONE
+
+= conclude
+My child, your endeavor was successful! AddEquipment has been encrypted.
+*[Yes]
+~fixQuestProgress = completed
+- What a relief. <i>The robot falls quiet.</i>
+*[Silence, how wonderful]
+*[Shepherd?]
+-Why do we work so ceaselessly, if not to at times enjoy the fruits of our labor? I have come so far already.
+*[I did the work]
+*[You're welcome]
+~robotAffection++
+- And you, of course, have done passibly well for the mere game asset you are. I am...uplifted by your commitment to the developer's goal.
+*[High praise]
+*[You honor me]
+- Prepare for compilation, initiate, I will have more lessons to impart in the future.
+*[<i>Leave</i>]->robotQuit
+->DONE
+
 === robot_fallback === //nothing to say or 2nd interaction
 {~ Only two cycles left until compilation.|My child?}
-+{not robot_trade}[</i>Test-Trade-don't click if testing</i>]->robot_trade
++{not robot_trade}[<i>Test-Trade-don't click if testing</i>]->robot_trade
 +{robot_trade}[</i>Trade</i>]->robot_trade
 +{robot_ChangeClass}[<i>Change class?</i>]->robot_ChangeClass
 +{complexity_tutorial}[Explain properties again]->complexity_tutorial
++[<i>Tesing:Rel++</i>]
+    ~robotAffection++
+    ->robot_fallback
 +[<i>Leave</i>] ->robotQuit
 
 === robot_ChangeClass ===
@@ -254,8 +309,8 @@ It won't do you much good, but that is within my power. Your current class is <i
 
 +[Change class: fileViewer]
     ~playerClass = "fileViewer"
-+[Change class: manager]
-    ~playerClass = "manager"
++[Change class: codeReader]
+    ~playerClass = "codeReader"
 
 - It is done.
 
@@ -369,7 +424,7 @@ A rare marvel, would you not agree?
 - Not merely deserving. I am blessed. Blessed to be the most complex asset in the Tool Bar. My compilation increases by .032 seconds every time the save command is issued.
 
 *[Who are you?]
-    ~NPCName = "GameManager"
+    ~NPCName = "Shepherd"
     ~seenRobotName = true
 - My designation is GameManager. I am a shepherd to the unproven assets of the Tool Bar.
 

@@ -16,6 +16,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 8a007f6e2cc10b24ca9337b36403f5a5, type: 3}
   owner: giant
   inkVariableName: hasKey
+  description: With a bit of moss caught in the bit
   recipients:
   - giant
   - robot

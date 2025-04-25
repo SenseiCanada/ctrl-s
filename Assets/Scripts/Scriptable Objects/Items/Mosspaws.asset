@@ -16,5 +16,6 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 85eae0d96c20d244eb6b191d72a1acf6, type: 3}
   owner: 
   inkVariableName: hasCat
+  description: Never still for long
   recipients:
   - giant

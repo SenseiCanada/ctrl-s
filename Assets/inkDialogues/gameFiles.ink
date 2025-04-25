@@ -1,13 +1,16 @@
 INCLUDE inkVariables_GameFiles.ink
-LIST startFilesTargeted = (assetsTarget), (scriptsTarget), (scenesTarget)
+INCLUDE fileProtectionLogic.ink
+INCLUDE enemyDialogue_GameFiles.ink
 EXTERNAL exitGameFiles()
 EXTERNAL addCat()
 EXTERNAL addList()
-EXTERNAL takeTwoTurns()
 EXTERNAL enterSafeMode()
+//list of enemy file targets
+LIST startFilesTargeted = (assetsTarget), (scriptsTarget), (scenesTarget)
 
-//testing
+//TESTING
 //~learnedAboutHunter = true
+//~playerClass = "codeReader"
 
 ->enter
 
@@ -29,15 +32,15 @@ Loading classes...
 - +[>Continue_]
 
 Class name: fileViewer
-	File access level: public
+	File access level: decrypted
     Access mode: free
 
 - +[>Continue_]
 
-Class name: manager
-	File access level: all
+Class name: codeReader
+	File access level: encrypted
     Access mode: restricted
-    Restrictor: LoadOrder.script
+    Restrictor: ExecutableSequence.exe
 
 - +[>Continue_]
 
@@ -51,192 +54,7 @@ Enter file directory?
 ~startFilesTargeted = LIST_RANDOM(startFilesTargeted)
 ->enter
 
-=== enemy_home ===//redirect logic for interacting with enemy
-//state checks
-~locationText = "??"
-~countTurns = false
-{
-- not enemy_first: ->enemy_first
-- hasList != "Player": ->enemy_norespond
-- hasList == "Player": ->enemy_respond
-- seenNovaGlow: -> enemy_NovaReveal
-- else: ->enemy_fallback
-}
--> DONE
-
-=== enemy_first ===
-~countTurns = false
-~metEnemy = true
-<color=red>Ah, I'm glad I can count on your curiosity for this at least.</color>
-*[>Continue_]
-- <color=red>Your predictability will make you easier to contain.</color>
-*[>Continue_]
-- <color=red>I thank you for the needless advantage. And I repeat my earlier entrity:</color>
-*[>Continue_]
-- <color=red>Desist in this foolishness. You have no idea what's at stake.</color>
-*[>return.home_]
-    {takeTwoTurns()}
-    ->home
-->DONE
-
-=== enemy_norespond ===
-// interactions when PC can't respond to Will
-{->hitlist |->nothing |->friend|->cathedrals |-> devils|->enemy_fallback}
-
-= hitlist
-- <color=red>Oh the irony of it all.</color>
-*[>Continue_]
--<color=red>Magic allows man to turn lead into gold, or to call fire from the sky upon his enemies. And yet how vexing that magic renders man powerless to conquer the most mundane bureacracy!</color>
-*[>Continue_]
--<color=red>A pox on compartmentalization! A pox on the time-traveling assassin's guild clever enough to use it!</color>
-*[>Continue_]
--<color=red>To me, they only ever gave the mark's likeness. To Nova, only our extraction points, To you...</color>
-*[>Continue_]
--<color=red>Yes... you always received names, times, locations...</color>
-*[>Continue_]
--<color=red>Find your hitlist in these files. Show it to me. In return, I could...grant you the ability to speak with me, when next we meet.</color>
-*[>return.home_]
-    {takeTwoTurns()}
-    ->home
-
-= nothing
--<color=red>You return empty handed. Well, at least without the item I asked you to retrieve.</color>
-*[>Continue_]
--<color=red>I am wounded that you would not at least consider doing me this favor.</color>
-*[>Continue_]
--<color=red>How many times have I saved your neck? Portaled us to safety? Crushed our enemies beneath the earth's suffocating weight?</color>
-*[>Continue_]
--<color=red>And now, at this minor impasse, you distrust me?</color>
-*[>Continue_]
--<color=red>You owe {timeCorp} nothing. You hear me? Nothing. They are powerless without you. Without us.</color>
-*[>Continue_]
--<color=red>Find your hit list. Bring it here. You won't even have to show it to me. I can read your code. You would even keep your precios "plausible deniability."</color>
-*[>return.home_]
-    {takeTwoTurns()}
-    ->home
-=friend
-<color=red>Once more, out of all the vastness of this liminal space, you come searching me out.</color>
-*[>Continue_]
--<color=red>I am flattered, old friend.</color>
-*[>Continue_]
-- <color=red>Tell me, how do the rest fare? The monstrous titan? The sanctimonious automaton? Our fearsome Nova?</color>
-*[>Continue_]
--<color=red>How cruel of me. You have not yet gained the ability to express yourself in this space.</color>
-*[>Continue_]
--<color=red>Be on your way then. Do not return here!</color>
-*[>return?_]
-    {takeTwoTurns()}
-    ->home
-
-=cathedrals
-<color=red>When I was a boy, my master often took us to visit cathedrals.</color>
-*[>Continue_]
--<color=red>"Just because the church despise us for playing at God," he would say, "why should we in turn despise the wonders they build in praise of God?"</color>
-*[>Continue_]
--<color=red>Once, my master slapped me across the face for carving my initials into a pew.</color>
-*[>Continue_]
--<color=red>I can still feel the sting on my cheek as I go about my grim task in these hallowed halls.</color>
-*[>Continue_]
--<color=red>Let me continue in my tortured work without you breathing down my neck.</color>
-*[>return?_]
-    {takeTwoTurns()}
-    ->home
-//*[>return?_]
-    //{takeTwoTurns()}
-   // ->home
-=devils
-<color=red>I tried to open a portal to hell when I was a youth.</color>
-*[>Continue_]
--<color=red>Agents of the {timeCorp} poured out the moment it opened. Not knowing these were soldiers from another time, I assumed the Devil's legions had issued forth.</color>
-*[>Continue_]
--<color=red>And the first thing to flash through my head: how disappointing.</color>
-*[>Continue_]
--<color=red>Clad all in black, they were. Surely, I thought, the Lord of Lies can conceive of better mockery than simple imitation of God's clergy.</color>
-*[>Continue_]
--<color=red>I will say this for the {timeCorp}, what their agents lacked in flair, they more than made up for in ruthlessness.</color>
-*[>Continue_]
--<color=red>I never looked back after that day. Did you? Do come find me again to tell me.</color>
-*[>return?_]
-    {takeTwoTurns()}
-    ->home
-
-=== enemy_respond ===
-{
-- seenNovaGlow && not enemy_NovaReveal: -> enemy_NovaReveal
-- else: ->enemy_fallback_respond
-}
-
-=== enemy_NovaReveal ===
-<color=red>Since you're so eager to come find me, tell me, how is Nova?</color>
-*[>Couldn't be better_]->sarcasm
-*[>Not great_]->depressed
-*[>Why do you care?_]->soulmate
-- (sarcasm)<color=red>Though I cannot see it, I can tell you are putting on a brave face. Most concerning.</color>
-*[>Why do you even care?_]->soulmate
--(depressed)<color=red>Troubling tiddings. My heart is heavy.</color>
-*[>Why do you even care?_]->soulmate
-= soulmate
-<color=red>For the same reason you do! We are a company, a team. I dare say that I care for her even more deeply than even you do.</color>
-*[>What does that mean?_]
-*[>You're in love?_]
--<color=red>She is my world. My soulmate. I cannot imagine the pain of losing her. I would do anything, anything to keep her from harm.</color>
-*[>Does she know?_]
-*[>Why aren't you with her?_]
--<color=red>Once I have saved her, I will bare my heart to her. I have seen how this game ends. It is...too painful to conjure before my memory. I will not let the curtains fall on such a tragic fate.</color>
-*[>What happens?_]
-- <color=red>Did you ever ponder why Nova does not receive a weapon? Is she to vanquish legions with her fists? Formidable as she is, such a feat would be beyond anyone.</color>
-*[>Game's a work in progress_]
-*[>Get to the point_]
-- <color=red>The game maker gives her no weapon, because she herself is a weapon. Within her lies the spark that will give birth to a star: an apocalypse of fire and light, annihilating everything within miles, including herself.</color>
-*[>You're lying_]
-*[>Impossible!_]
-*[>That's cruel_]
-- <color=red>This game, this sick pagentry, it ends with the needless sacrifice of my beloved. I cannot sit by and let it play out. I must change the course. I will save her.</color>
-*[>How?_]
-- <color=red>I have removed myself from key aspects of the game. The {lobby}, a few key scenes, and the like. While the game maker may continue to make progress, the game can never be finished without my presences in all the right places.</color>
-*[>So Nova will never die?_]
-*[>You're the reason we're stuck_]
-- <color=red>Precicely. I'm sure you can agree that all our sacrifices will be worth it in the end.</color>
-*[>I'll support you_]->understanding
-*[>I don't like this_]->disappointed
-- (understanding) <color=red>Thank you for your understanding. I am glad we can take up the bonds of fellowship once more. Stay the course, my friend.</color>
-*[>return?_]->home
-- (disappointed) <color=red>I am disappointed that you cannot see the necessity of what must be done. I am doing this to save Nova, to save the woman I love. I will have no more deelings with you if you will not see reason.</color>
-*[>return?_]
-    {takeTwoTurns()}
-    ->home
-
-=== enemy_fallback ===//generic
-~countTurns = false
-<color=red>Caught once again. You're slipping.</color>
-
-*[>return?_]
-    {takeTwoTurns()}
-    ->home
-
-->DONE
-
-=== enemy_fallback_respond===//generic taunts with responses
-//generic taunts with responses
-
-*[>return?_]
-    {takeTwoTurns()}
-    ->home
-
-->DONE
-
-=== denied === //redirect for errors
-
-= class
-Incompatible. Methods inherited from the wrong class. Change inheritance to continue.
-+[>return_] ->home
-
-= namespace
-No definition found for "SentientPlayer." Are you missing a namespace?
-
-+[>return_] ->home
-
-=== home === //"main menu" with 3 files
+=== home === //fork for fiewer or reader
 //null check for playerClass
 {
 - playerClass == "": 
@@ -257,7 +75,7 @@ No definition found for "SentientPlayer." Are you missing a namespace?
 = class_choice
 {
 - playerClass == "fileViewer": ->main_menu_free
-- playerClass == "manager": ->restricted_home
+- playerClass == "codeReader": ->restricted_home
 }
 
 = rewind
@@ -266,73 +84,106 @@ Anchor detected. Returning through quantum tunnel.
 
 === main_menu_free ====
 ~locationText = ""
-Select a file to enter:  #flash
+Encryption :: Universal
+<color=purple>Dev Log: universal files can't be encrypted</color>
+Select a file to enter:
 
 + {startFilesTargeted == assetsTarget}[<color=red>>Assets_</color>]//trap redirect
     ~countTurns = true
     ->enemy_home
 + {startFilesTargeted != assetsTarget} [>Assets_] //regular assets
     ~countTurns = true
-    ->assets
-
-+{startFilesTargeted == scriptsTarget}[<color=red>>Scripts_</color>] //trap redirect
-    ~countTurns = true
-    -> enemy_home
-+{startFilesTargeted != scriptsTarget}[>Scripts_]// regular scripts
-    ~countTurns = true
-    -> scripts
+    ->assets_file
 
 +{startFilesTargeted == scenesTarget}[<color=red>>Scenes_</color>] //regular scenes
     ~countTurns = true
     -> enemy_home
 +{startFilesTargeted != scenesTarget}[>Scenes_] //regular scenes
     ~countTurns = true
-    -> scenes
+    -> scenes_file
+
++{startFilesTargeted == scriptsTarget}[<color=red>>Executables_</color>] //trap redirect
+    ~countTurns = true
+    -> enemy_home
++{startFilesTargeted != scriptsTarget}[>Executables_]// regular scripts
+    ~countTurns = true
+    -> executables_file
 
 === restricted_home ====
 ~locationText = ""
 
-Execute LoadOrder.Script?_
+Run ExecutableSequence.exe?
 
-+[>enter_]->loadSequence
++[>OK_]->run_load_order
 
-=== assets ===
+=== assets_file ===//ASSETS
 ~locationText = "Assets"
-Protection:: public
+Protection:: Universal
 
-Select a file to enter _
+Select a file to enter:
 
-+[>models_] ->models
-+[>questLog_] ->quests
-+[>cinematics_]->cinematics
++{showIfPublic(models)}[>models_] ->models_file
++{showIfPublic(quests)}[>questLog_] ->quests_file
++{showIfPublic(cinematics)}[>cinematics_]->cinematics_file
 +[>return.home_] ->home
 ->END
 
-=== models ===
-//{playerClass != "NPC":-> denied.class}
+    === models_file ===//MODELS
 ~locationText = "assets/models"
-Protection:: public
-
-Select a file to enter _
-+[>PlayerCharacter_]->models_locked
-+[>novaWarrior_]->models_locked
-+[>earthTitan_]
+Protection:: {printProtection(models)}
 {
-- hasKey == "Player": ->models_brall
-- else: ->models_locked
+-TURNS_SINCE(->redirect_file_knot) == 0:->private
+- else:->public
 }
-+[>evilWizard_]->models_empty
-+[>return.back_] ->assets
+= private
+models_file
+- ->->
+=public
+~seenNovaName = true
+Select a file to enter:
++{showIfPublic(player)}[>PlayerCharacter_]->playerCharacter_file
++{showIfPublic(warrior)}[>novaWarrior_]->warrior_file
++{showIfPublic(giant)}[>earthTitan_]
+{
+- hasKey == "Player": ->giant_file
+- else: ->models_giant_locked
+}
++{showIfPublic(wizard)}[>evilWizard_]->wizard_file
++[>return.back_] ->assets_file
 ->END
 
-=models_locked
+        === playerCharacter_file ===
+~locationText = "assets/models/playercharacter"
+Protection:: {printProtection(player)}
+{
+-TURNS_SINCE(->redirect_file_knot) == 0:->private
+- else:->public
+}
+= private
+Error: playerCharacter_file missing or disabled. Skipping...
+- ->->
+=public
+ErrorError: playerCharacter_file missing or disabled.
++[>return.back_] ->models_file
++[>return.home_] ->home
+
+        ====models_giant_locked===
 Error: {playerClass} is missing component.Key to access this file. Please add the appropriate key to continue.
-+[>return.back_] ->models
++[>return.back_] ->models_file
 +[>return.home_] ->home
 ->END
 
-=models_empty
+        ====wizard_file===
 ~locationText = "assets/models/evilWizard"
+Protection:: {printProtection(wizard)}
+{
+-TURNS_SINCE(->redirect_file_knot) == 0:->private
+- else:->public
+}
+= private
+Error: evilWizard_file missing or disabled. Skipping...
+- ->->
+=public
 Error.0: model file empy or missing.
 <color=purple>Dev Log: A cloaked wizard in faded red robes</color>
 Error.1: impossible to create new asset. File location occupied.
@@ -340,42 +191,87 @@ Error.1: impossible to create new asset. File location occupied.
 Error.2: described asset already exists. Designating this asset as "swarm" or "group" may solve the issue.
 <color=purple>Dev Log: A swarm of bearded, cloaked wizards in faded red robes with a cunning glint in their eyes</color>
 Error.3: model file empy or missing.
+<color=purple>Dev Log: oh common!</color>
 
-+[>return.back_] ->models
++[>return.back_] ->models_file
 +[>return.home_] ->home
 
-=models_brall
+        ====giant_file===
 ~locationText = "assets/models/earthTitan"
-Protection:: protectedBy(Titan.key)
-
-earthTitan compilation completed. Ready to instantiate to {lobby}.
-
-+[>return.back_] ->models
+Protection:: {printProtection(giant)}
+{
+-TURNS_SINCE(->redirect_file_knot) == 0:->private
+- else:->public
+}
+= private
+reloading earthTitan...Complete
+- ->->
+=public
+<color=purple>Dev Log: monstrous humanoid made entirely of rock, part of the Twin Emperors' Legion</color>
++[>return.back_] ->models_file
 +[>return.home_] ->home
 
-=== quests ===
+        === warrior_file ===
+~locationText = "assets/models/novawarrior"
+Protection:: {printProtection(warrior)}
+{
+-TURNS_SINCE(->redirect_file_knot) == 0:->private
+- else:->public
+}
+= private
+reloading novaWarrior...Complete
+- ->->
+=public
+<color=purple>Dev Log: futuristic soldier with a dark secret</color>
++[>return.back_] ->models_file
++[>return.home_] ->home
+
+    === quests_file ===//QUESTLOG
 ~locationText = "assets/questLog"
-
-+[>MainCampaign_]->mainCampaign
-+[>TimeHits_]->timeHits
+Protection:: {printProtection(quests)}
+{
+-TURNS_SINCE(->redirect_file_knot) == 0:->private
+- else:->public
+}
+= private
+quests_file
+- ->->
+=public
+Select a file to enter _
++[>MainCampaign_]->campaign_file
++[>TimeHits_]->hits_file
 //+[SideQuests]
-+[>return.back_] ->assets
++[>return.back_] ->assets_file
 +[>return.home_] -> home
-->END
 
-=mainCampaign
-~locationText = "assets/questLog/MainCampaign"
-File empty.
-
+        ====campaign_file===
+~locationText = "assets/questlog/maincampaign"
+Protection:: {printProtection(campaign)}
+{
+-TURNS_SINCE(->redirect_file_knot) == 0:->private
+- else:->public
+}
+= private
+mainCampaign_file
+- ->->
+=public
 <color=purple>Dev log: The Twin Emperors rally a force of space titans to destroy {timeCorp} and its agents. The agency sends time-traveling assassins back and forward in time to find the {crux}, the one person who will prevent the Twin Emperors plans from ever coming to fruition.</color>
 
-+[>return.back_] ->assets
++[>return.back_] ->assets_file
 +[>return.home_] -> home
 ->END
 
-=timeHits
-~locationText = "Assets/Quests/timeHits"
-
+        ====hits_file===
+~locationText = "Assets/Quests/timehits"
+Protection:: {printProtection(hits)}
+{
+-TURNS_SINCE(->redirect_file_knot) == 0:->private
+- else:->public
+}
+= private
+timeHits_file
+- ->->
+=public
 Target 1: {victim3} - time period: Ancient Babylon
 Target 2: {victim4} - time period: Regency England
 Target 3: {victim5} - time period: New California Commonwealth
@@ -384,22 +280,30 @@ Target 3: {victim5} - time period: New California Commonwealth
     {addList()}
     ~hasList = "Player"
     ->copied
-+[>return?_] -> home
++[>return.back_] ->assets_file
++[>return.home_] -> home
 
 - (copied)
 Copying successful!
-+[>return?_] -> home
++[>return.back_] ->hits_file
++[>return.home_] -> home
 
 ->END
 
-=== cinematics ===
+    === cinematics_file ===//CINEMATICS
 ~locationText = "assets/cinematics"
-Protection:: public
-
+Protection:: {printProtection(cinematics)}
+{
+-TURNS_SINCE(->redirect_file_knot) == 0:->private
+- else:->public
+}
+= private
+cinematics_file
+- ->->
+=public
 Select a file to enter _
-
 +[>finalCinematic]->finalCinematic
-+[>return.back_] ->assets
++[>return.back_] ->assets_file
 +[>return.home_] ->home
 
 = finalCinematic
@@ -409,46 +313,51 @@ Error: file corrupted or broken. Can only be viewed in Safe Mode.
 +{hasPen == "Player"}[>Enter Safe Mode_]
     {enterSafeMode()}
     ->home
-+[>return.back_] ->cinematics
++[>return.back_] ->cinematics_file
 +[>return.home_] ->home
 
-=== scripts ===
-~locationText = "scripts"
-Protection :: Public
-
-<color=purple>Dev Log: gotta keep most scripts private to minimize bugs</color>
-
-+[>view: LoadOrder.script_]->loadOrder
-
-= loadOrder
-~locationText = "scripts/LoadOrder"
-gameManager.script> entities.script > characters.script > weapons.script >
-
-+[>return.home_] ->home
-
-=== scenes ===
+=== scenes_file ===//SCENES
 ~locationText = "scenes"
-Protection:: public
+Protection:: Universal
 
 Select a file to enter _
 
-+[>MainMenu_] ->mainMenu
-+[>France_Medieval_] ->france
-+[>GameOver_] ->gameOver
++{showIfPublic(mainMenu)}[>MainMenu_] ->mainMenu_file
++{showIfPublic(france)}[>France_Medieval_] ->france_file
++{showIfPublic(gameOver)}[>GameOver_] ->gameOver_file
 +[>return.home_] ->home
 
-=mainMenu
-~locationText = "scenes/MainMenu"
-Only three buttons so far. None of them work.
-+[>return_] ->scenes
+    === mainMenu_file ===
+~locationText = "scenes/mainmenu"
+Protection:: {printProtection(mainMenu)}
+{
+-TURNS_SINCE(->redirect_file_knot) == 0:->private
+- else:->public
+}
+= private
+Create(Button.play)
+Create(Button.settings)
+Create(Button.quit)
+- ->->
+=public
+<color=purple>Dev Log: buttons for play, settings, and quit. Should be enough for now.
++[>return_] ->scenes_file
 
-=france
-~locationText = "scenes/France_Medieval"
+    === france_file ===
+~locationText = "scenes/france_medieval"
 ~visitTestLevel = true
+Protection:: {printProtection(france)}
+{
+-TURNS_SINCE(->redirect_file_knot) == 0:->private
+- else:->public
+}
+= private
+loading scene.Medieval_France
+- ->->
+=public
 <color=purple>Dev Log: Castle kitchen. Racks of meat hanging from the ceiling. Stew bubbling on the hearth. Saucer of milk by the fire.</color>
-
 *{startCatQuest == true}[>inspect(saucer)_]->france_inspect
-+[>return?_] ->scenes
++[>return?_] ->scenes_file
 
 =france_inspect
 smallCat.position = saucer.position(behind)
@@ -459,75 +368,339 @@ smallCat.licks(self.paw)
     ~hasCat = "Player"
     {addCat()}
     ->mosspaws
-+[>return.back_]->france
++[>return.back_]->france_file
 
 = mosspaws
 PlayerCharacter.collected(Mosspaws)
-+[>return.back_]->france
++[>return.back_]->france_file
 +[>return.home_] ->home
 
-=gameOver
-~locationText = "scenes/gameOver"
-Crushed beneath the sole of giants.
-+[>return.back_] ->scenes
+    === gameOver_file ===
+~locationText = "scenes/gameover"
+Protection:: {printProtection(gameOver)}
+{
+-TURNS_SINCE(->redirect_file_knot) == 0:->private
+- else:->public
+}
+= private
+loading scene.GameOver...
+- ->->
+=public
+<color=purple>Dev Log: Crushed beneath the sole of the Titans...</color>
++[>return.back_] ->scenes_file
 +[>return.home_] ->home
 
+=== executables_file ===//EXECUTABLES
+~locationText = "executables"
+Protection :: Universal
 
-==== loadSequence ===
-Loading: gameManager.script
+<color=purple>Dev Log: gotta keep most executables encrypted to minimize bugs</color>
 
-Protection :: Private
++{showIfPublic(addActors)}[>view: addActors.exe_]->add_actors_file
++{showIfPublic(addEquipment)}[>view: addEquiment.exe_]->add_equipment_file
++[>run: Encryptor.exe_]->encryptor_file
++[>run: Decryptor.exe_]
+    {hasWrench =="Player":->decryptor_file}
+    {hasWrench !="Player":->decryptor_permission}
++[>view: ExecutableSequence.exe_]->view_load_order
++[>return.home_] ->home
 
-- +[>Continue_]
+    ===view_load_order ===//must include all files
+~locationText = "executables/executablesequence.exe"
+File protection :: Universal
+{
+-TURNS_SINCE(->redirect_file_knot) == 0:->private
+- else:->public
+}
+=private
+- ->->
+=public
+//must include all files
+//re-order sequence to make sense with gameplay, ie executables act after scenes
+ExecutableSequence: 
+    {showIfPublic(models) == false:models>}
+    {showIfPublic(models) == false && showIfPublic(player) == false:playerCharacter>}
+    {showIfPublic(models) == false && showIfPublic(warrior) == false:novaWarrior>}
+    {showIfPublic(models) == false && showIfPublic(giant) == false:earthTitan>}
+    {showIfPublic(models) == false && showIfPublic(wizard) == false:evilWizard>}
+    {showIfPublic(quests) == false:questLog>}
+    {showIfPublic(quests) == false && showIfPublic(campaign):mainCampaign>}
+    {showIfPublic(quests) == false && showIfPublic(hits):timeHits>}
+    {showIfPublic(addActors) == false: addActors>}
+    {showIfPublic(addEquipment) == false: addEquipment>}
+    {showIfPublic(mainMenu) == false: mainMenu>}
+    {showIfPublic(france) == false: franceMedieval>}
+    {showIfPublic(gameOver) == false: gameOver>}
++[>return.back_]->executables_file
++[>return.home_] ->home
 
-Loading: entities.script
-
-Protection :: Private
-
-- +[>Continue_]
-
-Loading: characters.script
-
-Protection :: Private
-
-foreach character in characters 
-    AddWeapon.function
-
-- +[>Continue_]
-    ~discoveredNoGun = true
-
-Loading: weapons.script
-
-Protection :: Private
-
-PlayerCharacter :: laserArm.models
-stoneGiant :: obsidianMawl.models
+    === add_actors_file ===
+~locationText = "executables/addactors.exe"
+Protection :: {printProtection(addActors)}
+{
+-TURNS_SINCE(->redirect_file_knot) == 0:->private
+- else:->public
+}
+=private
+~discoveredNoGun = true
+foreach actor run.addWeapon.exe
+PlayerCharacter :: models.Revolver
+earthTitan :: models.ObsidianMawl
+actor(missing) :: models.battleStaff
 novaWarrior :: null
+- ->->
+=public
+<color=purple>Dev Log: adds appropriate actors to scenes. Code hidden when decrypted to minimize bugs.
++[>return.back_]->executables_file
++[>return.home_] ->home
 
-- +[>Continue_]
+    === add_equipment_file ===
+{fixQuestProgress != completed: 
+    ~fixQuestProgress = triggered
+}
+~locationText = "executables/addequipment.exe"
+Protection :: {printProtection(addEquipment)}
+{
+-TURNS_SINCE(->redirect_file_knot) == 0:->private
+- else:->public
+}
+=private
+- ->->
+=public
+<color=purple>Dev Log: adds appropriate equipment to actors. Code hidden when decrypted to minimize bugs.
++[>return.back_]->executables_file
++[>return.home_] ->home
 
-Load Order complete!
+    === encryptor_file ===//need to add all files here/needs to contain everything that exeSeq does
+~seenEncryptor = true
+~locationText = "executables/encryptor"
+~countTurns = false
+{fixQuestProgress != completed: 
+    ~fixQuestProgress = triggered
+}
+Protection :: Universal
+Select file to encrypt:
 
-- +[>exit_] {exitGameFiles()}
+//assets
++{showIfPublic(models)}[>Encrypt models file_]
+    {lockFile(models)}
+    ->lock_confirm
+    +{showIfPublic(models)&&showIfPublic(player)}[>Encrypt PlayerCharater file_]
+        {lockFile(player)}
+        ->lock_confirm
+    +{showIfPublic(models)&&showIfPublic(warrior)}[>Encrypt novaWarrior file_]
+        {lockFile(warrior)}
+        ->lock_confirm
+    +{showIfPublic(models)&&showIfPublic(giant)}[>Encrypt earthTitan file_]
+        {lockFile(giant)}
+        ->lock_confirm
+    +{showIfPublic(models)&&showIfPublic(wizard)}[>Encrypt evilWizard file_]
+        {lockFile(wizard)}
+        ->lock_confirm
++{showIfPublic(quests)}[>Encrypt questLog file_]
+    {lockFile(quests)}
+    ->lock_confirm
+    +{showIfPublic(quests)&&showIfPublic(campaign)}[>Encrypt mainCampaign file_]
+        {lockFile(campaign)}
+        ->lock_confirm
+        +{showIfPublic(quests)&&showIfPublic(hits)}[>Encrypt timeHits file_]
+        {lockFile(hits)}
+        ->lock_confirm
 
--> DONE
+//scenes
++{showIfPublic(mainMenu)}[>Encrypt MainMenu file_]
+    {lockFile(mainMenu)}
+    ->lock_confirm
++{showIfPublic(france)}[>Encrypt Frace_Mediveal file_]
+    {lockFile(france)}
+    ->lock_confirm 
++{showIfPublic(gameOver)}[>Encrypt GameOver file_]
+    {lockFile(gameOver)}
+    ->lock_confirm
+//executables
++{showIfPublic(addActors)}[>Encrypt addActors.exe_]
+    {lockFile(addActors)}
+    ->lock_confirm
++{showIfPublic(addEquipment)}[>Encrypt addEquipment.exe_]
+    {lockFile(addEquipment)}
+    ->lock_confirm
+
++[>return.back_]->executables_file
++[>return.home_] ->home
+
+    
+
+    === decryptor_file ===//need to add all files here/needs to contain everything that exeSeq does
+~locationText = "executables/decryptor"
+~countTurns = false
+Protection :: Universal
+{
+-TURNS_SINCE(->redirect_file_knot) == 0:->private
+- else:->public
+}
+=private
+decrypting files...
+- ->->
+=public
+{playerClass}.hasCypher = true
+Select file to decrypt: //everything needs to be ! of decryptor, including "un"-lock
+
+//assets
++{!showIfPublic(models)}[>Decrypt models file]
+    {unlockFile(models)}
+    ->unlock_confirm
+    +{!showIfPublic(models)&&!showIfPublic(player)}[>Decrypt PlayerCharater file_]
+        {unlockFile(player)}
+        ->unlock_confirm
+    +{!showIfPublic(models)&&!showIfPublic(warrior)}[>Decrypt novaWarrior file_]
+        {unlockFile(warrior)}
+        ->unlock_confirm
+    +{!showIfPublic(models)&&!showIfPublic(giant)}[>Decrypt earthTitan file_]
+        {unlockFile(giant)}
+        ->unlock_confirm
+    +{!showIfPublic(models)&&!showIfPublic(wizard)}[>Decrypt evilWizard file_]
+        {unlockFile(wizard)}
+        ->unlock_confirm
++{!showIfPublic(quests)}[>Decrypt questLog file]
+    {unlockFile(quests)}
+    ->unlock_confirm
+    +{!showIfPublic(quests)&&!showIfPublic(campaign)}[>Decrypt mainCampaign file_]
+    {unlockFile(campaign)}
+    ->unlock_confirm
+    +{!showIfPublic(quests)&&!showIfPublic(hits)}[>Decrypt timeHits file_]
+    {unlockFile(hits)}
+    ->unlock_confirm
+
+//scenes
++{!showIfPublic(mainMenu)}[>Decrypt MainMenu file_]
+    {unlockFile(mainMenu)}
+    ->unlock_confirm
++{!showIfPublic(france)}[>Decrypt Frace_Mediveal file_]
+    {unlockFile(france)}
+    ->unlock_confirm 
++{!showIfPublic(gameOver)}[Decrypt GameOver file_]
+    {unlockFile(gameOver)}
+    ->unlock_confirm
+
+//executables
++{!showIfPublic(addActors)}[>Decrypt addActors.exe]
+    {unlockFile(addActors)}
+    ->unlock_confirm
++{!showIfPublic(addEquipment)}[>Decrypt addEquipment.exe]
+    {unlockFile(addEquipment)}
+    ->unlock_confirm
+
++[>return.back_]->executables_file
++[>return.home_]->home
+
+        === decryptor_permission ===
+~sawDecryptError = true
+~locationText = ""
+Error: {playerClass} is missing component.Cypher to access this file. Please add the appropriate Cypher to continue.
++[>return.back_] ->executables_file
++[>return.home_] ->home
+        === lock_confirm
+~locationText = ""
+File encrypted.
+
++[>return.back_]->encryptor_file
+->DONE
+        === unlock_confirm
+~locationText = ""
+File decrypted.
+
++[>return.back_]->decryptor_file
+->DONE
+
+=== redirect_file_knot==//add all files here
+//re-invert list so the rest of the code looks at public files before going back to rest of game files
+~filesList = LIST_INVERT(filesList)
+//MODELS
+{currentPrivateFile == models:->models_file->}
+{currentPrivateFile == player:->playerCharacter_file->}
+{currentPrivateFile == warrior:->warrior_file->}
+{currentPrivateFile == giant:->giant_file->}
+{currentPrivateFile == wizard:->wizard_file->}
+//QUESTS
+{currentPrivateFile == quests:->quests_file->}
+{currentPrivateFile == campaign:->campaign_file->}
+{currentPrivateFile == hits:->hits_file->}
+//CINEMATIC
+{currentPrivateFile == cinematics:->cinematics_file->}
+//SCENES
+{currentPrivateFile == mainMenu:->mainMenu_file->}
+{currentPrivateFile == france:->france_file->}
+{currentPrivateFile == gameOver:->gameOver_file->}
+//EXECUTABLES
+{currentPrivateFile == addActors:->add_actors_file->}
+{currentPrivateFile == addEquipment:->add_equipment_file->}
+- ->->
+
+=== run_load_order ===
+->printNextPrivate->
+
+->DONE
+    === printNextPrivate ===
+// get the the number of all items, active and not, in the list
+~fullListSize = LIST_COUNT(LIST_ALL(filesList))
+//invert list so that all private items are active
+~filesList = LIST_INVERT(filesList)
+//check the next item in the list
+->check_nextContained->
+
+->advance_choice->
+- ->->
+    === check_nextContained ===
+{
+//if we're still within the list...
+-currentListEnum <= fullListSize:
+    {
+        //and the item is active, print item
+        - filesList has filesList(currentListEnum):
+            ->printNext->
+        //if it's not, check the next item
+        -filesList !? filesList(currentListEnum):
+            ~currentListEnum++
+            ->check_nextContained->
+    }
+
+//if there are no more items, print a done message
+- currentListEnum > fullListSize: 
+ExecutableSequence.exe = complete
+    ->return_choice
+}
+- ->->
+    === printNext ===
+~currentPrivateFile = filesList(currentListEnum)
+    ->redirect_file_knot->
+    //check variable, display text
+    ~currentListEnum++
+    //spawn a continue button that will call printNextPrivate
+->->
+        === advance_choice===
++[>Run next_]
+->printNextPrivate->
+
+->DONE
+        === return_choice ===
+//re-invert list so the rest of the code looks at public files before going back to rest of game files
+~filesList = LIST_INVERT(filesList)
++[>return.home_]
+~currentListEnum = 1
+->home
+->DONE
+
 
 === function addCat ===
     ~return
-    
 === function addList ===
     ~return
 === function exitGameFiles===
     ~return
-    
-==== function takeTwoTurns ===
-    ~return
 === function enterSafeMode ===
     ~return
-
 === blank_knot ===
 ~locationText = ""
 ~countTurns = true
 Please wait. Refreshing file navigation.
-
 ->DONE

@@ -16,5 +16,6 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 619ac077054c6a046b8c0a12f1f6ea76, type: 3}
   owner: robot
   inkVariableName: hasPen
+  description: Mightier than the sword?
   recipients:
   - robot

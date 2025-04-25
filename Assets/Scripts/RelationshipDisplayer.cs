@@ -12,6 +12,11 @@ public class RelationshipDisplayer : MonoBehaviour
     private string relationshipVar;
 
     private string currentSpeakerID;
+    [SerializeField]
+    private Animator animator;
+
+    [SerializeField]
+    private GameObject relFrame;
 
     [SerializeField]
     private GameFilesData gameFilesData;
@@ -42,7 +47,7 @@ public class RelationshipDisplayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        relationshipText.text = relationshipVar;
+        
     }
 
     void UpdateDictionary(string varName, string varValue)
@@ -61,8 +66,23 @@ public class RelationshipDisplayer : MonoBehaviour
         if (relationshipVars.ContainsKey(npcID + "Affection"))
         {
             relationshipVar = relationshipVars[npcID + "Affection"];
+            relationshipText.text = relationshipVar;
+            if (relationshipVar != "0")
+            {
+                StartCoroutine(HighlightChange());
+            }
+            
             Debug.Log("Displayer shows " +  npcID + "Affection" + " equal to "+ relationshipVar);
         } 
+    }
+
+    private IEnumerator HighlightChange()
+    {
+        animator.SetBool("affectionIncreased", true);
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        yield return new WaitForSeconds(stateInfo.length);
+        animator.SetBool("affectionIncreased", false);
+
     }
 
     private void OnDisable()

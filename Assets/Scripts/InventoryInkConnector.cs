@@ -18,6 +18,7 @@ public class InventoryInkConnector : MonoBehaviour
     public TMP_Text NPCNameText;
 
     public static event Action OnTradeWindowOpen;
+    public static event Action OnTradeWindowHide;
 
     // Start is called before the first frame update
     void Start()
@@ -52,6 +53,7 @@ public class InventoryInkConnector : MonoBehaviour
     public void CloseTradeWindow()
     {
         tradeWindowUI.transform.position = tradeWindowOff.transform.position;
+        OnTradeWindowHide();
         //add function that will navigate to appropriate knot in ink
     }
 

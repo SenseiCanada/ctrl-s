@@ -1,3 +1,6 @@
+//includes
+
+
 //external functions
 EXTERNAL quitDialogue()
 EXTERNAL openTradeWindow()
@@ -49,6 +52,8 @@ VAR visitTestLevel = ""
 VAR learnedAboutHunter = false
 VAR metEnemy = false
 VAR canSpeakToEnemy = false
+VAR sawDecryptError = false
+VAR seenEncryptor = false
 
 //giant
 VAR giantAffection = 0 //has an SO
@@ -69,6 +74,8 @@ VAR seenNovaGlow = false
 //robot
 VAR robotAffection = 0 //has an SO
 VAR hasPen = ""
+VAR hasWrench = ""
+LIST fixQuestProgress = triggered, started, metObjective, completed
 
 //inventory
 VAR hasAnchor = ""

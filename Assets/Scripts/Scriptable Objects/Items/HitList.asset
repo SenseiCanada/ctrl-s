@@ -16,5 +16,6 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 3b94c5d05a5bddd4cb2c59b140858116, type: 3}
   owner: 
   inkVariableName: hasList
+  description: They had to die, they have to die, they will have to die
   recipients:
   - warrior

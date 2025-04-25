@@ -25,7 +25,10 @@ public class GameFilesManager : MonoBehaviour
     [SerializeField]
     private Button buttonPrefab = null;
 
-	public GameFilesData gameData; //scriptable object that will store everything
+    [SerializeField]
+    private string inkSave = null;
+
+    public GameFilesData gameData; //scriptable object that will store everything
 
 	//public static event Action<Story> OnCreateStory;
     public static event Action OnExitGameFiles;
@@ -152,7 +155,8 @@ public class GameFilesManager : MonoBehaviour
 
 	void ResizeButtonPrefab(Button buttonPrefab, string buttonText)
 	{
-		if (buttonText.Length > 0 && buttonText.Length <= 10)
+        Debug.Log("creating button for text with lenght " + buttonText.Length);
+        if (buttonText.Length > 0 && buttonText.Length <= 10)
 		{
 			RectTransform rt = buttonPrefab.GetComponent<RectTransform>();
 			rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100);
@@ -162,12 +166,17 @@ public class GameFilesManager : MonoBehaviour
             RectTransform rt = buttonPrefab.GetComponent<RectTransform>();
             rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 150);
         }
-        else if (buttonText.Length > 14 && buttonText.Length <= 30)
+        else if (buttonText.Length > 14 && buttonText.Length <= 22)
 		{
 			RectTransform rt = buttonPrefab.GetComponent<RectTransform>();
 			rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 230);
 		}
-	}
+        else if (buttonText.Length > 22) //&& buttonText.Length <= 40)
+        {
+            RectTransform rt = buttonPrefab.GetComponent<RectTransform>();
+            rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 270);
+        }
+    }
 	
 	// Destroys all the children of this gameobject (all the UI)
 	void RemoveChildren () {

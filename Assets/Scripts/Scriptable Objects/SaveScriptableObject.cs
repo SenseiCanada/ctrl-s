@@ -14,6 +14,7 @@ public class SaveScriptableObject : ScriptableObject
     public InventoryItem anchor;
     public InventoryItem key;
     public InventoryItem pen;
+    public InventoryItem wrench;
 
     public bool startVariablesSet;
 
@@ -32,6 +33,8 @@ public class SaveScriptableObject : ScriptableObject
         anchor.owner = "giant";
         NPCItems.Add(pen);
         pen.owner = "robot";
+        NPCItems.Add(wrench);
+        wrench.owner = "robot";
 
         startVariablesSet = true; //then blocked from being called subsequently
     }

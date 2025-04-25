@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: anchor
   icon: {fileID: 21300000, guid: d89a58e8f2064514eb668830f4fdc26c, type: 3}
-  owner: robot
+  owner: warrior
   inkVariableName: hasAnchor
+  description: Some of the wiring is bare, careful not to get zapped
   recipients:
   - warrior

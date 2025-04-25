@@ -86,6 +86,11 @@ public class InventoryDisplayer : MonoBehaviour
             newIcon.transform.SetAsLastSibling();
             Button newIconButton = newIcon.GetComponent<Button>();
             newIconButton.onClick.AddListener(delegate { OnTraded(PlayerItem); });
+            TooltipTrigger buttonTrigger = newIconButton.GetComponent<TooltipTrigger>();
+            if (buttonTrigger != null)
+            {
+                buttonTrigger.item = PlayerItem;
+            }
 
             Image newIconImage = newIcon.GetComponent<Image>();
 
@@ -123,6 +128,11 @@ public class InventoryDisplayer : MonoBehaviour
                 newIcon.transform.SetAsLastSibling();
                 Button newIconButton = newIcon.GetComponent<Button>();
                 newIconButton.onClick.AddListener(delegate { OnCollected(NPCItem); });
+                TooltipTrigger buttonTrigger = newIconButton.GetComponent<TooltipTrigger>();
+                if (buttonTrigger != null)
+                {
+                    buttonTrigger.item = NPCItem;
+                }
 
                 //NPCItem1.GetComponent<Image>().sprite = null;
                 Image newIconImage = newIcon.GetComponent<Image>();
