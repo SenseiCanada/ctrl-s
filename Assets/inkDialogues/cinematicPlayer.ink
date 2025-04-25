@@ -1,7 +1,7 @@
 INCLUDE inkVariables_GameFiles.INK
 EXTERNAL hideWizard()
 VAR cinematicSaveKnot = ""
-
+VAR cinematicAffection = ""
 {
 - hasPen != "Player":->incomplete
 -else: ->complete

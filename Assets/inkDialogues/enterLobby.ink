@@ -1,6 +1,6 @@
 INCLUDE inkVariables_GameFiles.INK
 EXTERNAL enterLobby()
-
+VAR enterLobbyAffection = ""
 ->start
 
 === start ===

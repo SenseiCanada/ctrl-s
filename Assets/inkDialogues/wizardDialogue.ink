@@ -1,6 +1,6 @@
 INCLUDE inkVariables_GameFiles.ink
 VAR wizardSaveKnot = ""
-
+VAR wizardAffection = ""
 ->wizard_enter
 
 === wizard_enter ===
