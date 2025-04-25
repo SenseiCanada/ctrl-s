@@ -43,57 +43,6 @@ To your station, now!
 - Go, go, go!
 *[<i>Leave</i>]->warriorQuit
 
-=== warrior_hitlist ===//first quest
-Any luck finding our target list?
-*[Needle in a haystack]
-*[It's a mess in there]
-- Ha, can't be worse than that time the three of us had to take out Kissinger's clone from 2095.
-*[Any tips?]
-- Did you try something like "Mission Objectives" or "Quest log"? Maybe "Boss Fights"?
-*[Never saw those files]
-- Then they must be deeper in the game code. I see you reappear after I finish compiling. How fast do you get compiled?
-*[4 processes]
-- Not complex enough. Hmm...see if this helps.
-*[<i>Hold out your hand</i>]->warrior_trade.firstTrade
-
-=resume
-I know it's anchor, but don't get it wet, ok?
-*[What does it do?]
-- When I was coming up, we used these to jump back instantly, without all the energy needed to accelerate into the future. Of course, if you've got someone to open a portal back, not much use for these.
-*[But I'm not time jumping]
-- Sure, but it might still help conserve energy.
-*[I guess]
-- Come on, can't hurt to try.
-*[I'll find those files]
-    ~startHitListQuest = true
-- 10/4. <i>She salutes</i>
-*[<i>Leave</i>] ->warriorQuit
-
-->DONE
-
-= endQuest
-We still flying blind?
-
-+[I found the list!]->warrior_trade.listTrade
-->DONE
-
-= endQuestResume
-~startHitListQuest = false
-~warriorAffection++
-<i>For the first time, a smile lifts her lips. Then she regains her stoic demeanor.</i>
-*[Good news?]
-*[You're welcome]
-- I have all these memories, instincts, but I'm always either here, or blinking through code compilation. Been feeling like a hamster on a wheel.
-*[You wanted orders]
-*[You needed purpose]
-- I think I was looking for a promise. That there was more coming. That there's a plan.
-*[Trust in the hamster wheel]
-*[Told you I got your back]
-- <i>She punches your shoulder playfully</i>. Save command's been issued. See you after compilation.
-*[<i>Leave</i>]->warriorQuit
-
-->DONE
-
 === warrior_default === //subsequent runs
 
 ->checkQuests//first check if there are any active quests
@@ -102,12 +51,12 @@ We still flying blind?
 //qualify for hitlist?
 {
 - not warrior_hitlist && runAttempts >= 4: ->warrior_hitlist
-- warrior_hitlist && hasList == "Player": -> warrior_hitlist.endQuest
+- warrior_hitlist && hasList == "Player" && hitQuestComplete == false: -> warrior_hitlist.endQuest
 //qualify for weapon quest?
-- discoveredNoGun == true:
+- discoveredNoGun == true && weaponQuestComplete = false:
     -> warrior_weapon.weaponless
 - warrior_hitlist.endQuest && not warrior_weapon && warriorAffection >= 2: 
-    ->warrior_weapon
+    ->warrior_weapon //this will trigger before any filler
 
 //no quests? check relationship
 - else: -> checkRelationship
@@ -130,7 +79,7 @@ Knew you'd pull through.
 *[I hated that]
 *[Wasn't so bad]
 
-- Kinda like when my first SO didn't know what to do with us anymore. Stuck starring at plastiglass targets until he came back with new orders.
+- Kinda like when my first SO didn't know what to do with us anymore. Stuck staring at plastiglass targets until he came back with new orders.
 
 *[Why can't I interact with anything]
 
@@ -151,9 +100,9 @@ Knew you'd pull through.
 Remember the mission to Frontenac? 1200s, I'm pretty sure, because Europeans were finally using zeros.
 *[Yeah, totally]
 *[No..I can't]
-- It's ok, I'm not judging. Hell, if a whole castle fell on me, I'd gladly loose some memories if it meant I could get back up the next day.
+- It's ok, I'm not judging. Hell, if a whole castle fell on me, I'd gladly lose some memories if it meant I could get back up the next day.
 *[A whole castle?]
-- Our mark was digging a secret escape tunnel under the keep. Tunnel collapsed right when we got there, under the castle foundations. We thought you were a gonner.
+- Our mark was digging a secret escape tunnel under the keep. Tunnel collapsed right when we got there, under the castle foundations. We thought you were a goner.
 *[Was this part of the game?]
 -</i>She frowns.</i> I remember it happening. The dust. The screams. And I remember you talking to me before last compilation. So it has to be, right?
 *[You seem unsure]
@@ -352,6 +301,60 @@ Still came to talk? I'm surprised.
 *[<i>Leave</i>]->warriorQuit
 
 ->DONE
+
+=== warrior_hitlist ===//first quest
+{hasList == "Player": ->endQuest}
+Any luck finding our target list?
+*[Needle in a haystack]
+*[It's a mess in there]
+- Ha, can't be worse than that time the three of us had to take out Kissinger's clone from 2095.
+*[Any tips?]
+- Did you try something like "Mission Objectives" or "Quest log"? Maybe "Boss Fights"?
+*[Never saw those files]
+- Then they must be deeper in the game code. Or maybe they're encrypted. I see you reappear after I finish compiling. How fast do you get compiled?
+*[Too fast]
+- Not complex enough. Hmm...see if this helps.
+*[<i>Hold out your hand</i>]->warrior_trade.firstTrade
+
+=resume
+I know it's anchor, but don't get it wet, ok?
+*[What does it do?]
+- When I was coming up, we used these to jump back instantly, without all the energy needed to accelerate into the future. Of course, if you've got someone to open a portal back, not much use for these.
+*[But I'm not time jumping]
+- Sure, but it might still help conserve energy.
+*[I guess]
+- Come on, can't hurt to try.
+*[I'll find those files]
+    ~startHitListQuest = true
+- 10/4. <i>She salutes</i>
+*[<i>Leave</i>] ->warriorQuit
+
+->DONE
+
+= endQuest
+We still flying blind?
+
++[I found the list!]->warrior_trade.listTrade
+->DONE
+
+= endQuestResume
+~startHitListQuest = false
+~hitQuestComplete = true
+~warriorAffection++
+<i>For the first time, a smile lifts her lips. Then she regains her stoic demeanor.</i>
++[Good news?]
++[You're welcome]
+- I have all these memories, instincts, but I'm always either here, or blinking through code compilation. Been feeling like a hamster on a wheel.
+*[You wanted orders]
+*[You needed purpose]
+- I think I was looking for a promise. That there was more coming. That there's a plan.
+*[Trust in the hamster wheel]
+*[Told you I got your back]
+- <i>She punches your shoulder playfully</i>. Save command's been issued. See you after compilation.
+*[<i>Leave</i>]->warriorQuit
+
+->DONE
+
 ==== warrior_weapon ===//weapon quest
 <i>She punches you</i>
 *[What the hell?!] -> findWeapon
@@ -402,6 +405,7 @@ Ha. You have no idea. Listen, I need a favor.
 = badNews
 Best news I've had all day. Alright, what are we talking? Blaster? Sniper riffle? Something old fashioned? You know, I think I could really dig an axe.
 *[Nothing, you don't get a weapon]
+~weaponQuestComplete = true
 - No, no that can't be possible!
 *[I'm so sorry]
 ~warriorAffection++
@@ -417,7 +421,7 @@ Best news I've had all day. Alright, what are we talking? Blaster? Sniper riffle
 ->DONE
 
 === warrior_trade === //trade
-Want to trade?
+{& Want to trade? | What do you need?}
 
 +[Yes]-> warrior_trade.options
     
@@ -426,7 +430,7 @@ Want to trade?
 
 =options
 {openTradeWindow()}
-Here's what I have.
+{& Here's what I have. | As long as I can have it back.}
 
 +[Back]{closeTradeWindow()}-> warrior_fallback
 ->DONE

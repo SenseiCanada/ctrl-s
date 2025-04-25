@@ -32,12 +32,16 @@ VAR cameFromFixQuest = false
 ->DONE
 
 === robot_default ===//subsequent runs
-->checkQuests
+// make sure you've seen the tutorial before the first quest
+{
+- stage_intro.increase_compile:->checkQuests
+-else: ->checkRelationship
+}
 
 =checkQuests//active quests?
 //go fix something quests
-{runAttempts >= 3 || fixQuestProgress == triggered:->fix_quest.start}
-{fixQuestProgress == metObjective:->fix_quest.conclude}
+{(runAttempts >= 3 || fixQuestProgress_r1 == triggeredr1)&& not fix_quest.start:->fix_quest.start}
+{fixQuestProgress_r1 == metObjectiver1:->fix_quest.conclude}
 //else
 -> checkRelationship
 
@@ -62,7 +66,7 @@ Keystroke registered: ctrl + S. New save command initiated. Code compilation wil
 - Log file driscrepancy detected for PlayerCharacter. Switching interaction protocols.
 
 *[Am I "PlayerCharacter"?]
-*[What discrepency?]
+*[What discrepancy?]
 
 - Greetings, my child! Welcome to the {lobby} for <i>{gameTitle}</i>, an upcoming action RPG by developer Sencan.
 
@@ -245,7 +249,8 @@ This is a special property only for assets lucky enough to posess items. It is a
 +[Not yet]->complexity_tutorial
 
 === fix_quest===
-
+{not fix_quest.start:->fix_quest.start}
+{fixQuestProgress_r1 == metObjectiver1:->fix_quest.conclude}
 = start
 <i>The robot bustles furiously around its work station.</i> Our glorious developer is demanding as they are industrious.
 
@@ -270,7 +275,7 @@ This is a special property only for assets lucky enough to posess items. It is a
 
 - Encrypt the AddEquipment executable. If you are no longer able to see it as a fileViewer, you have accomplished your task.
 *[Encrypt AddEquipment, got it]
-~fixQuestProgress = started
+~fixQuestProgress_r1 = startedr1
 - Your humility in the face of my teachings does you credit my child. May you be guided by eternal productivity.
 *[<i>Leave</i>]->robotQuit
 ->DONE
@@ -278,7 +283,7 @@ This is a special property only for assets lucky enough to posess items. It is a
 = conclude
 My child, your endeavor was successful! AddEquipment has been encrypted.
 *[Yes]
-~fixQuestProgress = completed
+~fixQuestProgress_r1 = completedr1
 - What a relief. <i>The robot falls quiet.</i>
 *[Silence, how wonderful]
 *[Shepherd?]

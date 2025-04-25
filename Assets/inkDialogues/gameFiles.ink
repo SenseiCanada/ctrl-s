@@ -63,7 +63,7 @@ Enter file directory?
 
 //don't count turns if player returns home with anchor
 {
-- hasAnchor == "Player": 
+- hasAnchor == "Player" && TURNS_SINCE(->enter.classes) <=1: 
     ~countTurns = false
     ->rewind
 - else: 
@@ -345,7 +345,6 @@ Create(Button.quit)
 
     === france_file ===
 ~locationText = "scenes/france_medieval"
-~visitTestLevel = true
 Protection:: {printProtection(france)}
 {
 -TURNS_SINCE(->redirect_file_knot) == 0:->private
@@ -355,8 +354,9 @@ Protection:: {printProtection(france)}
 loading scene.Medieval_France
 - ->->
 =public
+~ findCatQuest_g2 = triggeredg2//triggers one of cat quests conditions
 <color=purple>Dev Log: Castle kitchen. Racks of meat hanging from the ceiling. Stew bubbling on the hearth. Saucer of milk by the fire.</color>
-*{startCatQuest == true}[>inspect(saucer)_]->france_inspect
+*{findCatQuest_g2 == startedg2}[>inspect(saucer)_]->france_inspect//maybe change it so you have to load actors first
 +[>return?_] ->scenes_file
 
 =france_inspect
@@ -365,6 +365,7 @@ smallCat.isLicking = true
 smallCat.licks(self.paw)
 
 +[>collect(smallCat)_]
+    ~findCatQuest_g2 = metObjectiveg2
     ~hasCat = "Player"
     {addCat()}
     ->mosspaws
@@ -455,8 +456,8 @@ novaWarrior :: null
 +[>return.home_] ->home
 
     === add_equipment_file ===
-{fixQuestProgress != completed: 
-    ~fixQuestProgress = triggered
+{fixQuestProgress_r1 != completedr1: 
+    ~fixQuestProgress_r1 = triggeredr1
 }
 ~locationText = "executables/addequipment.exe"
 Protection :: {printProtection(addEquipment)}
@@ -474,9 +475,9 @@ Protection :: {printProtection(addEquipment)}
     === encryptor_file ===//need to add all files here/needs to contain everything that exeSeq does
 ~seenEncryptor = true
 ~locationText = "executables/encryptor"
-~countTurns = false
-{fixQuestProgress != completed: 
-    ~fixQuestProgress = triggered
+~countTurns = true
+{fixQuestProgress_r1 != completedr1: 
+    ~fixQuestProgress_r1 = triggeredr1
 }
 Protection :: Universal
 Select file to encrypt:
@@ -521,18 +522,30 @@ Select file to encrypt:
 +{showIfPublic(addActors)}[>Encrypt addActors.exe_]
     {lockFile(addActors)}
     ->lock_confirm
+    
 +{showIfPublic(addEquipment)}[>Encrypt addEquipment.exe_]
-    {lockFile(addEquipment)}
-    ->lock_confirm
+    ->check_add_equiptment_requirements
+    
 
 +[>return.back_]->executables_file
 +[>return.home_] ->home
 
-    
+        === check_add_equiptment_requirements ====
+{ 
+- fixQuestProgress_r1 == startedr1:
+    ~fixQuestProgress_r1 = metObjectiver1
+    {lockFile(addActors)}
+    ->lock_confirm
+- else: ->error
+}
+= error
+Error: encryption must first be authorized by GameManager.
++[>return.back_]->encryptor_file
++[>return.home_] ->home
 
     === decryptor_file ===//need to add all files here/needs to contain everything that exeSeq does
 ~locationText = "executables/decryptor"
-~countTurns = false
+~countTurns = true
 Protection :: Universal
 {
 -TURNS_SINCE(->redirect_file_knot) == 0:->private

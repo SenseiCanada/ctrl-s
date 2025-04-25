@@ -57,7 +57,9 @@ VAR seenEncryptor = false
 
 //giant
 VAR giantAffection = 0 //has an SO
+LIST askHunterQuest_g1 = triggeredg1, startedg1, metObjectiveg1, completedg1
 VAR startCatQuest = false
+LIST findCatQuest_g2 = triggeredg2, startedg2, metObjectiveg2, completedg2
 VAR hasCat = ""
 VAR learnedBrallKey = false
 VAR hasKey = ""
@@ -66,8 +68,10 @@ VAR hasKey = ""
 //warrior
 VAR warriorAffection = 0 //has an SO
 VAR startHitListQuest = false
+VAR hitQuestComplete = false
 VAR startGunQuest = false
 VAR discoveredNoGun = false
+VAR weaponQuestComplete = false
 VAR hasList = ""
 VAR seenNovaGlow = false
 
@@ -75,7 +79,8 @@ VAR seenNovaGlow = false
 VAR robotAffection = 0 //has an SO
 VAR hasPen = ""
 VAR hasWrench = ""
-LIST fixQuestProgress = triggered, started, metObjective, completed
+LIST fixQuestProgress_r1 = triggeredr1, startedr1, metObjectiver1, completedr1
+
 
 //inventory
 VAR hasAnchor = ""

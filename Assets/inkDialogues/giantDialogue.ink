@@ -59,16 +59,16 @@ You stopped to talk to Brall. You stopped. Maybe there's hope.
 -> checkQuests
 
 = checkQuests
-//met enemy
-{metEnemy == true && not learnEnemy_quest: ->learnEnemy_quest}
+//met enemy - triggered when you meet Will in the files for the first time
+{askHunterQuest_g1 == triggeredg1 && not learnEnemy_quest: ->learnEnemy_quest}
 //qualify for cat quest?
-{ not catQuest && visitTestLevel == true: 
+{findCatQuest_g2 == triggeredg2 && giantAffection >=1 && not catQuest: 
     ->catQuest
 }
 {
 - hasCat == "Player":
     ->giant_foundCat
-- hasCat == "giant":
+- hasCat == "giant" && not catQuest.catQuestEnd:
     -> catQuest.catQuestEnd
 - else: ->checkReact
 }
@@ -112,7 +112,7 @@ Did you find the third hunter while you were dreaming?
 *{not dreaming} [We're not dreaming] ->dreaming
 
 - (end)
-~learnedAboutHunter = true
+~learnedAboutHunter = true//triggers hunter showing up in files
 Prophecies come to pass. Even if we ignore them. The third hunter has killed. Is killing. Will kill again.
 *[<i>Leave</i>]->giantQuit
 
@@ -133,7 +133,7 @@ Once more you come to Brall. Brall shouldn't be surprised. "Keep your enemies cl
 - No. Not yet.
 *[Lonely?]
 - You seek to exploit your enemy's weekness. Brall is rocks. Brall is little somethings and nothings. Brall cannot feel loneliness.
-*[<i>Leave</i.]->giantQuit
+*[<i>Leave</i>]->giantQuit
 
 = dreamwalking
 Brall doesn't like the look of you.
@@ -162,6 +162,7 @@ Brall doesn't like the look of you.
 +[Increase Rel (testing)] 
     ~giantAffection++
     ->giant_fallback
++{catQuest.catQuestEnd}[<i>Trade</>]->giant_trade
 +[<i>Leave</i>]->giantQuit
 ->DONE
 
@@ -331,15 +332,17 @@ Maybe Brall was wrong about you. You may be a hunter, but you can be kind. Leave
 
 ->DONE
 
-=== giant_foundCat ===
+    === giant_foundCat ===
 Mosspaws?
 
 +[I found her]->giant_trade
 
 = reunited
+~findCatQuest_g2 = completedg2
+~giantAffection++
 Brall's shoulder will no longer be itchy. Thank you.
 
-+[Leave]->giantQuit
++[<i>Leave</i>]->giantQuit
 
 -> DONE
 

@@ -44,6 +44,10 @@ public class ScenenesManager : MonoBehaviour
 
     public void EnterIntro()
     {
+        if (inventorySave != null)
+        {
+            inventorySave.startVariablesSet = false;
+        }
         SceneManager.LoadScene("Intro");
     }
 

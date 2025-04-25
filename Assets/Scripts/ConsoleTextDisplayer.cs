@@ -284,7 +284,7 @@ public class ConsoleTextDisplayer : MonoBehaviour
         }
         
         TMP_Text newProcessText = Instantiate(processesTextPrefab, marginObj.transform);
-        newProcessText.text = "Critical Error: attempt to issue developper command from unknown source";
+        newProcessText.text = "Critical Error: attempt to issue developer command from unknown source";
 
         yield return new WaitForSeconds(2f);
         TMP_Text newStatusText = Instantiate(processesStatusPrefab, marginObj.transform);
