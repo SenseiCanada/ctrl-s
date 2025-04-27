@@ -54,6 +54,9 @@ VAR metEnemy = false
 VAR canSpeakToEnemy = false
 VAR sawDecryptError = false
 VAR seenEncryptor = false
+VAR seenSafeMode = true
+VAR enemyAdvantage = 0
+VAR visitEnemy = false
 
 //giant
 VAR giantAffection = 0 //has an SO
@@ -80,6 +83,7 @@ VAR robotAffection = 0 //has an SO
 VAR hasPen = ""
 VAR hasWrench = ""
 LIST fixQuestProgress_r1 = triggeredr1, startedr1, metObjectiver1, completedr1
+LIST findPenQuest_r2 = triggeredr2, startedr2, metObjectiver2, completer2
 
 
 //inventory

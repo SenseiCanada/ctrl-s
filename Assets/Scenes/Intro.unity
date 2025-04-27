@@ -1390,6 +1390,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameData: {fileID: 11400000, guid: 7811e64260797d640ba62753a11b852a, type: 2}
   wizardChildObj: {fileID: 2116604887}
+  wizardCollider: {fileID: 1492652841}
+  wizardAlert: {fileID: 768834556}
 --- !u!4 &263785562
 Transform:
   m_ObjectHideFlags: 0
@@ -1683,6 +1685,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f50a464b50c1274a8e75a708392416a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameData: {fileID: 11400000, guid: 7811e64260797d640ba62753a11b852a, type: 2}
 --- !u!65 &339806581
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3237,7 +3240,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &768834557
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6137,7 +6140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1492652842
 Transform:
   m_ObjectHideFlags: 0
@@ -6926,6 +6929,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df45b111aa7667741807464e318a99ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameData: {fileID: 0}
 --- !u!65 &1666331737
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -61,6 +61,8 @@ You stopped to talk to Brall. You stopped. Maybe there's hope.
 = checkQuests
 //met enemy - triggered when you meet Will in the files for the first time
 {askHunterQuest_g1 == triggeredg1 && not learnEnemy_quest: ->learnEnemy_quest}
+//learned enemy wants hitlist
+{askHunterQuest_g1 == metObjectiveg1 && not learnEnemy_quest.conclude:->learnEnemy_quest.conclude}
 //qualify for cat quest?
 {findCatQuest_g2 == triggeredg2 && giantAffection >=1 && not catQuest: 
     ->catQuest
@@ -293,8 +295,33 @@ You found him, the third hunter.
 - <i>Stone groans as the giant furrows his brow.</i> For now, find out what the spider wants. Why does he haunt the dreaming?
 *[Talk to him again?]
 *[I'd rather not]
+~askHunterQuest_g1 = startedg1
 - These are Brall's terms.
 *[<i>Leave</i>]->giantQuit
+
+= conclude//rough draft, not final!
+What have you learned?
+
+*[Hunter wants a hit list]
+
+-A prophecy of death. Had he only asked Brall. I could tell him where those are written down.
+
+*[Where?]
+
+-<i>The giant lifts his arms. For the first time, you notice that his ribs are covered in swirling glyphs.</i>
+
+*[That's the hit list?]
+
+-These are the prophecies of Brall's ancestors. The foretell who will die, much like this hunter's list.
+
+*[You're full of surprises]
+*[Are you a prophet?]
+~giantAffection++
+~askHunterQuest_g1 = completedg1
+- Brall is Brall. Brall is rocks. Brall is little somethings and nothings. And you... you are growing on Brall.
+*[<i>Leave</i>]->giantQuit
+
+->DONE
 
 ==== catQuest ===
 You, you have small fingers. Scratch Brall's shoulder.
@@ -310,7 +337,7 @@ You, you have small fingers. Scratch Brall's shoulder.
 *[I could look]
     ~startCatQuest = true
 
-- Brall may have misjudged you. She likes hiding where only she can fit. She's very, very small.
+- Brall may have misjudged you. She likes hiding where she can be warm. She is very, very small.
 
 *[Thanks for the tip]
 
@@ -362,7 +389,8 @@ Here's what Brall has.
     {closeTradeWindow()}
     {
     - hasCat != "giant": -> giant_fallback
-    - else: -> giant_foundCat.reunited
+    - hasCat == "giant" && not giant_foundCat.reunited: -> giant_foundCat.reunited
+    - else: ->giant_fallback
     }
     
 

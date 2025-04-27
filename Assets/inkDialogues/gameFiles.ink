@@ -20,6 +20,8 @@ LIST startFilesTargeted = (assetsTarget), (scriptsTarget), (scenesTarget)
 ~ countTurns = false
 ~turns = 0
 ~NPCID = "gameFiles"
+~visitEnemy = false
+
 //conditional logic to redirect
 {
 - not target_check && learnedAboutHunter: ->target_check
@@ -108,6 +110,8 @@ Select a file to enter:
 +{startFilesTargeted != scriptsTarget}[>Executables_]// regular scripts
     ~countTurns = true
     -> executables_file
+
++{showIfPublic(safeMode)}[>Safe Mode_]->safeMode_file
 
 === restricted_home ====
 ~locationText = ""
@@ -416,6 +420,9 @@ File protection :: Universal
 =private
 - ->->
 =public
+{showIfPublic(safeMode):
+    ~seenSafeMode = true
+}
 //must include all files
 //re-order sequence to make sense with gameplay, ie executables act after scenes
 ExecutableSequence: 
@@ -432,6 +439,7 @@ ExecutableSequence:
     {showIfPublic(mainMenu) == false: mainMenu>}
     {showIfPublic(france) == false: franceMedieval>}
     {showIfPublic(gameOver) == false: gameOver>}
+    {showIfPublic(safeMode)== false: safeMode>}
 +[>return.back_]->executables_file
 +[>return.home_] ->home
 
@@ -476,6 +484,9 @@ Protection :: {printProtection(addEquipment)}
 ~seenEncryptor = true
 ~locationText = "executables/encryptor"
 ~countTurns = true
+{showIfPublic(safeMode): 
+    ~seenSafeMode = true
+}
 {fixQuestProgress_r1 != completedr1: 
     ~fixQuestProgress_r1 = triggeredr1
 }
@@ -525,7 +536,10 @@ Select file to encrypt:
     
 +{showIfPublic(addEquipment)}[>Encrypt addEquipment.exe_]
     ->check_add_equiptment_requirements
-    
+ 
+ +{showIfPublic(safeMode)}[>Encrypt SafeMode_]  
+    {lockFile(safeMode)}
+    ->lock_confirm
 
 +[>return.back_]->executables_file
 +[>return.home_] ->home
@@ -555,6 +569,9 @@ Protection :: Universal
 decrypting files...
 - ->->
 =public
+{showIfPublic(safeMode) == false:
+    ~seenSafeMode = true
+}
 {playerClass}.hasCypher = true
 Select file to decrypt: //everything needs to be ! of decryptor, including "un"-lock
 
@@ -603,6 +620,11 @@ Select file to decrypt: //everything needs to be ! of decryptor, including "un"-
     {unlockFile(addEquipment)}
     ->unlock_confirm
 
+// safe mode
++{!showIfPublic(safeMode)}[>Decrypt Safe Mode_]
+    {unlockFile(safeMode)}
+    ->unlock_confirm
+
 +[>return.back_]->executables_file
 +[>return.home_]->home
 
@@ -614,17 +636,49 @@ Error: {playerClass} is missing component.Cypher to access this file. Please add
 +[>return.home_] ->home
         === lock_confirm
 ~locationText = ""
+~countTurns= false
 File encrypted.
 
 +[>return.back_]->encryptor_file
 ->DONE
         === unlock_confirm
 ~locationText = ""
+~countTurns= false
 File decrypted.
 
 +[>return.back_]->decryptor_file
 ->DONE
 
+=== safeMode_file ===
+~locationText = "assets/models"
+Protection:: {printProtection(safeMode)}
+{
+-TURNS_SINCE(->redirect_file_knot) == 0:->private
+- else:->public
+}
+= private
+finalCinematic still in safe mode. Cannot fully compile game until errors are resolved.
+- ->->
+=public
+
++[>Enter Safe Mode_]
+    ~countTurns = false
+    ->check_safeMode_requirements
+    
++[>return.home_]->home
+
+->DONE
+    ==== check_safeMode_requirements ====
+{hasPen != "Player": ->error}
+{hasPen == "Player": ->enter_safeMode}
+
+= error
+Error: Permissions must first be overwritten by GameManager to enter Safe Mode.
++[>return.home_]->home
+
+= enter_safeMode
+{enterSafeMode()}->home
+->DONE
 === redirect_file_knot==//add all files here
 //re-invert list so the rest of the code looks at public files before going back to rest of game files
 ~filesList = LIST_INVERT(filesList)

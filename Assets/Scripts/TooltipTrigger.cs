@@ -11,7 +11,8 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         string header = item.itemName;
         string description = item.description;
-        TooltipSystem.Show(header, description);
+        string ability = item.ability;
+        TooltipSystem.Show(header, description, ability);
         
     }
 
@@ -19,14 +20,16 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         string header = item.itemName;
         string description = item.description;
-        TooltipSystem.Hide(header, description);
+        string ability = item.ability;
+        TooltipSystem.Hide(header, description, ability);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         string header = item.itemName;
         string description = item.description;
-        TooltipSystem.Hide(header, description);
+        string ability = item.ability;
+        TooltipSystem.Hide(header, description, ability);
     }
 
 

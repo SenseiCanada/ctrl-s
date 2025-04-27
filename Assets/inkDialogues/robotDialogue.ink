@@ -39,9 +39,14 @@ VAR cameFromFixQuest = false
 }
 
 =checkQuests//active quests?
-//go fix something quests
-{(runAttempts >= 3 || fixQuestProgress_r1 == triggeredr1)&& not fix_quest.start:->fix_quest.start}
+//go encrypt Add Equipment quests
+{(runAttempts >= 3 || fixQuestProgress_r1 == triggeredr1) && not fix_quest.start:->fix_quest.start}
+//concluding encrypt quest
 {fixQuestProgress_r1 == metObjectiver1:->fix_quest.conclude}
+//get Brall's pen quest
+{seenSafeMode == true && not pen_quest:->pen_quest}
+//conclude pen quests_file
+{findPenQuest_r2 == metObjectiver2:->pen_quest.finishQuest}
 //else
 -> checkRelationship
 
@@ -49,6 +54,7 @@ VAR cameFromFixQuest = false
 {
 - robotAffection < 1: ->stage_intro
 - robotAffection == 1: ->stage1_filler
+- robotAffection == 2: ->stage2_filler
 - else: ->robot_fallback
 }
 
@@ -248,7 +254,14 @@ This is a special property only for assets lucky enough to posess items. It is a
 +[Yes]->robot_trade
 +[Not yet]->complexity_tutorial
 
-=== fix_quest===
+=== stage2_filler ===//rough draft, not final!
+{I'm supposed to act more like I want to be a character. | ->robot_fallback}
+
+*[<i>Leave</i>]->robotQuit
+
+->DONE
+
+=== fix_quest===//encrypt add equipment
 {not fix_quest.start:->fix_quest.start}
 {fixQuestProgress_r1 == metObjectiver1:->fix_quest.conclude}
 = start
@@ -298,6 +311,43 @@ My child, your endeavor was successful! AddEquipment has been encrypted.
 *[<i>Leave</i>]->robotQuit
 ->DONE
 
+=== pen_quest ===
+{not pen_quest.start:->start}
+{findPenQuest_r2 == metObjectiver2 || hasPen == "Player":->finishQuest}
+
+= start//rough draft, not final!!
+I need you to get something from the giant.
+
+*[What]
+
+- He has my pen. I can't approve these proposed code fixes until I have it back.
+
+*[I'll ask him]
+~findPenQuest_r2 = startedr2
+- Good. Be on your way.
+
+*[<i>Leave</i>]->robotQuit
+
+= finishQuest//rough draft, not final!
+Have you found my pen?
+
++[Not yet]->robotQuit
++[Yes]->robot_trade.options
+
+= finishQuestResume//rough draft, not final!
+~findPenQuest_r2 = completer2
+Thank you! This will help me get so much done!
+
+*[Could I borrow it?]
+~robotAffection++
+- Not now, but in the future, I may be able to lend it to you.
+
+*[What now?]
+- Now we can get real progress done. Carry on as you were!
+
+*[<i>Leave</i>]->robotQuit
+
+
 === robot_fallback === //nothing to say or 2nd interaction
 {~ Only two cycles left until compilation.|My child?}
 +{not robot_trade}[<i>Test-Trade-don't click if testing</i>]->robot_trade
@@ -338,11 +388,12 @@ Want to trade?
 
 =options
 {openTradeWindow()}
-Here's what I have.
+{& My possesions, such as the are. | Choose expeditiously, time slips through our fingers.}
 
 +[Back]{closeTradeWindow()}
 {
 - cameFromIntro == true:->complexity_tutorial
+- hasPen == "robot" && not pen_quest.finishQuestResume: ->pen_quest.finishQuestResume
 - else:-> robot_fallback
 }
 

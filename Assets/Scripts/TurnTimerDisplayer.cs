@@ -24,7 +24,6 @@ public class TurnTimerDisplayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        totalTurns = gameFiles.playerAttributes.Count;
         turnsRemainingText.text = (totalTurns - turnsTaken).ToString();
     }
 
@@ -34,8 +33,9 @@ public class TurnTimerDisplayer : MonoBehaviour
 
     }
     
-    void UpdateTurns(int turnNum)
+    void UpdateTurns(int turnTotal, int turnNum)
     {
+        totalTurns = turnTotal;
         turnsTaken = turnNum;
         //turnsText.text = turnsTaken.ToString();
         turnsRemainingText.text = (totalTurns-turnsTaken).ToString();

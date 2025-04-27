@@ -8,6 +8,7 @@ public class TooltipSystem : MonoBehaviour
 
     public static string tooltipHeader;
     public static string tooltipDescription;
+    public static string tooltipAbility;
 
     public Tooltip tooltip;
 
@@ -19,7 +20,7 @@ public class TooltipSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Hide(tooltipHeader, tooltipDescription);
+        Hide(tooltipHeader, tooltipDescription, tooltipAbility);
     }
 
     // Update is called once per frame
@@ -28,16 +29,18 @@ public class TooltipSystem : MonoBehaviour
         
     }
 
-    public static void Show(string header, string description)
+    public static void Show(string header, string description, string ability)
     {
-        instance.tooltip.SetText(header, description);
+        instance.tooltip.SetText(header, description, ability);
         instance.tooltip.gameObject.SetActive(true);
     }
 
-    public static void Hide(string header, string description)
+    public static void Hide(string header, string description, string ability)
     {
         instance.tooltip.gameObject.SetActive(false);
         tooltipHeader = string.Empty;
         tooltipDescription = string.Empty;
+        tooltipAbility = string.Empty;
+
     }
 }

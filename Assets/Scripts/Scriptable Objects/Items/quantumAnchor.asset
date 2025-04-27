@@ -19,3 +19,4 @@ MonoBehaviour:
   description: Some of the wiring is bare, careful not to get zapped
   recipients:
   - warrior
+  ability: All >return.home_ actions cost 0 processes

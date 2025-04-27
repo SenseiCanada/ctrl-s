@@ -2965,6 +2965,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1820356238}
   - component: {fileID: 1820356239}
+  - component: {fileID: 1820356240}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -3005,6 +3006,20 @@ MonoBehaviour:
   turnsTaken: 0
   totalTurns: 0
   turnsRemaining: 0
+--- !u!114 &1820356240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1820356237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a6b6fc3362baa547b2ec2a886750c66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameFiles: {fileID: 11400000, guid: 7811e64260797d640ba62753a11b852a, type: 2}
+  enemyAdvantageSO: {fileID: 11400000, guid: 0cd103da78ed7d44995c528df2e51896, type: 2}
 --- !u!1 &1826825601
 GameObject:
   m_ObjectHideFlags: 0

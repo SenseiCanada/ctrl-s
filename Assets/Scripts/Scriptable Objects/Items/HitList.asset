@@ -19,3 +19,4 @@ MonoBehaviour:
   description: They had to die, they have to die, they will have to die
   recipients:
   - warrior
+  ability: Someone in the game files may allow you to speak if you carry this item

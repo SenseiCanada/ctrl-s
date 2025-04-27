@@ -42,7 +42,7 @@ public class ScenenesManager : MonoBehaviour
         SceneManager.LoadScene("Lobby");
     }
 
-    public void EnterIntro()
+    public void EnterIntro()//called by start button
     {
         if (inventorySave != null)
         {

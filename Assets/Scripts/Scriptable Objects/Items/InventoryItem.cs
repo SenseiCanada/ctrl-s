@@ -11,4 +11,6 @@ public class InventoryItem : ScriptableObject
     public string inkVariableName;
     public string description;
     public List<string> recipients = new List<string>();
+
+    public string ability;
 }

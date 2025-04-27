@@ -1,6 +1,6 @@
 
 //every file in the game needs a protection variable on this list
-LIST filesList = (models), (player), (warrior), (giant), wizard, quests, campaign, hits, cinematics, (mainMenu), france, (gameOver), (addActors), (addEquipment)
+LIST filesList = (models), (player), (warrior), (giant), wizard, quests, campaign, hits, cinematics, (mainMenu), france, (gameOver), (addActors), (addEquipment), safeMode
 VAR fullListSize = 0
 VAR currentPrivateFile = ""
 VAR currentListEnum = 1

@@ -86,4 +86,5 @@ public class GameFilesData : ScriptableObject
             //Debug.LogWarning("OnUnityRegisterInkVar has no listeners!");
         }
     }
+
 }

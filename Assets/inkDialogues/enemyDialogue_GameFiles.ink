@@ -6,6 +6,7 @@ EXTERNAL takeTwoTurns()
 //state checks
 ~locationText = "??"
 ~countTurns = false
+~visitEnemy = true
 {
 - not enemy_first: ->enemy_first
 - hasList != "Player": ->enemy_norespond

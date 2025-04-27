@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class ACollider : MonoBehaviour
 {
+    [SerializeField]
+    private GameFilesData gameData;
+
     private bool firstCollision;
     public static Action OnAColliderEnter;
     public static Action OnAColliderExit;
@@ -13,6 +16,13 @@ public class ACollider : MonoBehaviour
     void Start()
     {
         firstCollision = false;
+        if (gameData.variables.ContainsKey("hasPen"))
+        {
+            if (gameData.variables["hasPen"].ToString() == "Player")
+            {
+                GetComponent<Collider>().enabled = false;
+            }
+        }
     }
 
     // Update is called once per frame

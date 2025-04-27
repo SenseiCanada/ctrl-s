@@ -20,3 +20,4 @@ MonoBehaviour:
   recipients:
   - robot
   - warrior
+  ability: Allows you to decrypt game files

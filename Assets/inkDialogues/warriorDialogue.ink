@@ -53,7 +53,7 @@ To your station, now!
 - not warrior_hitlist && runAttempts >= 4: ->warrior_hitlist
 - warrior_hitlist && hasList == "Player" && hitQuestComplete == false: -> warrior_hitlist.endQuest
 //qualify for weapon quest?
-- discoveredNoGun == true && weaponQuestComplete = false:
+- discoveredNoGun == true && weaponQuestComplete == false:
     -> warrior_weapon.weaponless
 - warrior_hitlist.endQuest && not warrior_weapon && warriorAffection >= 2: 
     ->warrior_weapon //this will trigger before any filler

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attributeID: playerInventory
   attributeText: 'Player Inventory:'
-  attributeValue: 1
+  attributeValue: 0
   gameFilesData: {fileID: 0}

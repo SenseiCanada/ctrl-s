@@ -9,6 +9,8 @@ public class Tooltip : MonoBehaviour
     private TMP_Text header;
     [SerializeField]
     private TMP_Text body;
+    [SerializeField]
+    private TMP_Text power;
 
     // Start is called before the first frame update
     void Start()
@@ -22,9 +24,10 @@ public class Tooltip : MonoBehaviour
         
     }
 
-    public void SetText(string name, string decription)
+    public void SetText(string name, string decription, string ability)
     {
         header.text = name;
         body.text = decription;
+        power.text = ability;
     }
 }
