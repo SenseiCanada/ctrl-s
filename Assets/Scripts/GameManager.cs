@@ -110,17 +110,30 @@ public class GameManager : MonoBehaviour
         if (int.TryParse(currentAttribute.attributeValue, out maxAttributeValue))
         {
             int currentValue = 1 + maxAttributeValueIncrement;
-            CreateProcessText(currentAttribute, currentValue.ToString(), maxAttributeValue);
-            if (maxAttributeValueIncrement <= maxAttributeValue)
+            if (currentValue <= maxAttributeValue)
             {
-                maxAttributeValueIncrement++;
+                CreateProcessText(currentAttribute, currentValue.ToString(), maxAttributeValue);
+                maxAttributeValueIncrement++; // keep going
+            }
+            else
+            {
+                // Finished this attribute, move to the next one
+                attributeListIncrement++;
+                maxAttributeValueIncrement = 0; // reset increment for next attribute
+            }
+            //CreateProcessText(currentAttribute, currentValue.ToString(), maxAttributeValue);
+            //if (maxAttributeValueIncrement <= maxAttributeValue)
+            //{
+            //    maxAttributeValueIncrement++;
 
-            }else attributeListIncrement++;
+            //}
+            //else return;//attributeListIncrement++;
         }
         else
         {
             CreateProcessText(currentAttribute, currentAttribute.attributeValue, maxAttributeValue);
             attributeListIncrement++;
+            maxAttributeValueIncrement = 0;
         }
     }
 

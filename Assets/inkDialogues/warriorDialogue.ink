@@ -104,7 +104,7 @@ Remember the mission to Frontenac? 1200s, I'm pretty sure, because Europeans wer
 *[A whole castle?]
 - Our mark was digging a secret escape tunnel under the keep. Tunnel collapsed right when we got there, under the castle foundations. We thought you were a goner.
 *[Was this part of the game?]
--</i>She frowns.</i> I remember it happening. The dust. The screams. And I remember you talking to me before last compilation. So it has to be, right?
+-<i>She frowns.</i> I remember it happening. The dust. The screams. And I remember you talking to me before last compilation. So it has to be, right?
 *[You seem unsure]
 - My logic is sound, ok? Plus, I might compile pretty fast, but I've still poked around some in the game files.
 *[What have you found?]

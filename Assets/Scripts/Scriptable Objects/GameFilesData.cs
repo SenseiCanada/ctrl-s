@@ -80,10 +80,11 @@ public class GameFilesData : ScriptableObject
         if (OnUnityRegisterInkVar != null)
         {
             OnUnityRegisterInkVar.Invoke(varName, varValue);
+            Debug.Log($"Firing OnUnityRegisterInkVar event: {varName}, {varValue}");
         }
         else
         {
-            //Debug.LogWarning("OnUnityRegisterInkVar has no listeners!");
+            Debug.LogWarning("OnUnityRegisterInkVar has no listeners!");
         }
     }
 

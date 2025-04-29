@@ -60,14 +60,13 @@ You stopped to talk to Brall. You stopped. Maybe there's hope.
 
 = checkQuests
 //met enemy - triggered when you meet Will in the files for the first time
-{askHunterQuest_g1 == triggeredg1 && not learnEnemy_quest: ->learnEnemy_quest}
-//learned enemy wants hitlist
-{askHunterQuest_g1 == metObjectiveg1 && not learnEnemy_quest.conclude:->learnEnemy_quest.conclude}
-//qualify for cat quest?
-{findCatQuest_g2 == triggeredg2 && giantAffection >=1 && not catQuest: 
-    ->catQuest
-}
 {
+- askHunterQuest_g1 ? triggeredg1 && not learnEnemy_quest: ->learnEnemy_quest
+//learned enemy wants hitlist
+- askHunterQuest_g1 ? metObjectiveg1 && not learnEnemy_quest.conclude:->learnEnemy_quest.conclude
+//qualify for cat quest?
+- findCatQuest_g2 ? triggeredg2 && giantAffection >=1 && not catQuest: 
+    ->catQuest
 - hasCat == "Player":
     ->giant_foundCat
 - hasCat == "giant" && not catQuest.catQuestEnd:
@@ -295,7 +294,7 @@ You found him, the third hunter.
 - <i>Stone groans as the giant furrows his brow.</i> For now, find out what the spider wants. Why does he haunt the dreaming?
 *[Talk to him again?]
 *[I'd rather not]
-~askHunterQuest_g1 = startedg1
+~askHunterQuest_g1 += startedg1
 - These are Brall's terms.
 *[<i>Leave</i>]->giantQuit
 
@@ -317,7 +316,7 @@ What have you learned?
 *[You're full of surprises]
 *[Are you a prophet?]
 ~giantAffection++
-~askHunterQuest_g1 = completedg1
+~askHunterQuest_g1 += completedg1
 - Brall is Brall. Brall is rocks. Brall is little somethings and nothings. And you... you are growing on Brall.
 *[<i>Leave</i>]->giantQuit
 
@@ -335,7 +334,7 @@ You, you have small fingers. Scratch Brall's shoulder.
 - Brall's kitty. Gone now.
 
 *[I could look]
-    ~startCatQuest = true
+    ~findCatQuest_g2 += startedg2
 
 - Brall may have misjudged you. She likes hiding where she can be warm. She is very, very small.
 
@@ -365,7 +364,7 @@ Mosspaws?
 +[I found her]->giant_trade
 
 = reunited
-~findCatQuest_g2 = completedg2
+~findCatQuest_g2 += completedg2
 ~giantAffection++
 Brall's shoulder will no longer be itchy. Thank you.
 

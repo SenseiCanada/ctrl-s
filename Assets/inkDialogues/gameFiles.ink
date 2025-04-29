@@ -24,27 +24,27 @@ LIST startFilesTargeted = (assetsTarget), (scriptsTarget), (scenesTarget)
 
 //conditional logic to redirect
 {
-- not target_check && learnedAboutHunter: ->target_check
+- learnedAboutHunter: ->target_check
 - else: ->classes //eventually, only if you begin by talking with GM
 }
 
 = classes
 Loading classes...
 
-- +[>Continue_]
+- +[>Click to continue_]
 
 Class name: fileViewer
 	File access level: decrypted
     Access mode: free
 
-- +[>Continue_]
+- +[>Click to continue_]
 
 Class name: codeReader
 	File access level: encrypted
     Access mode: restricted
     Restrictor: ExecutableSequence.exe
 
-- +[>Continue_]
+- +[>Click to continue_]
 
 Enter file directory?
 
@@ -53,8 +53,11 @@ Enter file directory?
 ->DONE
 
 === target_check ===//redirect to assign wizard's target
+{LIST_COUNT(startFilesTargeted) == 1:
+    ~startFilesTargeted = LIST_INVERT(startFilesTargeted)
+}
 ~startFilesTargeted = LIST_RANDOM(startFilesTargeted)
-->enter
+->enter.classes
 
 === home === //fork for fiewer or reader
 //null check for playerClass
@@ -358,9 +361,9 @@ Protection:: {printProtection(france)}
 loading scene.Medieval_France
 - ->->
 =public
-~ findCatQuest_g2 = triggeredg2//triggers one of cat quests conditions
+~ findCatQuest_g2 += triggeredg2//triggers one of cat quests conditions
 <color=purple>Dev Log: Castle kitchen. Racks of meat hanging from the ceiling. Stew bubbling on the hearth. Saucer of milk by the fire.</color>
-*{findCatQuest_g2 == startedg2}[>inspect(saucer)_]->france_inspect//maybe change it so you have to load actors first
+*{findCatQuest_g2 ? startedg2}[>inspect(saucer)_]->france_inspect//maybe change it so you have to load actors first
 +[>return?_] ->scenes_file
 
 =france_inspect
@@ -369,7 +372,7 @@ smallCat.isLicking = true
 smallCat.licks(self.paw)
 
 +[>collect(smallCat)_]
-    ~findCatQuest_g2 = metObjectiveg2
+    ~findCatQuest_g2 += metObjectiveg2
     ~hasCat = "Player"
     {addCat()}
     ->mosspaws
@@ -464,9 +467,8 @@ novaWarrior :: null
 +[>return.home_] ->home
 
     === add_equipment_file ===
-{fixQuestProgress_r1 != completedr1: 
-    ~fixQuestProgress_r1 = triggeredr1
-}
+~fixQuestProgress_r1 += triggeredr1
+
 ~locationText = "executables/addequipment.exe"
 Protection :: {printProtection(addEquipment)}
 {
@@ -487,9 +489,8 @@ Protection :: {printProtection(addEquipment)}
 {showIfPublic(safeMode): 
     ~seenSafeMode = true
 }
-{fixQuestProgress_r1 != completedr1: 
-    ~fixQuestProgress_r1 = triggeredr1
-}
+~fixQuestProgress_r1 += triggeredr1
+
 Protection :: Universal
 Select file to encrypt:
 
@@ -546,8 +547,8 @@ Select file to encrypt:
 
         === check_add_equiptment_requirements ====
 { 
-- fixQuestProgress_r1 == startedr1:
-    ~fixQuestProgress_r1 = metObjectiver1
+- fixQuestProgress_r1 ? startedr1:
+    ~fixQuestProgress_r1 += metObjectiver1
     {lockFile(addActors)}
     ->lock_confirm
 - else: ->error

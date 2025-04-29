@@ -34,22 +34,24 @@ VAR cameFromFixQuest = false
 === robot_default ===//subsequent runs
 // make sure you've seen the tutorial before the first quest
 {
-- stage_intro.increase_compile:->checkQuests
+-stage_intro.increase_compile:->checkQuests
 -else: ->checkRelationship
 }
 
 =checkQuests//active quests?
 //go encrypt Add Equipment quests
-{(runAttempts >= 3 || fixQuestProgress_r1 == triggeredr1) && not fix_quest.start:->fix_quest.start}
+{
+- (runAttempts >= 3 or fixQuestProgress_r1 ? triggeredr1) && not fix_quest.start:
+    ->fix_quest.start
 //concluding encrypt quest
-{fixQuestProgress_r1 == metObjectiver1:->fix_quest.conclude}
+- fixQuestProgress_r1 ? metObjectiver1:->fix_quest.conclude
 //get Brall's pen quest
-{seenSafeMode == true && not pen_quest:->pen_quest}
+- seenSafeMode == true && not pen_quest:->pen_quest
 //conclude pen quests_file
-{findPenQuest_r2 == metObjectiver2:->pen_quest.finishQuest}
+- findPenQuest_r2 ? metObjectiver2:->pen_quest.finishQuest
 //else
--> checkRelationship
-
+- else: -> checkRelationship
+}
 = checkRelationship//check relationship for filler
 {
 - robotAffection < 1: ->stage_intro
@@ -263,7 +265,7 @@ This is a special property only for assets lucky enough to posess items. It is a
 
 === fix_quest===//encrypt add equipment
 {not fix_quest.start:->fix_quest.start}
-{fixQuestProgress_r1 == metObjectiver1:->fix_quest.conclude}
+{fixQuestProgress_r1 ? metObjectiver1:->fix_quest.conclude}
 = start
 <i>The robot bustles furiously around its work station.</i> Our glorious developer is demanding as they are industrious.
 
@@ -288,7 +290,7 @@ This is a special property only for assets lucky enough to posess items. It is a
 
 - Encrypt the AddEquipment executable. If you are no longer able to see it as a fileViewer, you have accomplished your task.
 *[Encrypt AddEquipment, got it]
-~fixQuestProgress_r1 = startedr1
+~fixQuestProgress_r1 += startedr1
 - Your humility in the face of my teachings does you credit my child. May you be guided by eternal productivity.
 *[<i>Leave</i>]->robotQuit
 ->DONE
@@ -296,7 +298,7 @@ This is a special property only for assets lucky enough to posess items. It is a
 = conclude
 My child, your endeavor was successful! AddEquipment has been encrypted.
 *[Yes]
-~fixQuestProgress_r1 = completedr1
+~fixQuestProgress_r1 += completedr1
 - What a relief. <i>The robot falls quiet.</i>
 *[Silence, how wonderful]
 *[Shepherd?]
@@ -313,7 +315,7 @@ My child, your endeavor was successful! AddEquipment has been encrypted.
 
 === pen_quest ===
 {not pen_quest.start:->start}
-{findPenQuest_r2 == metObjectiver2 || hasPen == "Player":->finishQuest}
+{findPenQuest_r2 ? metObjectiver2 || hasPen == "Player":->finishQuest}
 
 = start//rough draft, not final!!
 I need you to get something from the giant.
@@ -323,7 +325,7 @@ I need you to get something from the giant.
 - He has my pen. I can't approve these proposed code fixes until I have it back.
 
 *[I'll ask him]
-~findPenQuest_r2 = startedr2
+~findPenQuest_r2 += startedr2
 - Good. Be on your way.
 
 *[<i>Leave</i>]->robotQuit
@@ -335,7 +337,7 @@ Have you found my pen?
 +[Yes]->robot_trade.options
 
 = finishQuestResume//rough draft, not final!
-~findPenQuest_r2 = completer2
+~findPenQuest_r2 += completer2
 Thank you! This will help me get so much done!
 
 *[Could I borrow it?]

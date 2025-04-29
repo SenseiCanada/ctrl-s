@@ -74,7 +74,11 @@ public class LoadOutHintDisplayer : MonoBehaviour
         if (varName == "hasAnchor" && varValue == "Player")
         {
             anchorIcon.SetActive(true);
-        } else anchorIcon.SetActive(false);
+        }
+        else if (varName == "hasAnchor" && varValue != "Player")
+        {
+            anchorIcon.SetActive(false);
+        }
     }
 
     void UpdateCypherIcon(string varName, string varValue)
@@ -83,16 +87,22 @@ public class LoadOutHintDisplayer : MonoBehaviour
         {
             cypherIcon.SetActive(true);
         }
-        else cypherIcon.SetActive(false);
+        else if (varName == "hasWrench" && varValue != "Player")
+        {
+            cypherIcon.SetActive(false);
+        }
     }
 
     void UpdateListIcon(string varName, string varValue)
     {
-        if (varName == "hasWrench" && varValue == "Player")
+        if (varName == "hasList" && varValue == "Player")
         {
             hitlistIcon.SetActive(true);
         }
-        else hitlistIcon.SetActive(false);
+        else if (varName == "hasList" && varValue != "Player")
+        {
+            hitlistIcon.SetActive(false);
+        }
     }
     void UpdatePenIcon(string varName, string varValue)
     {
@@ -100,7 +110,10 @@ public class LoadOutHintDisplayer : MonoBehaviour
         {
             penIcon.SetActive(true);
         }
-        else penIcon.SetActive(false);
+        else if (varName == "hasPen" && varValue != "Player")
+        {
+            penIcon.SetActive(false);
+        }
     }
 
     private void OnDisable()

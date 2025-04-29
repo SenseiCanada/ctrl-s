@@ -18,7 +18,7 @@ EXTERNAL takeTwoTurns()
 
 === enemy_first ===
 ~countTurns = false
-~askHunterQuest_g1 = triggeredg1
+~askHunterQuest_g1 += triggeredg1
 <color=red>Ah, I'm glad I can count on your curiosity for this at least.</color>
 *[>Continue_]
 - <color=red>Your predictability will make you easier to contain.</color>
@@ -46,7 +46,7 @@ EXTERNAL takeTwoTurns()
 *[>Continue_]
 -<color=red>Yes... you always received names, times, locations...</color>
 *[>Continue_]
-~askHunterQuest_g1 = metObjectiveg1
+~askHunterQuest_g1 += metObjectiveg1
 -<color=red>Find your hitlist in these files. Show it to me. In return, I could...grant you the ability to speak with me, when next we meet.</color>
 *[>return.home_]
     {takeTwoTurns()}
@@ -163,7 +163,7 @@ EXTERNAL takeTwoTurns()
 ~countTurns = false
 <color=red>Caught once again. You're slipping.</color>
 
-*[>return?_]
++[>return?_]
     {takeTwoTurns()}
     ->home
 
