@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attributeID: robotAffection
   attributeText: 'Robot  affection score:'
-  attributeValue: 1
+  attributeValue: 0
   gameFilesData: {fileID: 0}

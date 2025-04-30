@@ -15,7 +15,7 @@ VAR enterLobbyAffection = " "
 Enter {lobby}?
 
 +[Yes]->enter_lobby_check
-    {enterLobby()}
+    //{enterLobby()}
 
 +[No] {quitDialogue()}
 
