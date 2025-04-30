@@ -7,6 +7,9 @@ public class ScenenesManager : MonoBehaviour
 {
     [SerializeField]
     private SaveScriptableObject inventorySave;
+
+    [SerializeField]
+    private GameFilesData gameData;
     
     // Start is called before the first frame update
 
@@ -54,6 +57,15 @@ public class ScenenesManager : MonoBehaviour
     public void EnterSafeMode()
     {
         SceneManager.LoadScene("Intro");
+    }
+
+    public void EnterEndScreen()
+    {
+        SceneManager.LoadScene("EndScreen");
+    }
+    public void ReturnStart()
+    {
+        SceneManager.LoadScene("StartScreen");
     }
 
     private void OnDisable()

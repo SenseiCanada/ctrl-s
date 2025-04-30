@@ -128,4 +128,5 @@ Nova: Shut up. Just... just stop it. I'm here to end you.
 ->DONE
 
 === function hideWizard ===
+~ forcedWizard = true
 ~return

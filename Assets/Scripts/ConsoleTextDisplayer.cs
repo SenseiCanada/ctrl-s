@@ -34,6 +34,10 @@ public class ConsoleTextDisplayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //lock mouse
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
         playerCharacterText.gameObject.SetActive(false);
         inputField.gameObject.SetActive(false);
         greetedWorld = false;
@@ -64,6 +68,8 @@ public class ConsoleTextDisplayer : MonoBehaviour
 
     void EndIntro()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         IntroCanvasObj.gameObject.SetActive(false);
     }
 

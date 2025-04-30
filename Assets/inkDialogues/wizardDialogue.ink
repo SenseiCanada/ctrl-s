@@ -16,6 +16,7 @@ I having nothing to say to you yet.
 
 
 === wizard_end ===
+~seenWizardEnd = true
 How droll. That such a small item could be my undoing. The pen is truly mightier than the sword.
 
 *[I'm putting you back in]

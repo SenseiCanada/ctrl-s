@@ -20,6 +20,7 @@ VAR runAttempts = 0
 VAR NPCName = "??"
 VAR NPCID = ""
 VAR saveResumeKnot = ""
+VAR fixedGame = false
 
 //cinematic
 VAR openedCinematic = false
@@ -28,6 +29,8 @@ VAR victim1 = "Errol"
 VAR victim2  = "Jason"
 VAR badGuy = "Will"
 VAR seenNovaName = false
+VAR seenWizardEnd = false
+VAR forcedWizard = false
 
 //proper names
 VAR timeCorp = "TimeCorp"

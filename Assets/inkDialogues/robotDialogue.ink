@@ -257,8 +257,41 @@ This is a special property only for assets lucky enough to posess items. It is a
 +[Not yet]->complexity_tutorial
 
 === stage2_filler ===//rough draft, not final!
-{I'm supposed to act more like I want to be a character. | ->robot_fallback}
+{->brokenPen |(not final) I'm supposed to act more like I want to be a character. | ->robot_fallback}
 
+= brokenPen
+Must he be so clumsy! I understand he has been programmed to be the enemy, but couldn't he have had smaller fingers?
+
+*[The wizard?]
+*[Brall's not that bad]
+
+-Oh, forgive me. A momentary lapse. You are correct. All is as our developer intended. I'm sure even this set back is by design.
+
+*[What happened?]
+
+-The titan, he broke my pen.
+
+*[Seemed fine to me]
+
+- Its model an icon, yes, perfectly adequate. Its functionality however... It might as well be a null argument.
+
+*[What's its function?]
+
+- It is my scepter, my bage of office. It lets me overwrite assets that are proving troublesome.
+
+*[So you can fix the game?]
+
+-Not exactly. Whenever there are bugs, the engine isolates them in Safe Mode. With this pen, I can enter Safe Mode and remedy the problem.
+
+*[And?]
+
+-While it let me enter Safe Mode, I could find nothing to overwrite. The final cinematic is still incomplete. The missing asset was nowhere to be found.
+
+*[I could try]
+
+-I will not begrudge you even that pointless attemp. Damaged as my pen is, it has no use for me.
+
+*[<i>Trade</i>]->robot_trade.options
 *[<i>Leave</i>]->robotQuit
 
 ->DONE
