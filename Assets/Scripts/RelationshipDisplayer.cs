@@ -35,8 +35,11 @@ public class RelationshipDisplayer : MonoBehaviour
     private void DisplayRelationship(string npcID)
     {
         relationshipVar = RelationshipManager.Instance.GetAffection(npcID);
-        relationshipText.text = relationshipVar.ToString();
-        Debug.Log($"[RelationshipDisplayer] Showing {npcID} affection: {relationshipVar}");
+        if (relationshipVar.ToString() != null)
+        {
+            relationshipText.text = relationshipVar.ToString();
+            Debug.Log($"[RelationshipDisplayer] Showing {npcID} affection: {relationshipVar}");
+        }
     }
 
     private void HandleAffectionChanged(string npcID, int oldValue, int newValue)

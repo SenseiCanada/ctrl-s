@@ -23,7 +23,7 @@ public class RelationshipManager : MonoBehaviour
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(this.gameObject); // important: survive prefab destruction
+        //DontDestroyOnLoad(this.gameObject); // important: survive prefab destruction
     }
 
     private void OnEnable()
