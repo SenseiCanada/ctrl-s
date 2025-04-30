@@ -60,6 +60,7 @@ public class DialogueManager : MonoBehaviour
     public static event Action OnEnterGameFiles, OnEnterLobby;
     public event Action<string, string> OnNewStorySave;
     public static event Action OnHideWizard;
+    public static event Action OnEnterEndScreen;
     private bool closeDialoguePanel;
 
     private void OnEnable()
@@ -126,6 +127,7 @@ public class DialogueManager : MonoBehaviour
         currentStory.BindExternalFunction("enterGameFiles", () => { EnterGameFiles(); });
         currentStory.BindExternalFunction("enterLobby", () => { EnterLobby(); });
         currentStory.BindExternalFunction("hideWizard", () => { HideWizard(); });
+        currentStory.BindExternalFunction("enterEnd", () => { OnEnterEndScreen(); });
     }
 
     void RefreshView()

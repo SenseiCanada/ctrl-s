@@ -41,6 +41,7 @@ public class IntroGameManager : MonoBehaviour
         //InteractCollider.OnIntroColliderEnter += EnableInteract;
         InteractCollider.OnInteractColliderExit += DisableInteract;
         DialogueManager.OnEnterLobby += EnterLobby;
+        DialogueManager.OnEnterEndScreen += EnterEndScreen;
 
         sawFirstInterct = false;
     }
@@ -93,6 +94,11 @@ public class IntroGameManager : MonoBehaviour
         SceneManager.LoadScene("Lobby");
     }
 
+    public void EnterEndScreen()
+    {
+        SceneManager.LoadScene("EndScreen");
+    }
+
     void ClosePanel()
     {
         if (dialoguePanelObj != null && dialogueTextlObj != null && dialogueChoicesObj != null)
@@ -111,6 +117,7 @@ public class IntroGameManager : MonoBehaviour
     {
         InteractCollider.OnInteractColliderExit -= DisableInteract;
         DialogueManager.OnEnterLobby -= EnterLobby;
+        DialogueManager.OnEnterEndScreen -= EnterEndScreen;
     }
 }
 
