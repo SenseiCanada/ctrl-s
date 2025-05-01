@@ -5,6 +5,9 @@ using System;
 
 public class InteractColliderLobby : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject EKey;
+
     public static Action OnInteractColliderEnter;
     public static Action OnInteractColliderExit;
 
@@ -22,10 +25,12 @@ public class InteractColliderLobby : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") && !EKey.activeInHierarchy)
         {
             OnInteractColliderEnter();
+            Debug.Log("Tutorial interact collider flagging collision");
         }
+            
     }
 
     private void OnTriggerExit(Collider other)

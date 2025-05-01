@@ -45,6 +45,7 @@ Nova: Shut up. Just... just stop it. I'm here to end you.
 +[<i>Continue</i>]
 -Nova: I'm nothing like you.
 +[<i>Continue</i>]
+~seenTwinNames = true
 -Nova:{victim1} and {victim2} were children, {badGuy}, children!
 +[<i>Continue</i>]
 -Nova: I am not your excuse! Their blood is on your hands!

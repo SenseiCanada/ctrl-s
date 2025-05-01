@@ -9,12 +9,6 @@ VAR warriorRunCount = -1
 
 === warrior_enter ===
 ~NPCID = "warrior"
-{
--seenNovaName:
-    ~NPCName = "Nova"
-- else:
-    ~NPCName = "??"
-}
 //check if runAttempts has changed = have we seen this before
 {
 - runAttempts == warriorRunCount: ->warrior_fallback //yes, go fallback
@@ -44,10 +38,21 @@ To your station, now!
 *[<i>Leave</i>]->warriorQuit
 
 === warrior_default === //subsequent runs
-
+{
+-seenNovaName:
+    ~NPCName = "Nova"
+- else:
+    ~NPCName = "??"
+}
 ->checkQuests//first check if there are any active quests
 
 = checkQuests 
+{
+-seenNovaName:
+    ~NPCName = "Nova"
+- else:
+    ~NPCName = "??"
+}
 //qualify for hitlist?
 {
 - not warrior_hitlist && runAttempts >= 4: ->warrior_hitlist
@@ -164,6 +169,12 @@ Probably some bug in the system. Get to your {portal}. We can talk more after co
 *[<i>Leave</i>]->warriorQuit
 
 === stage1_filler ===
+{
+-seenNovaName:
+    ~NPCName = "Nova"
+- else:
+    ~NPCName = "??"
+}
 {->food |->workout|->purpose|->warrior_fallback}
 = food
 If you were in charge of {timeCorp}, how would you boost recruitment?
@@ -217,6 +228,12 @@ When I was recruited, O'brien asked to me, "Nova, what if you could do it when h
 ->DONE
 
 === stage2_filler===
+{
+-seenNovaName:
+    ~NPCName = "Nova"
+- else:
+    ~NPCName = "??"
+}
 {->stare |->anger |->depressed |->warrior_fallback}
 
 = stare

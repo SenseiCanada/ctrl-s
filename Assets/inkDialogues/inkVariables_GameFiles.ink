@@ -31,6 +31,7 @@ VAR badGuy = "Will"
 VAR seenNovaName = false
 VAR seenWizardEnd = false
 VAR forcedWizard = false
+VAR seenTwinNames = false
 
 //proper names
 VAR timeCorp = "TimeCorp"

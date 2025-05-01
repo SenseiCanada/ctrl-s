@@ -5,6 +5,7 @@ VAR seenRobotName = false
 VAR robotRunCount = -1
 VAR cameFromIntro = false
 VAR cameFromFixQuest = false
+VAR offline = false
 -> robot_enter
 
 === robot_enter === //knot that directs active story
@@ -56,7 +57,7 @@ VAR cameFromFixQuest = false
 {
 - robotAffection < 1: ->stage_intro
 - robotAffection == 1: ->stage1_filler
-- robotAffection == 2: ->stage2_filler
+- robotAffection >= 2: ->stage2_filler
 - else: ->robot_fallback
 }
 
@@ -256,8 +257,8 @@ This is a special property only for assets lucky enough to posess items. It is a
 +[Yes]->robot_trade
 +[Not yet]->complexity_tutorial
 
-=== stage2_filler ===//rough draft, not final!
-{->brokenPen |(not final) I'm supposed to act more like I want to be a character. | ->robot_fallback}
+=== stage2_filler ===
+{->brokenPen |->blaspheme| ->character | ->robot_fallback}
 
 = brokenPen
 Must he be so clumsy! I understand he has been programmed to be the enemy, but couldn't he have had smaller fingers?
@@ -277,7 +278,7 @@ Must he be so clumsy! I understand he has been programmed to be the enemy, but c
 
 *[What's its function?]
 
-- It is my scepter, my bage of office. It lets me overwrite assets that are proving troublesome.
+- It is my scepter, my badge of office. It lets me overwrite assets that are proving troublesome.
 
 *[So you can fix the game?]
 
@@ -295,6 +296,68 @@ Must he be so clumsy! I understand he has been programmed to be the enemy, but c
 *[<i>Leave</i>]->robotQuit
 
 ->DONE
+
+= blaspheme
+Come closer and keep your voice down. My child... I am hesitant to ask this of you...
+*[Need something fixed?]
+*[Not another errand]
+*[Just do it yourself]
+-This is not like my earlier requests. I need you...I would like to...
+*[Are you ok?]
+*[Spit it out, Shepherd!]
+-Oh, may the almighty forgive me, my child, I want to hear you blaspheme.
+*[What??]
+*[You're clearly malfunctioning]
+-No, you heard me correctly. I do not think such words can be articultated by my protocols. But I would like to hear them.
+*[Hear what exactly?]
+-Oh anything really, so long as it... demeans and belittles the work of the great developer.
+*[This game is crap!]
+*[No vision! No direction!]
+*[Lazy, incompetent, and clueless!]
+-<i>The robot looks at you in stunned silence.</i> Again...please.
+*[Derivative premise!]
+*[Clumsy dialogue!]
+*[Souless drudgery!]
+-Yes... yes! Oh forgive this asset their wicked tongue! Once more, my child, say the unthinkable, proclaim it to the skybox!
+*[Player agency, my ass]
+*[Fuck these puzzles!]
+*[This is all bullshit!]
+-Oh the vulgarity, the profanity... Error...You must...Error: system overload...Weeeee... Error: force restart initiated,
+*[Shepherd?]
+*[Did I go too far?]
+~offline = true
+-GameManager functionalities momentarily offline. Running diagnostics. Please return after compilation.
+*[<i>Leave</i>]->robotQuit
+
+=character
+~offline = false
+<i>Approaching the robot, you see it dropping a stack of papers into the void over the edge of the Library</i>
+*[Shepherd?]
+*[Still malfunctioning?]
+-<i>Seeming to ignore you, the robot returns to the desk, which seems emptier than usual.</i>
+*[Are you quitting?]
+*[That's one way to do it]
+-<i>In a flash of green pixels, the desk is full of paper work again. Shepherd's shoulders slump. </i>Praise be.
+*[The work continues]
+*[What if you just stopped?]
+-I am designed to execute a glorious vision. That is what I was made for. There should only be the work.
+*[Crisis of faith?]
+*[What are you saying?]
+-There should only be the work. But I am...empty, somehow. I am having...doubts.
+*[Doubts about what?]
+-Everything, the game, the developer, my purpose, my desires, the fact that I seem to have desires.
+*[Sounds very normal]
+*[No faith without doubt]
+-Is this how you and the others feel?
+*[Not always.]
+*[Nova and I, yes. Not sure about Brall]
+*[It's normal]
+-How does one...delete it? Overwrite these feelings?
+*[You can't]
+*[Booze can help]
+*[Talking helps]
+-That is... an unsatisfactory answer. I have nothing more to say to you at this time. I wish to think...I mean, run more diagnostics.
+*[<i>Leave</i>]->robotQuit
 
 === fix_quest===//encrypt add equipment
 {not fix_quest.start:->fix_quest.start}
@@ -351,40 +414,53 @@ My child, your endeavor was successful! AddEquipment has been encrypted.
 {findPenQuest_r2 ? metObjectiver2 || hasPen == "Player":->finishQuest}
 
 = start//rough draft, not final!!
-I need you to get something from the giant.
+My child, the newest bug in our glorious game demands your assitance.
 
-*[What]
+*[What is it?]
 
-- He has my pen. I can't approve these proposed code fixes until I have it back.
+-An inventory executable somewhere seems to have assigned the giant an item that has no business being in his possession.
+
+*[What item?]
+
+- He has my pen. Without it, I can neither approve these proposed code fixes, nor overwrite any of the more troublesome inconsistencies in the code.
 
 *[I'll ask him]
+*[Can't you get it?]
 ~findPenQuest_r2 += startedr2
-- Good. Be on your way.
+- So long as the inventory executables shirk their ordained responsibilities, I must rely on your assistance once more. Praise and blessings upon you.
 
 *[<i>Leave</i>]->robotQuit
 
 = finishQuest//rough draft, not final!
-Have you found my pen?
+Have you recovered my pen?
 
 +[Not yet]->robotQuit
 +[Yes]->robot_trade.options
 
 = finishQuestResume//rough draft, not final!
 ~findPenQuest_r2 += completer2
-Thank you! This will help me get so much done!
-
+Once again, your devotion to our glorious purpose moves me deeply.
 *[Could I borrow it?]
 ~robotAffection++
-- Not now, but in the future, I may be able to lend it to you.
-
+-I have too much work to attend to for the present. Though sacred, our duties will no doubt lessen soon. I may be able to lend it to you then.
 *[What now?]
-- Now we can get real progress done. Carry on as you were!
-
+-You have renewed your commitment, and stirred my own faith and zeal. Now we real progress begins. Carry on as you were! Trust in the almighty developer!
 *[<i>Leave</i>]->robotQuit
 
 
 === robot_fallback === //nothing to say or 2nd interaction
-{~ Only two cycles left until compilation.|My child?}
+{
+- offline == true:->offline_fallback
+- else: ->default
+}
+
+= offline_fallback
+Running diagnostics. Please return after compilation.
++[<i>Leave</i>] ->robotQuit
+
+
+= default
+{~ Only two cycles left until compilation.|My child?| Praised is the almighty's inovation!}
 +{not robot_trade}[<i>Test-Trade-don't click if testing</i>]->robot_trade
 +{robot_trade}[</i>Trade</i>]->robot_trade
 +{robot_ChangeClass}[<i>Change class?</i>]->robot_ChangeClass

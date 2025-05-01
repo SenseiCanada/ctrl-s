@@ -61,6 +61,7 @@ public class DialogueManager : MonoBehaviour
     public event Action<string, string> OnNewStorySave;
     public static event Action OnHideWizard;
     public static event Action OnEnterEndScreen;
+    public static event Action OnOpenLog;
     private bool closeDialoguePanel;
 
     private void OnEnable()
@@ -89,6 +90,7 @@ public class DialogueManager : MonoBehaviour
         dialogueEnded = false;
         refusedItem = false;
         StartTalking?.Invoke();
+        Debug.Log("StartTalking invoked by Dialogue Manager");
         currentNPCID = NPCID;
         currentStory = new Story(npcStory.text);
         if (inkSave != string.Empty)
@@ -128,6 +130,7 @@ public class DialogueManager : MonoBehaviour
         currentStory.BindExternalFunction("enterLobby", () => { EnterLobby(); });
         currentStory.BindExternalFunction("hideWizard", () => { HideWizard(); });
         currentStory.BindExternalFunction("enterEnd", () => { OnEnterEndScreen(); });
+        currentStory.BindExternalFunction("openLog", () => { OnOpenLog(); });
     }
 
     void RefreshView()

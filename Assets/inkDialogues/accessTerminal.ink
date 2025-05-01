@@ -1,5 +1,6 @@
 INCLUDE inkVariables_GameFiles.ink
 EXTERNAL enterGameFiles()
+EXTERNAL openLog()
 VAR terminalAffection ="  "
 
 ->enter
@@ -17,6 +18,9 @@ Saving initiated... Compile code for PlayerCharacter?
 +[Compile]->warning_check
     ->DONE
 +{seenStartWarning}[Review instructions]->first_warning
++{seenStartWarning}[Open PlayerCharacter.log]
+    {openLog()}
+    ->enter
 +[Not yet]
     {quitDialogue()}
     ->DONE
@@ -47,6 +51,9 @@ Warning: increasing asset complexity will increase compilation times.
 +[Not yet]
     {quitDialogue()}
     ->DONE
+
+=== function openLog ===
+~return
     
 === function enterGameFiles ===
     ~return

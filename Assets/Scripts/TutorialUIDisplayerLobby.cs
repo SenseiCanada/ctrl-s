@@ -1,9 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.HID;
-using UnityEngine.UI;
-using static Unity.Burst.Intrinsics.X86.Sse4_2;
 
 
 public class TutorialUIDisplayerLobby : MonoBehaviour
