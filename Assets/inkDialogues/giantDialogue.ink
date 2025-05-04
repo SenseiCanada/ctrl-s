@@ -134,7 +134,7 @@ Once more you come to Brall. Brall shouldn't be surprised. "Keep your enemies cl
 *[Others like you in game?]
 - No. Not yet.
 *[Lonely?]
-- You seek to exploit your enemy's weekness. Brall is rocks. Brall is little somethings and nothings. Brall cannot feel loneliness.
+- You seek to exploit your enemy's weakness. Brall is rocks. Brall is little somethings and nothings. Brall cannot feel loneliness.
 *[<i>Leave</i>]->giantQuit
 
 = dreamwalking

@@ -18,7 +18,7 @@ public class RelationshipDisplayer : MonoBehaviour
 
     private void OnEnable()
     {
-        //RelationshipManager.OnAffectionChanged += HandleAffectionChanged;
+        RelationshipManager.OnAffectionChanged += HandleAffectionChanged;
         relationshipText = GetComponentInChildren<TMP_Text>();
 
         currentSpeakerID = gameFilesData.variables["NPCID"].ToString();
@@ -29,7 +29,7 @@ public class RelationshipDisplayer : MonoBehaviour
 
     private void OnDisable()
     {
-        //RelationshipManager.OnAffectionChanged -= HandleAffectionChanged;
+        RelationshipManager.OnAffectionChanged -= HandleAffectionChanged;
     }
 
     private void DisplayRelationship(string npcID)
@@ -50,14 +50,7 @@ public class RelationshipDisplayer : MonoBehaviour
             DisplayRelationship(npcID);
             Debug.Log("display relationship is being called from subscribed function");
 
-            //if (newValue > oldValue)
-            //{
-            //    StartCoroutine(HighlightChange());
-            //}
-            //else
-            //{
-            //    Debug.Log($"[RelationshipDisplayer] Affection decreased for {npcID}: {oldValue} -> {newValue}");
-            //}
+            
         }
     }
 

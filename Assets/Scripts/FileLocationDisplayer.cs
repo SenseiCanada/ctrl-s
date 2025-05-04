@@ -32,7 +32,7 @@ public class FileLocationDisplayer : MonoBehaviour
         if (varName == "locationText")
         {
             locationText = gameFiles.variables["locationText"].ToString();
-            fileLocText.text = "Drive/Files/GameEditor/MyNewAwesomeGame/" + locationText;
+            fileLocText.text = "Drive/Files/DaedalusEngine/ChronosProtocol/" + locationText;
         }
     }
     

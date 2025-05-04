@@ -64,8 +64,12 @@ public class RelationshipManager : MonoBehaviour
 
     public int GetAffection(string npcID)
     {
-        relationshipVars.TryGetValue(npcID + "Affection", out int value);
-        return value;
+        string varName = npcID + "Affection";
+        if (gameFilesData.variables.TryGetValue(varName, out Ink.Runtime.Object value) && int.TryParse(value.ToString(), out int result))
+        {
+            return result;
+        }
+        return 0;
     }
 
     private void HandleAffectionChanged(string npcID, int oldValue, int newValue)

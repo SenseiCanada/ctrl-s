@@ -7,6 +7,8 @@ EXTERNAL addList()
 EXTERNAL enterSafeMode()
 //list of enemy file targets
 LIST startFilesTargeted = (assetsTarget), (scriptsTarget), (scenesTarget)
+//to disable anchor on first enter home
+VAR cameFromClasses = false
 
 //TESTING
 //~learnedAboutHunter = true
@@ -32,23 +34,25 @@ LIST startFilesTargeted = (assetsTarget), (scriptsTarget), (scenesTarget)
 Loading classes...
 
 - +[>Click to continue_]
-
+Loading classes...
 Class name: fileViewer
 	File access level: decrypted
     Access mode: free
 
 - +[>Click to continue_]
-
+Loading classes...
 Class name: codeReader
 	File access level: encrypted
     Access mode: restricted
     Restrictor: ExecutableSequence.exe
 
 - +[>Click to continue_]
-
+Loading classes complete!
 Enter file directory?
 
-- +[>enter_]-> home
+- +[>enter_]
+    ~cameFromClasses = true
+    -> home
 
 ->DONE
 
@@ -68,11 +72,12 @@ Enter file directory?
 
 //don't count turns if player returns home with anchor
 {
-- hasAnchor == "Player" && TURNS_SINCE(->enter.classes) <=1: 
+- hasAnchor == "Player" && cameFromClasses == false:
     ~countTurns = false
     ->rewind
 - else: 
     ~countTurns = true
+    ~ cameFromClasses = false
 }
 
 -> class_choice
@@ -88,7 +93,7 @@ Anchor detected. Returning through quantum tunnel.
 +[>Continue_]->class_choice
 
 === main_menu_free ====
-~locationText = ""
+~locationText = "home"
 Encryption :: Universal
 <color=purple>Dev Log: universal files can't be encrypted</color>
 Select a file to enter:
@@ -497,7 +502,7 @@ Select file to encrypt:
 +{showIfPublic(models)}[>Encrypt models file_]
     {lockFile(models)}
     ->lock_confirm
-    +{showIfPublic(player)}[>Encrypt PlayerCharater file_]
+    +{showIfPublic(player)}[>Encrypt PlayerCharacter file_]
         {lockFile(player)}
         ->lock_confirm
     +{showIfPublic(warrior)}[>Encrypt novaWarrior file_]

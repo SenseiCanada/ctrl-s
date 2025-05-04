@@ -80,6 +80,7 @@ To your station, now!
 {->first |->second |->last|->warrior_fallback}
 
 =first
+~NPCName = "??"
 Knew you'd pull through.
 
 *[I hated that]
@@ -103,6 +104,7 @@ Knew you'd pull through.
 *[<i>Leave</i>]->warriorQuit
 
 =second
+~NPCName = "??"
 Remember the mission to Frontenac? 1200s, I'm pretty sure, because Europeans were finally using zeros.
 *[Yeah, totally]
 *[No..I can't]
@@ -121,6 +123,7 @@ Remember the mission to Frontenac? 1200s, I'm pretty sure, because Europeans wer
 *[<i>Leave</i>]->warriorQuit
 
 =last
+~NPCName = "??"
 You still got my back?
 *[Yes...]
 - That's good to hear. Really good to hear.

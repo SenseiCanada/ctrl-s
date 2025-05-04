@@ -54,7 +54,7 @@ public class CompleteMessageDisplayer : MonoBehaviour
         background.gameObject.SetActive(true);
         margins.gameObject.SetActive(true);
         completeMessageTransform = Instantiate(messageTransform, margins);
-        completeMessageTransform.SetAsFirstSibling();
+        completeMessageTransform.SetSiblingIndex(1);
         completeMessageTransform.anchorMin = new Vector2(0f, 1f);
         completeMessageTransform.anchorMax = new Vector2(0f, 1f);
         completeMessageTransform.anchoredPosition = Vector2.zero;

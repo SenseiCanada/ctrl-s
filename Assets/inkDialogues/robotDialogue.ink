@@ -149,7 +149,7 @@ A rare marvel, would you not agree?
     ->complexity_tutorial.affection_score
     = continue
 ~cameFromIntro = false
-The more information contained within thes properties, the longer an asset will take to compile.
+The more information contained within these properties, the longer an asset will take to compile.
 *[I think I understand]
 - Do not let doubt cloud your faith. The developer has a plan for you. All will be revealed in time.
 *[Reminders?]
@@ -465,7 +465,7 @@ Running diagnostics. Please return after compilation.
 
 
 = default
-{~ Only two cycles left until compilation.|My child?| Praised is the almighty's inovation!}
+{~ Only two cycles left until compilation.|My child?| Praised is the almighty's innovation!}
 +{not robot_trade}[<i>Test-Trade-don't click if testing</i>]->robot_trade
 +{robot_trade}[</i>Trade</i>]->robot_trade
 +{robot_ChangeClass}[<i>Change class?</i>]->robot_ChangeClass
@@ -513,7 +513,7 @@ Want to trade?
 
 =options
 {openTradeWindow()}
-{& My possesions, such as the are. | Choose expeditiously, time slips through our fingers.}
+{& My possessions, such as the are. | Choose expeditiously, time slips through our fingers.}
 
 +[Back]{closeTradeWindow()}
 {

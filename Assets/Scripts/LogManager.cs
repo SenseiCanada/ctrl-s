@@ -248,7 +248,7 @@ public class LogManager : MonoBehaviour
         if (varName == "warriorConvoNum")
         {
             novaConvoObj.GetComponentInChildren<TextMeshProUGUI>().text = "  Nova:";
-            TMP_Text warriorConvoCount = shepherdConvoObj.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
+            TMP_Text warriorConvoCount = novaConvoObj.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
             warriorConvoCount.text = varValue;
 
         }
@@ -257,7 +257,7 @@ public class LogManager : MonoBehaviour
         if (varName == "giantConvoNum")
         {
             brallConvoObj.GetComponentInChildren<TextMeshProUGUI>().text = "  Brall:";
-            TMP_Text giantConvoCount = shepherdConvoObj.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
+            TMP_Text giantConvoCount = brallConvoObj.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
             giantConvoCount.text = varValue;
 
         }
