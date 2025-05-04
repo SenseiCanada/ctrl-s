@@ -250,13 +250,13 @@ When I was recruited, O'brien asked to me, "Nova, what if you could do it when h
 - Everyone was chill about it at school. Except this litte brat, Denis. I was super smart for my age. Just took me longer to get things out. Denis was probably jealous, or something.
 *[He made fun of you?]
 *[Kids are the worst]
-- Without fail, every time I raised my hand, he'd mimmick what I was trying to say. Only loud enough for his friends and me to hear. They'd all cover their mouths, but I still could see them laughing.
+-Every time I raised my hand, he'd mimmick what I was trying to say. Only loud enough for his friends and me to hear. They'd all cover their mouths, but I still could see them laughing.
 *[What did you do?]
 *[That's awful]
 - I hit him a few times. Nothing changed. I used to be pretty scrawny.
 *[Hard to imagine]
 *[No one else intervened?]
-One day in class, I stood up, picked up my chair, and swung it at the little twerp's head.
+- One day in class, I stood up, picked up my chair, and swung it at the little twerp's head.
 *[He deserved it]
 *[Your chair?]
 - I don't think he was seriously hurt. Got picked up by HQ almost immediately after. Said I would be an incredible asset.
@@ -289,8 +289,9 @@ Not right now. <i>She clenches and unclenches her fists. Her breath huffs in and
 <i>The white light pulses rapidly a few times, then slows, almost like a heartbeat.</i>
 
 *[Nova?]
+    ~seenNovaGlow = true
 *[You're glowing]
-~seenNovaGlow = true
+    ~seenNovaGlow = true
 - <i>The light around Nova flickers, then is gone </i> Just go. Please.
 
 *[<i>Leave</i>]->warriorQuit
@@ -309,9 +310,9 @@ Still came to talk? I'm surprised.
 *[About that white light?]
 - Kick them while they're down while your at it. Another failure.
 *[What do you mean?]
-- {timeCorp} wanted elite volunteers. Best and brightest. I signed up. Let them pump me full of performance enhancers, measure my vitals while jumped off buildings and punched through walls.
+- {timeCorp} wanted elite volunteers. Best and brightest. I signed up. Let them pump me full of performance enhancers. I could jumped off buildings and punch through walls.
 *[Super-soldiers?]
-- That's what it seemed like. Except, I couln't handle it. My body didn't react well to the drugs. I always needed more to perform like the others. Eventually they cut me. Just another name crossed off a ledger.
+- Probably. Couln't handle it, though. My body didn't react well. I always needed more to perform like the others. Eventually they cut me. Just another name crossed off a ledger.
 *[So you don't have abilities?]
 - My chest burns when I'm angry and I turn into a human flare. I'm sure the forces of evil are quaking in their boots.
 *[You're a friend]

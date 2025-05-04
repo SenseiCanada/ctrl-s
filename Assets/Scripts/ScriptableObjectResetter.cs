@@ -29,6 +29,7 @@ public class ScriptableObjectResetter : MonoBehaviour
     void Start()
     {
         ResetScriptableObjects();
+        gameData.variables.Clear();
         Debug.Log("scriptable objects reset!");
     }
 

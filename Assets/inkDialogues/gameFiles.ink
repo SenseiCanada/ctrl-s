@@ -368,7 +368,7 @@ loading scene.Medieval_France
 =public
 ~ findCatQuest_g2 += triggeredg2//triggers one of cat quests conditions
 <color=purple>Dev Log: Castle kitchen. Racks of meat hanging from the ceiling. Stew bubbling on the hearth. Saucer of milk by the fire.</color>
-*{findCatQuest_g2 ? startedg2}[>inspect(saucer)_]->france_inspect//maybe change it so you have to load actors first
++{findCatQuest_g2 ? startedg2 &&findCatQuest_g2 !? metObjectiveg2}[>inspect(saucer)_]->france_inspect//maybe change it so you have to load actors first
 +[>return.back_] ->scenes_file
 
 =france_inspect
@@ -439,8 +439,8 @@ ExecutableSequence:
     {showIfPublic(giant) == false:earthTitan>}
     {showIfPublic(wizard) == false:evilWizard>}
     {showIfPublic(quests) == false:questLog>}
-    {showIfPublic(campaign):mainCampaign>}
-    {showIfPublic(hits):timeHits>}
+    {showIfPublic(campaign) == false:mainCampaign>}
+    {showIfPublic(hits) == false:timeHits>}
     {showIfPublic(addActors) == false: addActors>}
     {showIfPublic(addEquipment) == false: addEquipment>}
     {showIfPublic(mainMenu) == false: mainMenu>}
@@ -689,8 +689,10 @@ Error: Permissions must first be overwritten by GameManager to enter Safe Mode.
 +[>return.home_]->home
 
 = enter_safeMode
-{enterSafeMode()}->home
-->DONE
+Loading.. Please wait.
+{enterSafeMode()}
+    //->home
+    ->DONE
 
 === redirect_file_knot==//add all files here
 //re-invert list so the rest of the code looks at public files before going back to rest of game files

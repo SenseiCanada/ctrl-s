@@ -239,7 +239,7 @@ EXTERNAL takeTwoTurns()
 {(enemy_NovaReveal_norespond || enemy_NovaReveal_respond)&& not meetMe:->meetMe}
 <color=red>You've given me much to think about. I have nothing to say for the moment.{enemy_fallback_norespond.findMe || enemy_fallback_respond.meetMe: Seek me out in Safe Mode}</color>
 
-*[>return.home_]
++[>return.home_]
     {takeTwoTurns()}
     ->home
 

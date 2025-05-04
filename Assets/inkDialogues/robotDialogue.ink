@@ -468,7 +468,7 @@ Running diagnostics. Please return after compilation.
 = default
 {~ Only two cycles left until compilation.|My child?| Praised is the almighty's innovation!}
 //+{not robot_trade}[<i>Test-Trade-don't click if testing</i>]->robot_trade
-+{robot_trade}[</i>Trade</i>]->robot_trade
++{robot_trade}[<i>Trade</i>]->robot_trade
 +{robot_ChangeClass}[<i>Change class?</i>]->robot_ChangeClass
 +{complexity_tutorial}[Explain properties again]->complexity_tutorial
 //+[<i>Tesing:Rel++</i>]
