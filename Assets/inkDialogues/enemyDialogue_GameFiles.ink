@@ -7,6 +7,7 @@ EXTERNAL takeTwoTurns()
 ~locationText = "??"
 ~countTurns = false
 ~visitEnemy = true
+~wizardConvoNum++
 {
 - not enemy_first: ->enemy_first
 - hasList != "Player": ->enemy_norespond
@@ -173,7 +174,7 @@ EXTERNAL takeTwoTurns()
 -<color=red>Where this all began, in a delightful twist of irony. Return to the place where the final cinematic has been isolated by my absence.</color>
 
 *[>Continue_]
-
+~startSafeQuest = true
 -<color=red>There, you will have a choice to make. Join me there. As soon as you can.</color>
 
  *[>return.home_]
@@ -335,7 +336,7 @@ EXTERNAL takeTwoTurns()
 -<color=red>Where this all began, in a delightful twist of irony. Return to the place where the final cinematic has been isolated by my absence.</color>
 
 *[>And then what?_]
-
+~startSafeQuest = true
 -<color=red>You will have a choice to make. Join me there. As soon as you can.</color>
 
  *[>return.home_]

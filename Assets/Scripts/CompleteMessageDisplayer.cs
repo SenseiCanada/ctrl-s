@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CompleteMessageDisplayer : MonoBehaviour
@@ -23,6 +24,7 @@ public class CompleteMessageDisplayer : MonoBehaviour
     private Button finishButton;
 
     public static event Action OnCompleteCompilation;
+    public static event Action OnRestartCompile;
     
     // Start is called before the first frame update
     
@@ -70,8 +72,28 @@ public class CompleteMessageDisplayer : MonoBehaviour
         RectTransform rt = finishButton.GetComponent<RectTransform>();
         rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 150);
         finishButton.onClick.AddListener(EnterLobby);
-    }
 
+        ////retry button
+        //Button retryButton = Instantiate(buttonPrefab, margins);
+        //retryButton.transform.SetAsLastSibling();
+        //RectTransform retryButtonTransform = finishButton.GetComponentInChildren<RectTransform>();
+        //retryButtonTransform.anchoredPosition = Vector2.zero;
+        //retryButton.GetComponentInChildren<TMP_Text>().text = ">Try again_";
+        //RectTransform retryRT = retryButton.GetComponent<RectTransform>();
+        //retryRT.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 150);
+        //retryButton.onClick.AddListener(RestartCompile);
+    }
+     
+    private void RestartCompile()
+    {
+        //or maybe just restart the scene??
+        SceneManager.LoadScene("GameFiles");
+        //margins.gameObject.SetActive(false);
+        //background.gameObject.SetActive(false);
+        //needs to also clear what's already been created from display complete message
+
+        //OnRestartCompile();
+    }
     private void EnterLobby()
     {
         OnCompleteCompilation();

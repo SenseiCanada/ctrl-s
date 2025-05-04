@@ -45,14 +45,18 @@ public class GameFilesManager : MonoBehaviour
 		RemoveChildren();
         StartStory();
         CompleteMessageDisplayer.OnCompleteCompilation += SaveInkState;
+        //CompleteMessageDisplayer.OnRestartCompile += StartStory; //not needed because complete message displayer will just restart the scene
+        
     }
 
 	// Creates a new Story object with the compiled story which we can then play!
 	void StartStory () 
 	{
-		story = new Story (mainJSONAsset.text);
+        story = new Story (mainJSONAsset.text);
+        //check if there's a save state
         if (gameData.dialogueSaves.ContainsKey("gameFiles"))
         {
+            Debug.Log($"Game Files is starting from an existing save");
             string inkSave = gameData.dialogueSaves["gameFiles"];
             if (inkSave != string.Empty)
             {
@@ -61,7 +65,7 @@ public class GameFilesManager : MonoBehaviour
                 Debug.Log("currentStory state set to save JSON");
             }
         }
-        gameData.StartListening(story);
+        gameData.StartListening(story);//this loads variables from before back in.
 
         //add a error handling
         story.onError += (msg, type) => {
@@ -80,7 +84,7 @@ public class GameFilesManager : MonoBehaviour
         RefreshView();
 	}
 	
-	void RefreshView () 
+    void RefreshView () 
 	{
 		// Remove all the UI on screen
 		RemoveChildren ();

@@ -12,6 +12,7 @@ VAR offline = false
 { NPCID != "robot":
     ~NPCID = "robot"
 }
+~robotConvoNum++
 { 
 - seenRobotName == true: 
     ~NPCName = "Shepherd"
@@ -47,7 +48,7 @@ VAR offline = false
 //concluding encrypt quest
 - fixQuestProgress_r1 ? metObjectiver1:->fix_quest.conclude
 //get Brall's pen quest
-- seenSafeMode == true && not pen_quest:->pen_quest
+- fix_quest.conclude && seenSafeMode == true && not pen_quest:->pen_quest
 //conclude pen quests_file
 - findPenQuest_r2 ? metObjectiver2:->pen_quest.finishQuest
 //else
@@ -289,7 +290,7 @@ Must he be so clumsy! I understand he has been programmed to be the enemy, but c
 -While it let me enter Safe Mode, I could find nothing to overwrite. The final cinematic is still incomplete. The missing asset was nowhere to be found.
 
 *[I could try]
-
+~startSafeQuest = true
 -I will not begrudge you even that pointless attemp. Damaged as my pen is, it has no use for me.
 
 *[<i>Trade</i>]->robot_trade.options
@@ -363,6 +364,7 @@ Come closer and keep your voice down. My child... I am hesitant to ask this of y
 {not fix_quest.start:->fix_quest.start}
 {fixQuestProgress_r1 ? metObjectiver1:->fix_quest.conclude}
 = start
+~startFixQuest = true
 <i>The robot bustles furiously around its work station.</i> Our glorious developer is demanding as they are industrious.
 
 *[You're busy?]
@@ -395,6 +397,7 @@ Come closer and keep your voice down. My child... I am hesitant to ask this of y
 My child, your endeavor was successful! AddEquipment has been encrypted.
 *[Yes]
 ~fixQuestProgress_r1 += completedr1
+~endFixQuest = true
 - What a relief. <i>The robot falls quiet.</i>
 *[Silence, how wonderful]
 *[Shepherd?]
@@ -413,7 +416,8 @@ My child, your endeavor was successful! AddEquipment has been encrypted.
 {not pen_quest.start:->start}
 {findPenQuest_r2 ? metObjectiver2 || hasPen == "Player":->finishQuest}
 
-= start//rough draft, not final!!
+= start
+~startPenQuest = true
 My child, the newest bug in our glorious game demands your assitance.
 
 *[What is it?]
@@ -439,6 +443,7 @@ Have you recovered my pen?
 
 = finishQuestResume//rough draft, not final!
 ~findPenQuest_r2 += completer2
+~endPenQuest = true
 Once again, your devotion to our glorious purpose moves me deeply.
 *[Could I borrow it?]
 ~robotAffection++
@@ -475,17 +480,26 @@ It won't do you much good, but that is within my power. Your current class is <i
 
 +[Change class: fileViewer]
     ~playerClass = "fileViewer"
+    ->fileViewer
 +[Change class: codeReader]
     ~playerClass = "codeReader"
+    ->codeReader
 
-- It is done.
-
+= fileViewer
+It is done. As a fileViewer, you may navigate the game files freely, but you may only view the contents of unencrypted files.
 +[More questions]
 {
 - cameFromIntro == true:->complexity_tutorial
 - else:-> robot_fallback
 }
 
+= codeReader
+It is done. As a codeReader, you may view the contents of encryppted files. However, you may only cycle through the sequence of files listed in the Load Order.
++[More questions]
+{
+- cameFromIntro == true:->complexity_tutorial
+- else:-> robot_fallback
+}
 === robot_trade ===
 Want to trade?
 

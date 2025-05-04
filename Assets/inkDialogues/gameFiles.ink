@@ -371,14 +371,13 @@ smallCat.position = saucer.position(behind)
 smallCat.isLicking = true
 smallCat.licks(self.paw)
 
-+[>collect(smallCat)_]
-    ~findCatQuest_g2 += metObjectiveg2
-    ~hasCat = "Player"
-    {addCat()}
-    ->mosspaws
++[>collect(smallCat)_]->mosspaws
 +[>return.back_]->france_file
 
 = mosspaws
+~findCatQuest_g2 += metObjectiveg2
+    ~hasCat = "Player"
+    {addCat()}
 PlayerCharacter.collected(Mosspaws)
 +[>return.back_]->france_file
 +[>return.home_] ->home
@@ -430,13 +429,13 @@ File protection :: Universal
 //re-order sequence to make sense with gameplay, ie executables act after scenes
 ExecutableSequence: 
     {showIfPublic(models) == false:models>}
-    {showIfPublic(models) == false && showIfPublic(player) == false:playerCharacter>}
-    {showIfPublic(models) == false && showIfPublic(warrior) == false:novaWarrior>}
-    {showIfPublic(models) == false && showIfPublic(giant) == false:earthTitan>}
-    {showIfPublic(models) == false && showIfPublic(wizard) == false:evilWizard>}
+    {showIfPublic(player) == false:playerCharacter>}
+    {showIfPublic(warrior) == false:novaWarrior>}
+    {showIfPublic(giant) == false:earthTitan>}
+    {showIfPublic(wizard) == false:evilWizard>}
     {showIfPublic(quests) == false:questLog>}
-    {showIfPublic(quests) == false && showIfPublic(campaign):mainCampaign>}
-    {showIfPublic(quests) == false && showIfPublic(hits):timeHits>}
+    {showIfPublic(campaign):mainCampaign>}
+    {showIfPublic(hits):timeHits>}
     {showIfPublic(addActors) == false: addActors>}
     {showIfPublic(addEquipment) == false: addEquipment>}
     {showIfPublic(mainMenu) == false: mainMenu>}
@@ -498,25 +497,25 @@ Select file to encrypt:
 +{showIfPublic(models)}[>Encrypt models file_]
     {lockFile(models)}
     ->lock_confirm
-    +{showIfPublic(models)&&showIfPublic(player)}[>Encrypt PlayerCharater file_]
+    +{showIfPublic(player)}[>Encrypt PlayerCharater file_]
         {lockFile(player)}
         ->lock_confirm
-    +{showIfPublic(models)&&showIfPublic(warrior)}[>Encrypt novaWarrior file_]
+    +{showIfPublic(warrior)}[>Encrypt novaWarrior file_]
         {lockFile(warrior)}
         ->lock_confirm
-    +{showIfPublic(models)&&showIfPublic(giant)}[>Encrypt earthTitan file_]
+    +{showIfPublic(giant)}[>Encrypt earthTitan file_]
         {lockFile(giant)}
         ->lock_confirm
-    +{showIfPublic(models)&&showIfPublic(wizard)}[>Encrypt evilWizard file_]
+    +{showIfPublic(wizard)}[>Encrypt evilWizard file_]
         {lockFile(wizard)}
         ->lock_confirm
 +{showIfPublic(quests)}[>Encrypt questLog file_]
     {lockFile(quests)}
     ->lock_confirm
-    +{showIfPublic(quests)&&showIfPublic(campaign)}[>Encrypt mainCampaign file_]
+    +{showIfPublic(campaign)}[>Encrypt mainCampaign file_]
         {lockFile(campaign)}
         ->lock_confirm
-        +{showIfPublic(quests)&&showIfPublic(hits)}[>Encrypt timeHits file_]
+        +{showIfPublic(hits)}[>Encrypt timeHits file_]
         {lockFile(hits)}
         ->lock_confirm
 
@@ -580,25 +579,25 @@ Select file to decrypt: //everything needs to be ! of decryptor, including "un"-
 +{!showIfPublic(models)}[>Decrypt models file]
     {unlockFile(models)}
     ->unlock_confirm
-    +{!showIfPublic(models)&&!showIfPublic(player)}[>Decrypt PlayerCharater file_]
+    +{!showIfPublic(player)}[>Decrypt PlayerCharater file_]
         {unlockFile(player)}
         ->unlock_confirm
-    +{!showIfPublic(models)&&!showIfPublic(warrior)}[>Decrypt novaWarrior file_]
+    +{!showIfPublic(warrior)}[>Decrypt novaWarrior file_]
         {unlockFile(warrior)}
         ->unlock_confirm
-    +{!showIfPublic(models)&&!showIfPublic(giant)}[>Decrypt earthTitan file_]
+    +{!showIfPublic(giant)}[>Decrypt earthTitan file_]
         {unlockFile(giant)}
         ->unlock_confirm
-    +{!showIfPublic(models)&&!showIfPublic(wizard)}[>Decrypt evilWizard file_]
+    +{!showIfPublic(wizard)}[>Decrypt evilWizard file_]
         {unlockFile(wizard)}
         ->unlock_confirm
 +{!showIfPublic(quests)}[>Decrypt questLog file]
     {unlockFile(quests)}
     ->unlock_confirm
-    +{!showIfPublic(quests)&&!showIfPublic(campaign)}[>Decrypt mainCampaign file_]
+    +{!showIfPublic(campaign)}[>Decrypt mainCampaign file_]
     {unlockFile(campaign)}
     ->unlock_confirm
-    +{!showIfPublic(quests)&&!showIfPublic(hits)}[>Decrypt timeHits file_]
+    +{!showIfPublic(hits)}[>Decrypt timeHits file_]
     {unlockFile(hits)}
     ->unlock_confirm
 
@@ -669,6 +668,7 @@ finalCinematic still in safe mode. Cannot fully compile game until errors are re
 +[>return.home_]->home
 
 ->DONE
+
     ==== check_safeMode_requirements ====
 {hasPen != "Player": ->error}
 {hasPen == "Player": ->enter_safeMode}
@@ -680,6 +680,7 @@ Error: Permissions must first be overwritten by GameManager to enter Safe Mode.
 = enter_safeMode
 {enterSafeMode()}->home
 ->DONE
+
 === redirect_file_knot==//add all files here
 //re-invert list so the rest of the code looks at public files before going back to rest of game files
 ~filesList = LIST_INVERT(filesList)

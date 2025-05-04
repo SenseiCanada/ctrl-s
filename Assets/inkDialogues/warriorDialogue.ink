@@ -9,6 +9,7 @@ VAR warriorRunCount = -1
 
 === warrior_enter ===
 ~NPCID = "warrior"
+~warriorConvoNum++
 //check if runAttempts has changed = have we seen this before
 {
 - runAttempts == warriorRunCount: ->warrior_fallback //yes, go fallback

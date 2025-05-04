@@ -11,6 +11,7 @@ VAR giantRunCount = -1
     ~NPCID = "giant"
 }
 ~NPCName = "Brall"
+~warriorConvoNum++
 
 
 //check if we've already seen current dialogue
@@ -279,6 +280,7 @@ The robot did not make Brall laugh.
 *[<i>Leave</i>]->giantQuit
 
 === learnEnemy_quest ===
+~startLearnQuest = true //for log
 You found him, the third hunter.
 *[He's in the game files]
 *[He sounds annoying]
@@ -298,7 +300,8 @@ You found him, the third hunter.
 - These are Brall's terms.
 *[<i>Leave</i>]->giantQuit
 
-= conclude//rough draft, not final!
+= conclude
+~endLearnQuest = true//for log
 What have you learned?
 
 *[Hunter wants a hit list]
@@ -334,6 +337,7 @@ You, you have small fingers. Scratch Brall's shoulder.
 - Brall's kitty. Gone now.
 
 *[I could look]
+    ~startCatQuest = true
     ~findCatQuest_g2 += startedg2
 
 - Brall may have misjudged you. She likes hiding where she can be warm. She is very, very small.
@@ -353,6 +357,7 @@ You, you have small fingers. Scratch Brall's shoulder.
 ->DONE
 
 = catQuestEnd
+~endCatQuest = true
 Maybe Brall was wrong about you. You may be a hunter, but you can be kind. Leave Brall to Brall's thoughts.
 *[Leave]->giantQuit
 
