@@ -288,7 +288,7 @@ Target 1: {victim3} - time period: Ancient Babylon
 Target 2: {victim4} - time period: Regency England
 Target 3: {victim5} - time period: New California Commonwealth
 
-+{startHitListQuest == true}[>copy(TimeHits.list)?_]
++{startHitListQuest == true && not copied}[>copy(TimeHits.list)?_]
     {addList()}
     ~hasList = "Player"
     ->copied
@@ -369,7 +369,7 @@ loading scene.Medieval_France
 ~ findCatQuest_g2 += triggeredg2//triggers one of cat quests conditions
 <color=purple>Dev Log: Castle kitchen. Racks of meat hanging from the ceiling. Stew bubbling on the hearth. Saucer of milk by the fire.</color>
 *{findCatQuest_g2 ? startedg2}[>inspect(saucer)_]->france_inspect//maybe change it so you have to load actors first
-+[>return?_] ->scenes_file
++[>return.back_] ->scenes_file
 
 =france_inspect
 smallCat.position = saucer.position(behind)
@@ -458,12 +458,11 @@ Protection :: {printProtection(addActors)}
 - else:->public
 }
 =private
-~discoveredNoGun = true
-foreach actor run.addWeapon.exe
-PlayerCharacter :: models.Revolver
-earthTitan :: models.ObsidianMawl
-actor(missing) :: models.battleStaff
-novaWarrior :: null
+for each scene run.addWeapon.exe
+PlayerCharacter :: all
+earthTitan :: scenes.gameOver
+actor(missing) :: scenes.france_medieval, scenes.gameOver
+novaWarrior :: scenes.france_medival
 - ->->
 =public
 <color=purple>Dev Log: adds appropriate actors to scenes. Code hidden when decrypted to minimize bugs.
@@ -480,6 +479,12 @@ Protection :: {printProtection(addEquipment)}
 - else:->public
 }
 =private
+~discoveredNoGun = true
+foreach actor run.addWeapon.exe
+PlayerCharacter :: models.Revolver
+earthTitan :: models.ObsidianMawl
+actor(missing) :: models.battleStaff
+novaWarrior :: null
 - ->->
 =public
 <color=purple>Dev Log: adds appropriate equipment to actors. Code hidden when decrypted to minimize bugs.
@@ -553,7 +558,7 @@ Select file to encrypt:
 { 
 - fixQuestProgress_r1 ? startedr1:
     ~fixQuestProgress_r1 += metObjectiver1
-    {lockFile(addActors)}
+    {lockFile(addEquipment)}
     ->lock_confirm
 - else: ->error
 }
@@ -604,6 +609,7 @@ Select file to decrypt: //everything needs to be ! of decryptor, including "un"-
     ->unlock_confirm
     +{!showIfPublic(hits)}[>Decrypt timeHits file_]
     {unlockFile(hits)}
+    {unlockFile(quests)}
     ->unlock_confirm
 
 //scenes
@@ -760,10 +766,10 @@ ExecutableSequence.exe = complete
 //re-invert list so the rest of the code looks at public files before going back to rest of game files
 ~filesList = LIST_INVERT(filesList)
 +[>return.home_]
-~currentListEnum = 1
-->home
-->DONE
-
+    ~currentListEnum = 1
+    {exitGameFiles()}
+    ->home
+    ->DONE
 
 === function addCat ===
     ~return

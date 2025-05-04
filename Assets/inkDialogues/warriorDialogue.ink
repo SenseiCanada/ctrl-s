@@ -59,10 +59,11 @@ To your station, now!
 - not warrior_hitlist && runAttempts >= 4: ->warrior_hitlist
 - warrior_hitlist && hasList == "Player" && hitQuestComplete == false: -> warrior_hitlist.endQuest
 //qualify for weapon quest?
-- discoveredNoGun == true && weaponQuestComplete == false:
+- warrior_hitlist.endQuest && not warrior_weapon && warriorAffection >= 1: 
+    ->warrior_weapon
+- discoveredNoGun == true && weaponQuestComplete == false && not warrior_weapon.weaponless:
     -> warrior_weapon.weaponless
-- warrior_hitlist.endQuest && not warrior_weapon && warriorAffection >= 2: 
-    ->warrior_weapon //this will trigger before any filler
+ //this will trigger before any filler
 
 //no quests? check relationship
 - else: -> checkRelationship
@@ -268,11 +269,11 @@ One day in class, I stood up, picked up my chair, and swung it at the little twe
 
 = anger
 Not right now. <i>She clenches and unclenches her fists. Her breath huffs in and out</i> Leave me... alone.
-*[Ok. <i>Leave</i>]->warriorQuit
+
 *[You alright?]
-    No. I want to break something. Hurt someone. I'm stuck in place. Nothing within arms reach. Except you.
-    **[Get a grip!] ->angerContinues
-    **[Slowly back away. <i>Leave</i>]->warriorQuit
+- No. I want to break something. Hurt someone. I'm stuck in place. Nothing within arms reach. Except you.
+*[Get a grip!] ->angerContinues
+**[Nova, just breath]->warriorQuit
 
 -(angerContinues) No! I'm done. I'm sick and tired of being told what to do. My chest is on fire. I want to let it out! Out! <i>She lashes out with a fist.</i>
 *[<i>Let her hit you</i>]
@@ -340,7 +341,7 @@ Any luck finding our target list?
 =resume
 I know it's anchor, but don't get it wet, ok?
 *[What does it do?]
-- When I was coming up, we used these to jump back instantly, without all the energy needed to accelerate into the future. Of course, if you've got someone to open a portal back, not much use for these.
+- When I was coming up, we used these to jump back instantly, without all the energy needed to accelerate into the future.
 *[But I'm not time jumping]
 - Sure, but it might still help conserve energy.
 *[I guess]

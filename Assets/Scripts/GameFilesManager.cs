@@ -24,6 +24,7 @@ public class GameFilesManager : MonoBehaviour
     private TMP_Text textPrefab = null;
     [SerializeField]
     private Button buttonPrefab = null;
+    [SerializeField] private GameObject completeMessageObj;
 
     [SerializeField]
     private string inkSave = null;
@@ -117,6 +118,7 @@ public class GameFilesManager : MonoBehaviour
 		story.ChooseChoiceIndex (choice.index);
 		RefreshView();
         OnClickFileManager?.Invoke();
+        //Debug.Log("complete message obj is active? " + completeMessageObj.activeInHierarchy);
     }
 
 	// Creates a textbox showing the the line of text
@@ -221,10 +223,18 @@ public class GameFilesManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         OnClickFileManager?.Invoke();
 		Debug.Log("TakeTwoTurns called OnClick once");
+        if (completeMessageObj.activeInHierarchy == true)
+        {
+            yield break;
+        }
 
         yield return new WaitForSeconds(2f);
         OnClickFileManager?.Invoke();
         Debug.Log("TakeTwoTurns called OnClick twice");
+        if (completeMessageObj.activeInHierarchy == true)
+        {
+            yield break;
+        }
 
         yield return new WaitForSeconds(2f);
         story.ChoosePathString("home");

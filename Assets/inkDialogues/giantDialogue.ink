@@ -11,7 +11,7 @@ VAR giantRunCount = -1
     ~NPCID = "giant"
 }
 ~NPCName = "Brall"
-~warriorConvoNum++
+~giantConvoNum++
 
 
 //check if we've already seen current dialogue
@@ -66,7 +66,7 @@ You stopped to talk to Brall. You stopped. Maybe there's hope.
 //learned enemy wants hitlist
 - askHunterQuest_g1 ? metObjectiveg1 && not learnEnemy_quest.conclude:->learnEnemy_quest.conclude
 //qualify for cat quest?
-- findCatQuest_g2 ? triggeredg2 && giantAffection >=1 && not catQuest: 
+- giantAffection >=1 && not catQuest: //findCatQuest_g2 ? triggeredg2 && 
     ->catQuest
 - hasCat == "Player":
     ->giant_foundCat
@@ -161,10 +161,10 @@ Brall doesn't like the look of you.
 {& Brall is done speaking. |<i>Nothing but stony silence.</i>}
 
 +[Trade(Do not click if playtesting)]->giant_trade
-+[Increase Rel (testing)] 
++[Increase Rel (testing)]
     ~giantAffection++
     ->giant_fallback
-+{catQuest.catQuestEnd}[<i>Trade</>]->giant_trade
++{catQuest.catQuestEnd}[<i>Trade</i>]->giant_trade
 +[<i>Leave</i>]->giantQuit
 ->DONE
 
@@ -239,7 +239,7 @@ The other hunter, over there, what is her name?
 - Help me. Tell me... how to begin.
 *[She likes poetry] ->suggested_poetry
 *[She's a foody] ->suggested_food
-*[Joke about authority]
+*[Joke about authority]->suggested_joke
 -(suggested_poetry) Like prophecy, but...frivolous. Better. Like when Mosspaws naps on Brall's head.
 *[There you go!]->thanks
 -(suggested_food) Food. Brall does not eat. What enjoyment does she get from it?
@@ -316,8 +316,10 @@ What have you learned?
 
 -These are the prophecies of Brall's ancestors. The foretell who will die, much like this hunter's list.
 
-*[You're full of surprises]
-*[Are you a prophet?]
+*[You're full of surprises]->findHunterEnd
+*[Are you a prophet?]->findHunterEnd
+
+= findHunterEnd
 ~giantAffection++
 ~askHunterQuest_g1 += completedg1
 - Brall is Brall. Brall is rocks. Brall is little somethings and nothings. And you... you are growing on Brall.
@@ -379,7 +381,7 @@ Brall's shoulder will no longer be itchy. Thank you.
 
 === giant_trade === //trade
 {hasCat != "Player": Want to trade?}
-{hasCat == "Player": It's been so long!}
+{hasCat == "Player": It's been so long! Would you give her to me?}
 
 +[Yes]-> giant_trade.options
     

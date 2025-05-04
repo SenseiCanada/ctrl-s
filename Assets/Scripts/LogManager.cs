@@ -84,8 +84,8 @@ public class LogManager : MonoBehaviour
         if (gameFilesData.variables.ContainsKey("warriorConvoNum"))
         {
             novaConvoObj.GetComponentInChildren<TextMeshProUGUI>().text = "  Nova:";
-            TMP_Text warriorConvoCount = shepherdConvoObj.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
-            warriorConvoCount.text = gameFilesData.variables["runAttempts"].ToString();
+            TMP_Text warriorConvoCount = novaConvoObj.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
+            warriorConvoCount.text = gameFilesData.variables["warriorConvoNum"].ToString();
 
         }
 
@@ -93,7 +93,7 @@ public class LogManager : MonoBehaviour
         if (gameFilesData.variables.ContainsKey("giantConvoNum"))
         {
             brallConvoObj.GetComponentInChildren<TextMeshProUGUI>().text = "  Brall:";
-            TMP_Text giantConvoCount = shepherdConvoObj.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
+            TMP_Text giantConvoCount = brallConvoObj.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
             giantConvoCount.text = gameFilesData.variables["giantConvoNum"].ToString();
 
         }

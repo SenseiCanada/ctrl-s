@@ -43,14 +43,20 @@ public class TutorialUIDisplayerLobby : MonoBehaviour
 
     void ShowInvTutorial()
     {
-        invTutorial.SetActive(true);
-        intTutorialAnim.SetBool("inventoryOpen", true);
+        if (invTutorial != null)
+        {
+            invTutorial.SetActive(true);
+            intTutorialAnim.SetBool("inventoryOpen", true);
+        }
     }
 
     void HideInvTutorial()
     {
-        invTutorial.SetActive(false);
-        intTutorialAnim.SetBool("inventoryOpen", false);
+        if (invTutorial != null)
+        {
+            invTutorial.SetActive(false);
+            intTutorialAnim.SetBool("inventoryOpen", false);
+        }
     }
 
     private void OnDisable()

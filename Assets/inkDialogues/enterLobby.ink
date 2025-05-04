@@ -5,7 +5,7 @@ VAR enterLobbyAffection = " "
 ->start
 
 === start ===
-~NPCName = ""
+~NPCName = "exit Safe Mode"
 ~NPCID = "enterLobby"
 
 {playerClass == "": //null check for PC class

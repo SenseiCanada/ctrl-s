@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
     {
         GameFilesManager.OnClickFileManager += UpdateTurns;
         GameFilesData.OnUnityRegisterInkVar += UpdateInkBool;
+        GameFilesManager.OnExitGameFiles += ForceExit;
         DevPanelGameFiles.OnPauseTurns += UpdateUnityBool;
         DevPanelGameFiles.OnStartTurns += UpdateUnityBool;
         InventoryManager.OnPlayerCollect += UpdateItem;
@@ -100,6 +101,10 @@ public class GameManager : MonoBehaviour
                 OnTurnsIncrement?.Invoke(totalTurns, turnsTaken);
             }
         }
+    }
+    void ForceExit()
+    {
+        OnTurnsElapsed(processesBackground, totalNullAttributes);
     }
     void UpdateTurnText()
     {
@@ -173,6 +178,7 @@ public class GameManager : MonoBehaviour
     {
         GameFilesManager.OnClickFileManager -= UpdateTurns;
         GameFilesData.OnUnityRegisterInkVar -= UpdateInkBool;
+        GameFilesManager.OnExitGameFiles -= ForceExit;
         DevPanelGameFiles.OnPauseTurns -= UpdateUnityBool;
         DevPanelGameFiles.OnStartTurns -= UpdateUnityBool;
         InventoryManager.OnPlayerCollect -= UpdateItem;

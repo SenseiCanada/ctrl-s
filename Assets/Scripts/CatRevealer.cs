@@ -54,8 +54,11 @@ public class CatRevealer : MonoBehaviour
     {
         if (varName == "hasCat" && VarValue != "giant")
         {
-            catModel.SetActive(false);
-            catEnabled = false;
+            if (catModel != null)
+            {
+                catModel.SetActive(false);
+                catEnabled = false;
+            }
         }
     }
 

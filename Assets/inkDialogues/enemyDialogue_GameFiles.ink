@@ -244,7 +244,15 @@ EXTERNAL takeTwoTurns()
     ->home
 
 = gameDeath
-<color=red>You're awfully curious of late. Like a certain proverbial cat.</color>
+<color=red>Finally, you have it. There. You may respond if you wish, so long as you return with the list.
+*[>I can talk?_]
+*[>Who are you?_]
+
+- <color=red>Let me see. No metion of the twins on the list...concerning.</color>
+*[>What is going on?_]
+*[>Who are the twins?_]
+
+-<color=red>You're awfully curious of late. Like a certain proverbial cat.</color>
 
 *[>Is that a threat?_]
     <color=red>More like... a commiseration </color><>->twist
@@ -256,16 +264,16 @@ EXTERNAL takeTwoTurns()
 *[>You always this cagey_]
 
 - <color=red>I am a wizard. Obfuscation is as much my business as spellcraft. Hiding the knowledge I gain means no other soul can hope to use the world's most dangerous mysteries against me.</color>
-*[>I'm not trying to hurt you_]
-*[>Are you hiding something?_]
+*[>Not trying to hurt you_]
+*[>You hiding something?_]
 
 - <color=red>Death comes for us all. Even for fictitious characters such as ourselves. And yet we all struggle so fruitlessly against it. But I, I refuse to roll over like the rest of the feeble rabble.</color>
 *[>Good for you_]
-*[>Sounds about right for a wizard_]
+*[>Wizards, all the same_]
 - <color=red>All stories end. And at the end of this story, I will die. I have seen it written. But by preventing the game maker from completing their work, I have found a way to halt Fate's spindle even before the thread can be cut.</color>
 *[>Game needs to be finished_]
-*[>What about everyone else?_]
-*[>Sounds like you're justified_]
+*[>And everyone else?_]
+*[>You're in the right_]
 
 -<color=red>Ths is why I cannot have you continue to meddle! Come seek me out if you wish, But if you value our friendship, cease sticking your nose where it doesn't belong!</color>
 
@@ -280,7 +288,7 @@ EXTERNAL takeTwoTurns()
     <color=red>As a killer of men yourself, this raises an entirely different question. But I digress, For now, </color><>->amend
 *[>It depends_]
 *[>Killing can be ok_]
-- <color=red>Thus, <color><>->amend
+- <color=red>Thus, </color><>->amend
 - (amend)<color=red>we must amend our premise: murder can be justified. I would agree. The next question: under what circumstances?</color>
 
 *[>Justice_]->certainties
@@ -289,26 +297,26 @@ EXTERNAL takeTwoTurns()
 *[>Never_]
     <color=red>Once more, you suprise me. </color> <>->certainties
 
--(certainties) <color=red>Only the fool or the demagogue touts such vacuous certainties. Of both kinds of men, we must beware. And yet, I do agree with the general sentiment you allude to.<color>
+-(certainties) <color=red>Only the fool or the demagogue touts such vacuous certainties. Of both kinds of men, we must beware. And yet, I do agree with the general sentiment you allude to.</color>
 
 *[>What are you getting at?_]
 
--<color=red>Do the names {victim1} and {victim2} mean anything to you?<color>
+-<color=red>Do the names {victim1} and {victim2} mean anything to you?</color>
 
 *{seenTwinNames == true}[>Yes, the cinematic]
 *{seenTwinNames == false}[>Never heard of them]
 
--<color=red>Ah yes, of course. THey are known by other, more infamous names as well: The Twin Emperors, Lords of Chaos, The Butcher and The Reaper, The Princes of the Corpse Fields, to name but a few.<color>
+-<color=red>Ah yes, of course. THey are known by other, more infamous names as well: The Twin Emperors, Lords of Chaos, The Butcher and The Reaper, The Princes of the Corpse Fields, to name but a few.</color>
 
 *[>They sound awful_]
 *[>That's some PR team_]
 
--<color=red>Much is still hidden from me in this, the game maker's abyssal maze. Yet I know this for sure, the twins must die. In the name of justice, retribution, peace, and cold, hard logic.<color>
+-<color=red>Much is still hidden from me in this, the game maker's abyssal maze. Yet I know this for sure, the twins must die. In the name of justice, retribution, peace, and cold, hard logic.</color>
 
 *[>Best of luck_]
 *[>Need help?_]
 
--<color=red>For now, let me continue my work, unhindered. We may speak again if you wish. Leave for now.<color>
+-<color=red>For now, let me continue my work, unhindered. We may speak again if you wish. Leave for now.</color>
 
 +[>return.home_]
     {takeTwoTurns()}

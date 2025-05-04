@@ -1851,6 +1851,7 @@ MonoBehaviour:
   buttonsParentPrefab: {fileID: 718285803084431688, guid: 0fbc15e3b0c81c14cb9f0156857fbd73, type: 3}
   textPrefab: {fileID: 7326151855653870692, guid: 1cfee3ffa41ae4f4fa2586b42854511c, type: 3}
   buttonPrefab: {fileID: 871821787179501041, guid: bb3bdfa88f2cfef48897f5e0215b2078, type: 3}
+  completeMessageObj: {fileID: 1466463472}
   inkSave: 
   gameData: {fileID: 11400000, guid: 7811e64260797d640ba62753a11b852a, type: 2}
 --- !u!1 &1293415101
@@ -3477,14 +3478,14 @@ MonoBehaviour:
   m_Padding:
     m_Left: 20
     m_Right: 0
-    m_Top: 0
+    m_Top: 20
     m_Bottom: 20
-  m_ChildAlignment: 3
+  m_ChildAlignment: 0
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
-  m_ChildControlHeight: 0
+  m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0

@@ -46,11 +46,11 @@ VAR offline = false
 - (runAttempts >= 3 or fixQuestProgress_r1 ? triggeredr1) && not fix_quest.start:
     ->fix_quest.start
 //concluding encrypt quest
-- fixQuestProgress_r1 ? metObjectiver1:->fix_quest.conclude
+- fixQuestProgress_r1 ? metObjectiver1 && fixQuestProgress_r1!? completedr1:->fix_quest.conclude
 //get Brall's pen quest
 - fix_quest.conclude && seenSafeMode == true && not pen_quest:->pen_quest
 //conclude pen quests_file
-- findPenQuest_r2 ? metObjectiver2:->pen_quest.finishQuest
+- findPenQuest_r2 ? metObjectiver2 && findPenQuest_r2!? completer2:->pen_quest.finishQuest
 //else
 - else: -> checkRelationship
 }
@@ -217,7 +217,7 @@ Do you ever pause to consider your destiny?
 - Alas, much of our game's code cannot currently run, because a crucial asset cannot be referenced. The asset in question is nowhere to be found.
 *{openedCinematic}[Like the cinematic]->explain_cinematic
 *[What does this mean?]->explain_cinematic
-*{metEnemy}[Might have found it]->explain_enemy
+*{visitEnemy}[Might have found it]->explain_enemy
 -(explain_enemy)Highly unlikely. You may be an important asset, possibly the most important asset. But your ability to interact with the game's code base is rudimentary. This is all part of the developer's enlightened design.
 *[I know what I saw]->explain_cinematic
 *[If you say so]->explain_cinematic
@@ -394,17 +394,18 @@ Come closer and keep your voice down. My child... I am hesitant to ask this of y
 ->DONE
 
 = conclude
-My child, your endeavor was successful! AddEquipment has been encrypted.
+My child, your endeavor was successful? AddEquipment has been encrypted?
 *[Yes]
 ~fixQuestProgress_r1 += completedr1
 ~endFixQuest = true
-- What a relief. <i>The robot falls quiet.</i>
+- What a relief! <i>The robot falls quiet.</i>
 *[Silence, how wonderful]
 *[Shepherd?]
 -Why do we work so ceaselessly, if not to at times enjoy the fruits of our labor? I have come so far already.
 *[I did the work]
+    ~robotAffection++
 *[You're welcome]
-~robotAffection++
+    ~robotAffection++
 - And you, of course, have done passibly well for the mere game asset you are. I am...uplifted by your commitment to the developer's goal.
 *[High praise]
 *[You honor me]
@@ -466,11 +467,11 @@ Running diagnostics. Please return after compilation.
 
 = default
 {~ Only two cycles left until compilation.|My child?| Praised is the almighty's innovation!}
-+{not robot_trade}[<i>Test-Trade-don't click if testing</i>]->robot_trade
+//+{not robot_trade}[<i>Test-Trade-don't click if testing</i>]->robot_trade
 +{robot_trade}[</i>Trade</i>]->robot_trade
 +{robot_ChangeClass}[<i>Change class?</i>]->robot_ChangeClass
 +{complexity_tutorial}[Explain properties again]->complexity_tutorial
-+[<i>Tesing:Rel++</i>]
+//+[<i>Tesing:Rel++</i>]
     ~robotAffection++
     ->robot_fallback
 +[<i>Leave</i>] ->robotQuit

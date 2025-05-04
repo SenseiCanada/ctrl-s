@@ -86,7 +86,7 @@ public class ConsoleTextDisplayer : MonoBehaviour
         yield return new WaitForSeconds(.5f);
         TMP_Text newDevComment = Instantiate(devCommentsPrefab, newCodeLine.transform);
         newDevComment.transform.SetAsLastSibling();
-        newDevComment.text = "Dev log: pretty weird";
+        newDevComment.text = "<color=purple>Dev log: pretty weird</color>";
 
         yield return new WaitForSeconds(2f);
         newStatusText.text = "Processes complete: 109/234";
@@ -108,7 +108,7 @@ public class ConsoleTextDisplayer : MonoBehaviour
         yield return new WaitForSeconds(.5f);
         TMP_Text newDevComment = Instantiate(devCommentsPrefab, currentCodeLine.transform);
         newDevComment.transform.SetAsLastSibling();
-        newDevComment.text = "Dev log: creating a game this way";
+        newDevComment.text = "<color=purple>Dev log: creating a game this way</color>";
 
         yield return new WaitForSeconds(1f);
         TMP_Text newStatusText = Instantiate(processesStatusPrefab, marginObj.transform);
@@ -135,7 +135,7 @@ public class ConsoleTextDisplayer : MonoBehaviour
         yield return new WaitForSeconds(.5f);
         TMP_Text newDevComment = Instantiate(devCommentsPrefab, currentCodeLine.transform);
         newDevComment.transform.SetAsLastSibling();
-        newDevComment.text = "Dev log: still unbelievable";
+        newDevComment.text = "<color=purple>Dev log: still unbelievable</color>";
 
         yield return new WaitForSeconds(1.7f);
         GameObject newCodeLine1 = Instantiate(codeLinePrefab, marginObj.transform);
@@ -147,7 +147,7 @@ public class ConsoleTextDisplayer : MonoBehaviour
         yield return new WaitForSeconds(.5f);
         TMP_Text newDevComment1 = Instantiate(devCommentsPrefab, newCodeLine1.transform);
         newDevComment1.transform.SetAsLastSibling();
-        newDevComment1.text = "Dev log: how little coding there is";
+        newDevComment1.text = "<color=purple>Dev log: how little coding there is</color>";
 
         yield return new WaitForSeconds(2f);
         GameObject newCodeLine2 = Instantiate(codeLinePrefab, marginObj.transform);
@@ -159,7 +159,7 @@ public class ConsoleTextDisplayer : MonoBehaviour
         yield return new WaitForSeconds(.5f);
         TMP_Text newDevComment2 = Instantiate(devCommentsPrefab, newCodeLine2.transform);
         newDevComment2.transform.SetAsLastSibling();
-        newDevComment2.text = "Dev log: just gotta write notes to myself";
+        newDevComment2.text = "<color=purple>Dev log: just gotta write notes to myself</color>";
 
         yield return new WaitForSeconds(2f);
         GameObject newCodeLine2a = Instantiate(codeLinePrefab, marginObj.transform);
@@ -171,7 +171,7 @@ public class ConsoleTextDisplayer : MonoBehaviour
         yield return new WaitForSeconds(.5f);
         TMP_Text newDevComment2a = Instantiate(devCommentsPrefab, newCodeLine2a.transform);
         newDevComment2a.transform.SetAsLastSibling();
-        newDevComment2a.text = "Dev log: and the engine creates what I want";
+        newDevComment2a.text = "<color=purple>Dev log: and the engine creates what I want</color>";
 
         yield return new WaitForSeconds(3f);
         newStatusText2a.text = "Processes complete: 16/516K";
@@ -189,7 +189,7 @@ public class ConsoleTextDisplayer : MonoBehaviour
         yield return new WaitForSeconds(1f);
         TMP_Text newDevComment3 = Instantiate(devCommentsPrefab, newCodeLine3.transform);
         newDevComment3.transform.SetAsLastSibling();
-        newDevComment3.text = "Dev Log: how can this be so slow??";
+        newDevComment3.text = "<color=purple>Dev Log: how can this still be so slow??</color>";
 
         yield return new WaitForSeconds(3f);
         newStatusText3.text = "Processes complete: 21/516K";
@@ -204,7 +204,7 @@ public class ConsoleTextDisplayer : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         TMP_Text newDevComment4 = Instantiate(devCommentsPrefab, newCodeLine4.transform);
         newDevComment4.transform.SetAsLastSibling();
-        newDevComment4.text = "Dev log: something must be wrong";
+        newDevComment4.text = "<color=purple>Dev log: something must be wrong</color>";
 
         yield return new WaitForSeconds(5f);
         GameObject newCodeLine5 = Instantiate(codeLinePrefab, marginObj.transform);
@@ -216,7 +216,7 @@ public class ConsoleTextDisplayer : MonoBehaviour
         yield return new WaitForSeconds(.2f);
         TMP_Text newDevComment5 = Instantiate(devCommentsPrefab, newCodeLine5.transform);
         newDevComment5.transform.SetAsLastSibling();
-        newDevComment5.text = "Dev Log: finally :(";
+        newDevComment5.text = "<color=purple>Dev Log: finally :(</color>";
 
         yield return new WaitForSeconds(2f);
         StartCoroutine(StartSanityCheck());
@@ -233,7 +233,7 @@ public class ConsoleTextDisplayer : MonoBehaviour
         yield return new WaitForSeconds(.5f);
         TMP_Text newDevComment = Instantiate(devCommentsPrefab, currentCodeLine.transform);
         newDevComment.transform.SetAsLastSibling();
-        newDevComment.text = "Dev Log: ok, type hello world";
+        newDevComment.text = "<color=purple>Dev Log: ok, type hello world</color>";
 
         yield return new WaitForSeconds(.5f);
         playerCharacterText.gameObject.SetActive(true);
@@ -274,7 +274,7 @@ public class ConsoleTextDisplayer : MonoBehaviour
         yield return new WaitForSeconds(.5f);
         TMP_Text newDevComment = Instantiate(devCommentsPrefab, currentCodeLine.transform);
         newDevComment.transform.SetAsLastSibling();
-        newDevComment.text = "Dev Log: weird, engine does it automatically";
+        newDevComment.text = "<color=purple>Dev Log: weird, engine does it automatically</color>";
 
         yield return new WaitForSeconds(.5f);
         inputField.gameObject.SetActive(true);
