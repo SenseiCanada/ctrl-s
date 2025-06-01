@@ -558,7 +558,7 @@ A rare marvel, would you not agree?
 
 *[Not much to see]
 *[I got lost]
-+[Trade(Testing)]->robot_trade
+//+[Trade(Testing)]->robot_trade
 
 - That is by design. Best to let it simply wash over you.
 

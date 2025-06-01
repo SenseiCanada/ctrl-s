@@ -160,8 +160,8 @@ Brall doesn't like the look of you.
 ====giant_fallback===
 {& Brall is done speaking. |<i>Nothing but stony silence.</i>}
 
-+[Trade(Do not click if playtesting)]->giant_trade
-+[Increase Rel (testing)]
+//+[Trade(Do not click if playtesting)]->giant_trade
+//+[Increase Rel (testing)]
     ~giantAffection++
     ->giant_fallback
 +{catQuest.catQuestEnd}[<i>Trade</i>]->giant_trade

@@ -437,8 +437,14 @@ Best news I've had all day. Alright, what are we talking? Blaster? Sniper riffle
 ->DONE
 
 === warrior_fallback === //nothing to say or 2nd interaction
+{
+- not stage_intro.named: 
+    ~NPCName = "??"
+- else: 
+    ~NPCName = "Nova"
+}
 {&Still here?|Need something?}
-+{not warrior_trade.firstTrade}[<i>Testing-trade-do not click if testing</i>]->warrior_trade
+//+{not warrior_trade.firstTrade}[<i>Testing-trade-do not click if testing</i>]->warrior_trade
 +{warrior_trade.firstTrade}[<i>Trade</i>]->warrior_trade
 +[<i>Leave</i>] ->warriorQuit
 ->DONE
